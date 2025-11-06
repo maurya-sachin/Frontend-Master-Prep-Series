@@ -1,8 +1,8 @@
-# Essential 70 Flashcards
+# Essential 100 Flashcards
 
-> **The top 70 questions that appear in 80%+ of frontend interviews**
+> **The top 100 questions that appear in 80%+ of frontend interviews**
 
-**Time to review:** 35-40 minutes
+**Time to review:** 50-55 minutes
 **Best for:** Final review before interview, assessing your knowledge gaps
 
 ---
@@ -777,22 +777,352 @@
 
 ---
 
+## Card 71: TypeScript Type vs Interface
+**Q:** When should you use type vs interface in TypeScript?
+
+**A:** Use interface for object shapes, especially when extending or implementing. Use type for unions, intersections, primitives, tuples, and complex type logic. Interfaces can be merged (declaration merging), types cannot. Performance is similar.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #types #interfaces
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 72: TypeScript Generics
+**Q:** What are generics in TypeScript?
+
+**A:** Type variables that allow writing flexible, reusable code that works with multiple types. Like function parameters for types. Use `<T>` syntax. Common in arrays, promises, functions, and React components.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #generics #types
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 73: React FC vs Function Component
+**Q:** Should you use React.FC for typing components?
+
+**A:** React.FC is discouraged (removed from Create React App). It has implicit children, restricts generics, adds unused defaultProps. Better: Use regular function with typed props: `function Component(props: Props) { }`
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #components
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 74: TypeScript Utility Types
+**Q:** Name 5 common TypeScript utility types.
+
+**A:** 1) Partial<T> (all optional), 2) Required<T> (all required), 3) Pick<T, K> (select properties), 4) Omit<T, K> (exclude properties), 5) Record<K, T> (create object type). Also: ReturnType, Parameters, Awaited, NonNullable.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #utility-types
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 75: React Props with Children
+**Q:** How do you type children prop in TypeScript?
+
+**A:** Use `React.ReactNode` for any renderable content (elements, strings, numbers, null). For specific types: `React.ReactElement` (only elements), `React.ComponentType` (component itself), or specific JSX types.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #props
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 76: TypeScript Mapped Types
+**Q:** What are mapped types in TypeScript?
+
+**A:** Transform properties of existing type. Syntax: `{[K in keyof T]: ...}`. Iterate over keys, modify property types, add/remove modifiers (readonly, optional). Used in Partial, Required, Pick, etc.
+
+**Difficulty:** 🔴 Hard
+**Tags:** #typescript #mapped-types #advanced
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 77: React useState with TypeScript
+**Q:** How do you type useState with objects?
+
+**A:** TypeScript infers type from initial value. For complex types: `useState<User | null>(null)` or `useState<User>({} as User)`. Use union with null for loading states. Inference works for primitives.
+
+**Difficulty:** 🟢 Easy
+**Tags:** #react #typescript #hooks
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 78: TypeScript Conditional Types
+**Q:** What are conditional types?
+
+**A:** Types that select types based on conditions: `T extends U ? X : Y`. Like ternary operator for types. Used with `infer` to extract types. Foundation for ReturnType, Parameters, Awaited.
+
+**Difficulty:** 🔴 Hard
+**Tags:** #typescript #conditional-types #advanced
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 79: React useRef with TypeScript
+**Q:** How do you type useRef in TypeScript?
+
+**A:** For DOM elements: `useRef<HTMLDivElement>(null)`. For mutable values: `useRef<number>(0)`. Ref.current is nullable for DOM refs, non-null for mutable refs. Use non-null assertion or check before accessing.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #hooks
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 80: TypeScript Type Narrowing
+**Q:** What is type narrowing in TypeScript?
+
+**A:** Refining type to more specific type within conditional block. Using: typeof, instanceof, in operator, truthiness checks, equality, type predicates. TypeScript tracks control flow to narrow types.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #narrowing #types
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 81: React Event Handlers TypeScript
+**Q:** How do you type event handlers in React?
+
+**A:** Use React.ChangeEvent<HTMLInputElement> for inputs, React.MouseEvent<HTMLButtonElement> for clicks, React.FormEvent<HTMLFormElement> for forms. Generic parameter specifies element type.
+
+**Difficulty:** 🟢 Easy
+**Tags:** #react #typescript #events
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 82: TypeScript Union vs Intersection
+**Q:** What's the difference between union (|) and intersection (&)?
+
+**A:** Union: value can be one of several types (A | B). Intersection: value must satisfy all types (A & B). Union is "OR", intersection is "AND". Intersection merges object types.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #unions #intersections
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 83: React Custom Hook TypeScript
+**Q:** How do you type a custom React hook?
+
+**A:** Return type is inferred from return statement. For tuple returns, use `as const` or explicit type. Example: `function useToggle(): [boolean, () => void]`. Generics for reusable hooks.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #hooks
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 84: TypeScript Type Guards
+**Q:** What are type guards in TypeScript?
+
+**A:** Functions that perform runtime check and narrow type. Return type: `value is Type`. Example: `function isString(x: unknown): x is string { return typeof x === 'string'; }`. TypeScript narrows type after check.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #type-guards #narrowing
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 85: React Props Spreading TypeScript
+**Q:** How do you type component with spread props?
+
+**A:** Extend from React.ComponentProps or React.HTMLAttributes: `interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> { label: string }`. Allows passing any button props.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #props
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 86: TypeScript never Type
+**Q:** When is the never type used?
+
+**A:** Represents values that never occur. Uses: 1) Function that never returns (throws/infinite loop), 2) Exhaustiveness checking in switch, 3) Filtering in conditional types, 4) Impossible intersections.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #never #types
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 87: React Context TypeScript
+**Q:** How do you type React Context?
+
+**A:** Create type/interface for context value. Use `React.createContext<ContextType | undefined>(undefined)` for optional, or throw in provider if undefined. Use generic: `createContext<Type>(defaultValue)`.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #context
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 88: TypeScript const Assertions
+**Q:** What is const assertion (as const)?
+
+**A:** Narrows type to literal values, makes properties readonly, converts array to readonly tuple. `as const` tells TypeScript value won't change. Example: `const colors = ['red', 'blue'] as const` gives readonly tuple type.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #const #literals
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 89: React useReducer TypeScript
+**Q:** How do you type useReducer?
+
+**A:** Define State and Action types. Union for action types: `Action = {type: 'increment'} | {type: 'set', payload: number}`. Reducer: `(state: State, action: Action) => State`. TypeScript infers from reducer.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #hooks
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 90: TypeScript Index Signatures
+**Q:** What are index signatures in TypeScript?
+
+**A:** Define types for object with unknown keys: `{ [key: string]: Type }`. Used for dictionaries, maps. Key can be string, number, symbol. All properties must match signature type.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #index-signatures #objects
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 91: React Component Props Inference
+**Q:** How do you extract props type from a component?
+
+**A:** Use React.ComponentProps: `type ButtonProps = React.ComponentProps<typeof Button>`. For class: `React.ComponentProps<typeof ClassComponent>`. Gets all props including HTML attributes.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #props
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 92: TypeScript Template Literal Types
+**Q:** What are template literal types?
+
+**A:** Create types from string literals using template syntax: `type Greeting = \`hello ${string}\``. Combine with unions for permutations. Used in mapped types for key transformation. ES6 template syntax at type level.
+
+**Difficulty:** 🔴 Hard
+**Tags:** #typescript #template-literals #advanced
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 93: React Async Component TypeScript
+**Q:** How do you type async data in components?
+
+**A:** Use union for loading states: `data: User | null | undefined`. Or explicit state: `{ data: User | null; loading: boolean; error: Error | null }`. Discriminated union for better checks.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #async
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 94: TypeScript infer Keyword
+**Q:** What is the infer keyword in TypeScript?
+
+**A:** Extract type from complex type in conditional type. Syntax: `T extends infer U ? ... : ...`. Common in ReturnType: `T extends (...args: any[]) => infer R ? R : never`. Extracts matched type.
+
+**Difficulty:** 🔴 Hard
+**Tags:** #typescript #infer #advanced
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 95: React Render Props TypeScript
+**Q:** How do you type render props pattern?
+
+**A:** Function prop that receives data and returns JSX: `render: (data: Data) => React.ReactNode`. Or children function: `children: (data: Data) => React.ReactNode`. Pass typed data to function.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #patterns
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 96: TypeScript Discriminated Unions
+**Q:** What are discriminated unions?
+
+**A:** Union types with common literal property (discriminant). Example: `{type: 'success', data: T} | {type: 'error', error: Error}`. TypeScript narrows type based on discriminant. Pattern matching alternative.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #unions #patterns
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 97: React forwardRef TypeScript
+**Q:** How do you type forwardRef?
+
+**A:** Two type parameters: props and ref: `forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => ...)`. Ref type matches DOM element. Props type is component props interface.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #react #typescript #refs
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 98: TypeScript Type Assertions
+**Q:** When should you use type assertions (as)?
+
+**A:** When you know more than TypeScript about a type. Use sparingly: after DOM queries, in type conversions, with any. Prefer type guards. `as const` for literal types. ! for non-null assertion.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #assertions #casting
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 99: React Higher-Order Component TypeScript
+**Q:** How do you type Higher-Order Components?
+
+**A:** Generic function: `function withHOC<P>(Component: React.ComponentType<P>): React.ComponentType<P>`. Intersect injected props: `P & InjectedProps`. Omit if HOC adds props: `Omit<P, 'injectedProp'> & {...}`.
+
+**Difficulty:** 🔴 Hard
+**Tags:** #react #typescript #hoc
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 100: TypeScript unknown vs any
+**Q:** What's the difference between unknown and any?
+
+**A:** any disables type checking (escape hatch). unknown is type-safe any - must narrow type before use. unknown can't be assigned to anything without check. Use unknown for truly unknown values, never use any.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #typescript #unknown #any
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
 ## 🎯 How to Use These Cards
 
-1. **First Pass:** Go through all 70, mark the ones you struggle with
+1. **First Pass:** Go through all 100, mark the ones you struggle with
 2. **Focus on Weak Areas:** Review marked cards daily
 3. **Spaced Repetition:** Review Day 1, 3, 7, 14, 30
-4. **Before Interview:** Quick 35-minute review of all 70
+4. **Before Interview:** Quick 50-minute review of all 100
 5. **Explain Out Loud:** Teaching solidifies understanding
 
 ---
 
 ## 📊 Your Progress
 
-- [ ] Reviewed all 70 cards once
-- [ ] Can explain 55+ without looking
+- [ ] Reviewed all 100 cards once
+- [ ] Can explain 75+ without looking
 - [ ] Reviewed weak cards 3+ times
-- [ ] Can explain all 70 confidently
+- [ ] Can explain all 100 confidently
 - [ ] Ready for interview!
 
 ---
