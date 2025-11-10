@@ -227,7 +227,58 @@
 
 ---
 
-[Continue with 80 more cards covering all JavaScript concepts...]
+## Card 21: Map vs Object
+**Q:** When should you use Map instead of Object?
+
+**A:** Use Map when: keys are unknown until runtime, keys are same type, need size property, frequent add/delete. Objects better for: JSON serialization, fixed keys, string keys only.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #javascript #data-structures
+**Frequency:** ⭐⭐⭐⭐
+
+---
+
+## Card 22: Async/Await Error Handling
+**Q:** Best way to handle errors with async/await?
+
+**A:** Use try/catch blocks around await statements. For multiple awaits, wrap each or use Promise.allSettled. Alternative: .catch() on the promise.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #javascript #async #error-handling
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 23: Hoisting
+**Q:** What is hoisting?
+
+**A:** JavaScript moves declarations to top of scope during compilation. var/function declarations are hoisted (undefined before use). let/const hoisted but in TDZ. Only declarations hoisted, not assignments.
+
+**Difficulty:** 🟡 Medium
+**Tags:** #javascript #scoping #hoisting
+**Frequency:** ⭐⭐⭐⭐⭐
+
+---
+
+## Card 24: WeakMap vs Map
+**Q:** What's the difference between WeakMap and Map?
+
+**A:** WeakMap keys must be objects, are weakly referenced (can be garbage collected), no iteration methods, no size. Use for: private data, caching, memory-sensitive applications.
+
+**Difficulty:** 🔴 Hard
+**Tags:** #javascript #memory #data-structures
+**Frequency:** ⭐⭐⭐
+
+---
+
+## Card 25: Generator Functions
+**Q:** What are generator functions and when to use them?
+
+**A:** Functions that can pause and resume execution (yield). Use for: lazy iteration, infinite sequences, async flow control, implementing iterators. Syntax: function*
+
+**Difficulty:** 🔴 Hard
+**Tags:** #javascript #generators #async
+**Frequency:** ⭐⭐⭐⭐
 
 ---
 
