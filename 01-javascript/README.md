@@ -8,17 +8,74 @@ Master JavaScript from fundamentals to advanced topics. This section covers ever
 
 ## 📚 Table of Contents
 
+### 1️⃣ Fundamentals
+
 | File | Topics | Questions | Difficulty |
 |------|--------|-----------|------------|
-| [01. Core Concepts](./01-core-concepts.md) | Primitives, types, hoisting, scope, closures | 30+ | 🟢 🟡 |
-| [02. Asynchronous JavaScript](./02-async-javascript.md) | Promises, async/await, callbacks | 25+ | 🟡 🔴 |
-| [03. Execution Context & Event Loop](./03-execution-context.md) | Call stack, event loop, micro/macro tasks | 25+ | 🟡 🔴 |
-| [04. Functions & Binding](./04-functions-binding.md) | this, call/apply/bind, arrow functions | 25+ | 🟡 🔴 |
-| [05. Objects & Prototypes](./05-objects-prototypes.md) | Prototypal inheritance, classes, OOP | 25+ | 🟡 🔴 |
-| [06. Memory & Engine](./06-memory-engine.md) | Garbage collection, V8 optimization | 20+ | 🔴 |
-| [07. Modules & Patterns](./07-modules-patterns.md) | ESM, CommonJS, design patterns | 20+ | 🟡 🔴 |
-| [08. Advanced Behavior](./08-advanced-behavior.md) | Coercion, proxies, generators, iterators | 20+ | 🔴 |
-| [09. Data Structures & Algorithms](./09-data-structures.md) | Arrays, objects, sets, maps, algorithms | 20+ | 🟢 🟡 |
+| [01a. Primitives & Types](./01a-primitives-types.md) | Data types, Symbol, BigInt, typeof/instanceof | 4 | 🟢 🟡 |
+| [01b. Variables & Declarations](./01b-variables-declarations.md) | var/let/const, hoisting, TDZ, strict mode | 4 | 🟢 🟡 |
+| [01c. Scope & Closures](./01c-scope-closures.md) | Lexical scope, shadowing, closures, lexical environment | 4 | 🟡 |
+
+### 2️⃣ Operators & Syntax
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [02a. Type Checking & Equality](./02a-type-checking-equality.md) | ==, ===, truthy/falsy, type coercion | 5 | 🟢 🟡 |
+| [02b. Modern Operators](./02b-operators-modern.md) | Optional chaining, nullish coalescing, spread, templates | 5 | 🟢 🟡 |
+| [02c. Destructuring & Params](./02c-destructuring-params.md) | Destructuring, rest parameters, default parameters | 3 | 🟢 |
+
+### 3️⃣ Functions
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [03a. Functions Basics](./03a-functions-basics.md) | Higher-order functions, pure functions, arrow functions | 3 | 🟡 |
+| [03b. 'this' & Binding](./03b-this-binding.md) | this keyword, implicit/explicit binding, bind polyfill | 5 | 🟡 🔴 |
+| [03c. Advanced Functions](./03c-advanced-functions.md) | Memoization, advanced patterns | 1 | 🔴 |
+
+### 4️⃣ Objects
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [04a. Objects Basics](./04a-objects-basics.md) | Object methods, Map vs Object | 2 | 🟢 🟡 |
+| [04b. Prototypes & Inheritance](./04b-prototypes-inheritance.md) | Prototypal inheritance, prototype chain, Object.create | 3 | 🟡 🔴 |
+
+### 5️⃣ Arrays
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [05a. Arrays Basics](./05a-arrays-basics.md) | Array methods - map, filter, reduce, find, some, every | 2 | 🟢 🟡 |
+
+### 6️⃣ Asynchronous JavaScript
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [06a. Async Fundamentals](./06a-async-fundamentals.md) | Sync vs async, event loop, microtasks/macrotasks | 3 | 🟡 🔴 |
+| [06b. Promises](./06b-promises.md) | Promises, Promise.all/race/allSettled, error handling | 3 | 🟡 🔴 |
+| [06c. Async/Await](./06c-async-await.md) | async/await, async iteration | 2 | 🟡 🔴 |
+| [06d. Async Patterns](./06d-async-patterns.md) | Patterns, AbortController, debounce/throttle, memory | 4 | 🔴 |
+
+### 7️⃣ Engine & Performance
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [07a. Execution Context](./07a-execution-context.md) | Execution context, creation/execution phases, call stack | 4 | 🟡 🔴 |
+| [07b. Memory Management](./07b-memory-management.md) | Stack/heap, memory management, GC, memory leaks | 4 | 🔴 |
+
+### 8️⃣ Modules & Patterns
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [08a. Modules & Patterns](./08a-modules-patterns.md) | ES6 modules, CommonJS, IIFE, Singleton | 4 | 🟡 🔴 |
+
+### 9️⃣ Error Handling
+
+| File | Topics | Questions | Difficulty |
+|------|--------|-----------|------------|
+| [09a. Error Handling](./09a-error-handling.md) | try-catch-finally, error patterns | 1 | 🟢 |
+
+---
+
+**Total: 66 Q&A across 20 topic-focused files** (will expand to 200+ with future additions)
 
 ---
 
@@ -26,34 +83,40 @@ Master JavaScript from fundamentals to advanced topics. This section covers ever
 
 ### For Beginners (1-2 years experience)
 
-**Start Here:**
+**Start Here (Weeks 1-2):**
 
-1. **Core Concepts** - Understand primitives, hoisting, scope
-2. **Functions & Binding** - Master this keyword and function contexts
-3. **Objects & Prototypes** - Learn prototypal inheritance
-4. **Data Structures** - Arrays, objects, basic algorithms
+1. **01a-01c: Fundamentals** - Primitives, variables, scope, closures
+2. **02a-02c: Operators** - Equality, modern operators, destructuring
+3. **03a: Functions Basics** - Higher-order, pure functions
+4. **05a: Arrays Basics** - Essential array methods
 
 **Skip for now:**
+- Execution Context & Memory (too advanced)
+- Advanced Functions & Patterns
 
-- Memory & Engine (too advanced initially)
-- Advanced Behavior (learn after mastering basics)
+**Goal:** Build strong foundation in core JavaScript concepts
 
 ### For Intermediate (3-4 years experience)
 
-**Focus Areas:**
+**Focus Areas (Weeks 1-3):**
 
-1. **Execution Context & Event Loop** - Critical for interviews
-2. **Asynchronous JavaScript** - Promises, async/await patterns
-3. **Modules & Patterns** - Code organization and best practices
-4. **Advanced Behavior** - Proxies, generators, advanced features
+1. **03b: 'this' & Binding** - Critical for interviews
+2. **06a-06c: Async JavaScript** - Event loop, promises, async/await
+3. **04a-04b: Objects** - Object methods, prototypes, inheritance
+4. **07a: Execution Context** - Call stack, scope chain
 
-### For Senior (5-6 years experience)
+**Goal:** Master asynchronous patterns and execution model
 
-**Deep Dive:**
+### For Senior (5+ years experience)
 
-1. **Memory & Engine** - V8 optimization, performance
-2. **Advanced Behavior** - Meta-programming, advanced patterns
-3. All sections - Aim for mastery of every concept
+**Deep Dive (Ongoing):**
+
+1. **07b: Memory Management** - GC, memory leaks, optimization
+2. **06d: Async Patterns** - Advanced patterns, performance
+3. **08a: Modules & Patterns** - Design patterns, code architecture
+4. **03c: Advanced Functions** - Memoization, advanced techniques
+
+**Goal:** Expert-level understanding of JavaScript internals
 
 ---
 
