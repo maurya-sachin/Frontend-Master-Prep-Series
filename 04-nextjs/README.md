@@ -1,6 +1,6 @@
 # Next.js Interview Preparation
 
-> **90+ questions covering App Router, data fetching, rendering strategies, API routes, middleware, and deployment**
+> **20 Q&A covering App Router, data fetching, rendering strategies, API routes, middleware, and deployment**
 
 Master Next.js from basics to production patterns. Essential for modern React development.
 
@@ -8,16 +8,31 @@ Master Next.js from basics to production patterns. Essential for modern React de
 
 ## 📚 Table of Contents
 
-| File | Topics | Questions | Difficulty |
-|------|--------|-----------|------------|
-| [01. App Router](./01-app-router.md) | Server Components, layouts, routing | 15 | 🟡 |
-| [02. Data Fetching](./02-data-fetching.md) | SSG, SSR, ISR, streaming | 15 | 🟡 🔴 |
-| [03. Rendering Strategies](./03-rendering-strategies.md) | CSR, SSR, SSG comparison | 15 | 🟡 🔴 |
-| [04. API Routes](./04-api-routes.md) | REST API, authentication, middleware | 15 | 🟡 |
-| [05. Middleware & Auth](./05-middleware-auth.md) | Middleware patterns, authentication | 15 | 🟡 🔴 |
-| [06. Deployment & Optimization](./06-deployment-optimization.md) | Vercel, performance, caching | 15 | 🟡 🔴 |
+### 1️⃣ App Router (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [01a. App Router - Basics](./01a-app-router-basics.md) | Server Components, layouts, routing | 🟡 |
+| [01b. App Router - Advanced](./01b-app-router-advanced.md) | Parallel routes, intercepting routes | 🟡 🔴 |
 
-**Total:** 90 questions
+### 2️⃣ Data Fetching & Rendering (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [02a. Data Fetching Methods](./02a-data-fetching-methods.md) | SSG, SSR, ISR, streaming | 🟡 🔴 |
+| [02b. Rendering Strategies](./02b-rendering-strategies.md) | CSR, SSR, SSG comparison | 🟡 🔴 |
+
+### 3️⃣ API & Server (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [03a. API Routes](./03a-api-routes.md) | REST API, authentication, middleware | 🟡 |
+| [03b. Middleware & Auth](./03b-middleware-auth.md) | Middleware patterns, authentication | 🟡 🔴 |
+
+### 4️⃣ Production (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [04a. Deployment](./04a-deployment.md) | Vercel, environment variables | 🟡 |
+| [04b. Optimization](./04b-optimization.md) | Performance, caching, images | 🟡 🔴 |
+
+**Total:** 20 Q&A (will expand to 80+)
 
 ---
 
@@ -52,13 +67,22 @@ Master Next.js from basics to production patterns. Essential for modern React de
 
 ## 📊 Progress Tracking
 
-- [ ] 01. App Router (15 questions)
-- [ ] 02. Data Fetching (15 questions)
-- [ ] 03. Rendering Strategies (15 questions)
-- [ ] 04. API Routes (15 questions)
-- [ ] 05. Middleware & Auth (15 questions)
-- [ ] 06. Deployment & Optimization (15 questions)
+**App Router**
+- [ ] 01a. App Router - Basics
+- [ ] 01b. App Router - Advanced
+
+**Data Fetching & Rendering**
+- [ ] 02a. Data Fetching Methods
+- [ ] 02b. Rendering Strategies
+
+**API & Server**
+- [ ] 03a. API Routes
+- [ ] 03b. Middleware & Auth
+
+**Production**
+- [ ] 04a. Deployment
+- [ ] 04b. Optimization
 
 ---
 
-[← Back to Main README](../README.md) | [Start Learning →](./01-app-router.md)
+[← Back to Main README](../README.md) | [Start Learning →](./01a-app-router-basics.md)

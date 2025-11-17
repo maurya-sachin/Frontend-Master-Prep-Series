@@ -1,6 +1,6 @@
 # TypeScript Interview Preparation
 
-> **90+ questions covering TypeScript fundamentals, advanced types, generics, and TypeScript with React/Next.js**
+> **22 Q&A covering TypeScript fundamentals, advanced types, generics, and TypeScript with React/Next.js**
 
 Master TypeScript from basics to advanced patterns. Essential for modern frontend development.
 
@@ -8,16 +8,32 @@ Master TypeScript from basics to advanced patterns. Essential for modern fronten
 
 ## 📚 Table of Contents
 
-| File | Topics | Questions | Difficulty |
-|------|--------|-----------|------------|
-| [01. TypeScript Fundamentals](./01-fundamentals.md) | Types, interfaces, type inference | 15 | 🟢 🟡 |
-| [02. Advanced Types](./02-advanced-types.md) | Union, intersection, mapped, conditional types | 15 | 🟡 🔴 |
-| [03. Generics & Advanced](./03-generics-advanced.md) | Generic functions, constraints, utility types | 15 | 🟡 🔴 |
-| [04. TypeScript with React](./04-typescript-react.md) | Component props, hooks typing, patterns | 15 | 🟡 |
-| [05. TypeScript with Next.js](./05-typescript-nextjs.md) | API routes, SSR, Server Components typing | 15 | 🟡 🔴 |
-| [06. Best Practices](./06-typescript-best-practices.md) | Best practices, type guards, troubleshooting | 15 | 🟡 |
+### 1️⃣ Fundamentals (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [01a. Fundamentals - Basics](./01a-fundamentals-basics.md) | Types, interfaces, unions, intersections | 🟢 🟡 |
+| [01b. Fundamentals - Advanced](./01b-fundamentals-advanced.md) | Literal types, enums, typeof, keyof | 🟡 |
 
-**Total:** 90+ questions
+### 2️⃣ Advanced Types (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [02a. Utility Types](./02a-utility-types.md) | Mapped, conditional, utility types | 🔴 |
+| [02b. Advanced Patterns](./02b-advanced-patterns.md) | Template literals, recursion, deep operations | 🔴 |
+
+### 3️⃣ Generics (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [03a. Generics - Basics](./03a-generics-basics.md) | Generics, constraints, conditional types | 🟡 🔴 |
+| [03b. Generics - Advanced](./03b-generics-advanced.md) | Mapped types, utility types, patterns | 🔴 |
+
+### 4️⃣ Framework Integration (3 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [04a. TypeScript with React](./04a-typescript-react.md) | Components, props, hooks, events | 🟡 |
+| [04b. TypeScript with Next.js](./04b-typescript-nextjs.md) | Pages Router, App Router, API routes | 🟡 🔴 |
+| [05. Best Practices](./05-best-practices.md) | Strict mode, type guards, error handling | 🟡 |
+
+**Total:** 22 Q&A (will expand to 90+)
 
 ---
 
@@ -52,13 +68,23 @@ Master TypeScript from basics to advanced patterns. Essential for modern fronten
 
 ## 📊 Progress Tracking
 
-- [ ] 01. TypeScript Fundamentals (15 questions)
-- [ ] 02. Advanced Types (15 questions)
-- [ ] 03. Generics & Advanced (15 questions)
-- [ ] 04. TypeScript with React (15 questions)
-- [ ] 05. TypeScript with Next.js (15 questions)
-- [ ] 06. Best Practices (15 questions)
+**Fundamentals**
+- [ ] 01a. Fundamentals - Basics
+- [ ] 01b. Fundamentals - Advanced
+
+**Advanced Types**
+- [ ] 02a. Utility Types
+- [ ] 02b. Advanced Patterns
+
+**Generics**
+- [ ] 03a. Generics - Basics
+- [ ] 03b. Generics - Advanced
+
+**Framework Integration**
+- [ ] 04a. TypeScript with React
+- [ ] 04b. TypeScript with Next.js
+- [ ] 05. Best Practices
 
 ---
 
-[← Back to Main README](../README.md) | [Start Learning →](./01-fundamentals.md)
+[← Back to Main README](../README.md) | [Start Learning →](./01a-fundamentals-basics.md)

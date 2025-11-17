@@ -1,6 +1,6 @@
 # React Interview Preparation
 
-> **120+ questions covering React hooks, component patterns, performance, state management, forms, testing, and internals**
+> **22 Q&A covering React hooks, component patterns, performance, state management, forms, testing, and internals**
 
 Master React from fundamentals to advanced patterns. Essential for modern frontend interviews.
 
@@ -8,18 +8,50 @@ Master React from fundamentals to advanced patterns. Essential for modern fronte
 
 ## 📚 Table of Contents
 
-| File | Topics | Questions | Difficulty |
-|------|--------|-----------|------------|
-| [01. Hooks Fundamentals](./01-hooks-fundamentals.md) | useState, useEffect, useRef, custom hooks | 15 | 🟢 🟡 |
-| [02. Advanced Hooks](./02-advanced-hooks.md) | useCallback, useMemo, useLayoutEffect, useTransition | 15 | 🟡 🔴 |
-| [03. Component Patterns](./03-component-patterns.md) | HOC, render props, compound components | 15 | 🟡 🔴 |
-| [04. Performance Optimization](./04-performance-optimization.md) | React.memo, code splitting, lazy loading | 15 | 🟡 🔴 |
-| [05. Context & State Management](./05-context-state-management.md) | Context API, Redux, Zustand patterns | 15 | 🟡 |
-| [06. Forms & Validation](./06-forms-validation.md) | Controlled components, React Hook Form | 15 | 🟡 |
-| [07. Testing React](./07-testing-react.md) | React Testing Library, Jest, testing patterns | 15 | 🟡 🔴 |
-| [08. React Internals](./08-react-internals.md) | Fiber, reconciliation, concurrent features | 15 | 🔴 |
+### 1️⃣ Hooks (4 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [01a. Hooks - useState & useEffect](./01a-hooks-useState-useEffect.md) | useState, useEffect basics | 🟢 🟡 |
+| [01b. Hooks - useContext & useReducer](./01b-hooks-useContext-useReducer.md) | Context, useReducer patterns | 🟡 |
+| [01c. Hooks - useCallback & useMemo](./01c-hooks-useCallback-useMemo.md) | Performance hooks | 🟡 🔴 |
+| [01d. Hooks - useRef & Custom](./01d-hooks-useRef-custom.md) | useRef, custom hooks | 🟡 |
 
-**Total:** 120 questions
+### 2️⃣ Component Patterns (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [02a. Component Composition](./02a-component-composition.md) | Composition patterns | 🟡 |
+| [02b. HOC & Render Props](./02b-component-hoc-render-props.md) | Higher-order components, render props | 🟡 🔴 |
+
+### 3️⃣ Performance (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [03a. Performance Basics](./03a-performance-basics.md) | React.memo, code splitting | 🟡 🔴 |
+| [03b. Performance Memoization](./03b-performance-memoization.md) | Memoization strategies | 🟡 🔴 |
+
+### 4️⃣ State Management (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [04a. State - Context](./04a-state-context.md) | Context API patterns | 🟡 |
+| [04b. State - Redux & Zustand](./04b-state-redux-zustand.md) | External state libraries | 🟡 🔴 |
+
+### 5️⃣ Forms (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [05a. Forms - Controlled](./05a-forms-controlled.md) | Controlled vs uncontrolled | 🟡 |
+| [05b. Forms - Validation](./05b-forms-validation.md) | Validation and libraries | 🟡 |
+
+### 6️⃣ Testing (1 file)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [06. Testing React](./06-testing-react.md) | React Testing Library, Jest | 🟡 🔴 |
+
+### 7️⃣ Internals (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [07a. Internals - Fiber](./07a-react-internals-fiber.md) | Fiber architecture | 🔴 |
+| [07b. Internals - Reconciliation](./07b-react-internals-reconciliation.md) | Reconciliation algorithm | 🔴 |
+
+**Total:** 22 Q&A (will expand to 150+)
 
 ---
 
@@ -54,15 +86,33 @@ Master React from fundamentals to advanced patterns. Essential for modern fronte
 
 ## 📊 Progress Tracking
 
-- [ ] 01. Hooks Fundamentals (15 questions)
-- [ ] 02. Advanced Hooks (15 questions)
-- [ ] 03. Component Patterns (15 questions)
-- [ ] 04. Performance Optimization (15 questions)
-- [ ] 05. Context & State Management (15 questions)
-- [ ] 06. Forms & Validation (15 questions)
-- [ ] 07. Testing React (15 questions)
-- [ ] 08. React Internals (15 questions)
+**Hooks**
+- [ ] 01a. Hooks - useState & useEffect
+- [ ] 01b. Hooks - useContext & useReducer
+- [ ] 01c. Hooks - useCallback & useMemo
+- [ ] 01d. Hooks - useRef & Custom
+
+**Component Patterns**
+- [ ] 02a. Component Composition
+- [ ] 02b. HOC & Render Props
+
+**Performance**
+- [ ] 03a. Performance Basics
+- [ ] 03b. Performance Memoization
+
+**State Management**
+- [ ] 04a. State - Context
+- [ ] 04b. State - Redux & Zustand
+
+**Forms**
+- [ ] 05a. Forms - Controlled
+- [ ] 05b. Forms - Validation
+
+**Testing & Internals**
+- [ ] 06. Testing React
+- [ ] 07a. Internals - Fiber
+- [ ] 07b. Internals - Reconciliation
 
 ---
 
-[← Back to Main README](../README.md) | [Start Learning →](./01-hooks-fundamentals.md)
+[← Back to Main README](../README.md) | [Start Learning →](./01a-hooks-useState-useEffect.md)

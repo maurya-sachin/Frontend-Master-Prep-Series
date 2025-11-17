@@ -1,6 +1,6 @@
 # HTML/CSS Interview Preparation
 
-> **105+ questions covering HTML semantics, CSS fundamentals, Flexbox/Grid, responsive design, animations, and modern CSS**
+> **25 Q&A covering HTML semantics, CSS fundamentals, Flexbox/Grid, responsive design, animations, and modern CSS**
 
 Master HTML/CSS from fundamentals to advanced techniques. Essential for all frontend interviews.
 
@@ -8,17 +8,46 @@ Master HTML/CSS from fundamentals to advanced techniques. Essential for all fron
 
 ## 📚 Table of Contents
 
-| File | Topics | Questions | Difficulty |
-|------|--------|-----------|------------|
-| [01. HTML Semantics](./01-html-semantics.md) | Semantic HTML, accessibility, forms | 15 | 🟢 🟡 |
-| [02. CSS Fundamentals](./02-css-fundamentals.md) | Selectors, specificity, box model, positioning | 15 | 🟢 🟡 |
-| [03. Flexbox & Grid](./03-flexbox-grid.md) | Layout systems, alignment, responsive patterns | 15 | 🟡 |
-| [04. Responsive Design](./04-responsive-design.md) | Media queries, mobile-first, breakpoints | 15 | 🟡 |
-| [05. Animations & Transitions](./05-animations-transitions.md) | CSS animations, transforms, performance | 15 | 🟡 🔴 |
-| [06. CSS Architecture](./06-css-architecture.md) | BEM, CSS Modules, methodologies | 15 | 🟡 |
-| [07. Modern CSS](./07-modern-css.md) | Custom properties, Container queries, CSS-in-JS | 15 | 🟡 🔴 |
+### 1️⃣ HTML (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [01a. HTML Semantics](./01a-html-semantics.md) | Semantic HTML, structure, best practices | 🟢 🟡 |
+| [01b. HTML Accessibility](./01b-html-accessibility.md) | ARIA, screen readers, inclusive design | 🟡 |
 
-**Total:** 105 questions
+### 2️⃣ CSS Basics (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [02a. CSS Selectors](./02a-css-selectors.md) | Selectors, specificity, cascade | 🟢 🟡 |
+| [02b. CSS Box Model](./02b-css-box-model.md) | Box model, positioning, display | 🟡 |
+
+### 3️⃣ Layout Systems (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [03a. Flexbox](./03a-flexbox.md) | Flexbox layout, alignment, flex properties | 🟡 |
+| [03b. Grid](./03b-grid.md) | CSS Grid, grid template, areas | 🟡 |
+
+### 4️⃣ Responsive Design (2 files)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [04a. Responsive Basics](./04a-responsive-basics.md) | Media queries, viewport, breakpoints | 🟡 |
+| [04b. Responsive Advanced](./04b-responsive-advanced.md) | Mobile-first, container queries | 🟡 🔴 |
+
+### 5️⃣ Visual Effects (1 file)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [05. Animations & Transitions](./05-animations-transitions.md) | Animations, transforms, performance | 🟡 🔴 |
+
+### 6️⃣ Architecture (1 file)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [06. CSS Architecture](./06-css-architecture.md) | BEM, CSS Modules, methodologies | 🟡 |
+
+### 7️⃣ Modern CSS (1 file)
+| File | Topics | Difficulty |
+|------|--------|------------|
+| [07. Modern CSS](./07-modern-css.md) | Custom properties, modern features | 🟡 🔴 |
+
+**Total:** 25 Q&A (will expand to 110+)
 
 ---
 
@@ -53,13 +82,26 @@ Master HTML/CSS from fundamentals to advanced techniques. Essential for all fron
 
 ## 📊 Progress Tracking
 
-- [ ] 01. HTML Semantics (15 questions)
-- [ ] 02. CSS Fundamentals (15 questions)
-- [ ] 03. Flexbox & Grid (15 questions)
-- [ ] 04. Responsive Design (15 questions)
-- [ ] 05. Animations & Transitions (15 questions)
-- [ ] 06. CSS Architecture (15 questions)
-- [ ] 07. Modern CSS (15 questions)
+**HTML**
+- [ ] 01a. HTML Semantics
+- [ ] 01b. HTML Accessibility
+
+**CSS Basics**
+- [ ] 02a. CSS Selectors
+- [ ] 02b. CSS Box Model
+
+**Layout Systems**
+- [ ] 03a. Flexbox
+- [ ] 03b. Grid
+
+**Responsive Design**
+- [ ] 04a. Responsive Basics
+- [ ] 04b. Responsive Advanced
+
+**Visual & Architecture**
+- [ ] 05. Animations & Transitions
+- [ ] 06. CSS Architecture
+- [ ] 07. Modern CSS
 
 ---
 
