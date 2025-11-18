@@ -1,6 +1,7 @@
 # Local files - NEVER commit
 .claude/
 CLAUDE.md
+LINKEDIN_QUESTIONS_BACKLOG.md
 *.sh
 
 # System files
