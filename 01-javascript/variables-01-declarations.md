@@ -4,7 +4,7 @@
 
 ---
 
-## Question 2: What is the difference between var, let, and const?
+## Question 1: What is the difference between var, let, and const?
 
 **Difficulty:** 🟢 Easy
 **Frequency:** ⭐⭐⭐⭐⭐
@@ -658,7 +658,7 @@ var users = [];                      // Don't use var!
 
 ---
 
-## Question 3: What is hoisting in JavaScript?
+## Question 2: What is hoisting in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐⭐
@@ -1331,7 +1331,7 @@ function step3() { /* ... */ }
 
 ---
 
-## Question 5: What is the Temporal Dead Zone (TDZ)?
+## Question 3: What is the Temporal Dead Zone (TDZ)?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐
