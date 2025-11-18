@@ -1,0 +1,8 @@
+# Local files - NEVER commit
+.claude/
+CLAUDE.md
+*.sh
+
+# System files
+.DS_Store
+node_modules/
