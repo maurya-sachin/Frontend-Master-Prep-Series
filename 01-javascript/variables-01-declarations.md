@@ -2083,7 +2083,7 @@ function example() {
 
 ---
 
-## Question 25: What is strict mode in JavaScript?
+## Question 4: What is strict mode in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐

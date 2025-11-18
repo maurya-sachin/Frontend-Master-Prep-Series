@@ -4,7 +4,7 @@
 
 ---
 
-## Question 6: How does type coercion work in JavaScript?
+## Question 1: How does type coercion work in JavaScript?
 
 **Difficulty:** 🔴 Hard
 **Frequency:** ⭐⭐⭐⭐⭐
@@ -698,7 +698,7 @@ JSON.stringify([1, 2]) === JSON.stringify([1, 2])  // true
 
 ---
 
-## Question 7: What are primitive wrapper objects in JavaScript?
+## Question 2: What are primitive wrapper objects in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐
@@ -1293,7 +1293,7 @@ console.log(str.custom);  // undefined ❌ (property disappeared!)
 
 ---
 
-## Question 8: What are type conversion methods in JavaScript?
+## Question 3: What are type conversion methods in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐
@@ -2026,7 +2026,7 @@ console.log(value === true);    // Check boolean value
 
 ---
 
-## Question 9: What are valueOf() and toString() methods in JavaScript?
+## Question 4: What are valueOf() and toString() methods in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐
@@ -2771,7 +2771,7 @@ Number(obj);  // 100 (valueOf)
 
 ---
 
-## Question 10: How does JSON.stringify() handle type conversion? What is toJSON()?
+## Question 5: How does JSON.stringify() handle type conversion? What is toJSON()?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐
