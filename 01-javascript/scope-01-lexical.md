@@ -868,6 +868,131 @@ function {
 - "What is variable shadowing?"
 - "How does 'this' relate to lexical scope?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Lexical vs Dynamic Scope:**
+- **Lexical (JavaScript):** Variable lookup determined by WHERE code is WRITTEN (static analysis)
+- **Dynamic (Bash, old Lisp):** Variable lookup determined by WHERE code is CALLED (runtime call stack)
+
+**V8 Implementation:**
+- Block scope: Creates Environment Record (hash table) for `let`/`const`
+- Function scope: Creates Activation Record for `var`
+- TDZ (Temporal Dead Zone): `let`/`const` exist but uninitialized until declaration line
+- Performance: Block-scoped variables use stack allocation (~2ns), function-scoped use heap (~50ns)
+
+**How Lexical Scope Enables Closures:**
+Inner functions capture reference to outer Lexical Environment (not values). V8 marks outer variables as "captured" → stored on heap instead of stack (survives function return).
+
+**`this` Is NOT Lexically Scoped:**
+`this` is dynamically bound (depends on call site), unlike lexical variables. Arrow functions break this rule by capturing outer `this` lexically.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Loop bug - all event handlers logged same value (10).
+
+**Bug:**
+```javascript
+for (var i = 0; i < 10; i++) {
+  setTimeout(() => {
+    console.log(i);  // Always logs 10 ❌
+  }, 100);
+}
+```
+
+**Why:** `var` is function-scoped. All 10 closures share same `i` variable (not 10 separate copies).
+
+**Impact:**
+- Carousel showed wrong slide (all buttons clicked → last slide)
+- User complaints: 80+ in 3 days
+- Debug time: 6 hours
+
+**Fix - Block Scope:**
+```javascript
+for (let i = 0; i < 10; i++) {  // ✅ Block-scoped
+  setTimeout(() => {
+    console.log(i);  // Logs 0, 1, 2... (separate `i` per iteration)
+  }, 100);
+}
+```
+
+**Metrics:**
+- Carousel navigation: 100% accurate
+- ESLint rule added: `no-var` (errors on `var` usage)
+- Bugs after migration: 0
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Feature | Block Scope (`let`/`const`) | Function Scope (`var`) | Winner |
+|---------|---------------------------|----------------------|--------|
+| **Predictability** | Variables live in nearest `{}` block | Variables hoisted to function top | ✅ Block |
+| **TDZ Safety** | ReferenceError if accessed before declaration | `undefined` (silently) | ✅ Block |
+| **Loop Behavior** | New binding per iteration | Shared binding across iterations | ✅ Block |
+| **Memory** | Released after block ends | Released after function ends | ✅ Block |
+| **Performance** | ~2ns (stack allocation) | ~50ns (heap allocation) | ✅ Block |
+| **Legacy Support** | ES6+ only | All browsers | var |
+
+**When to use `var`:** NEVER in modern code. Only if supporting IE10 or older (without transpilation).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Lexical Scope Like Addresses:**
+
+Imagine you're writing a letter. Lexical scope means the address (variable location) is determined by WHERE you write the letter (code position), not WHERE you mail it (runtime).
+
+```javascript
+// House 1 (Global scope)
+const street = "Main St";
+
+function house2() {
+  // House 2 (Function scope)
+  const number = 123;
+
+  {
+    // Apartment 2A (Block scope)
+    const room = "Bedroom";
+
+    console.log(street, number, room);  // ✅ Can see all levels
+  }
+
+  console.log(room);  // ❌ Can't see inside apartment!
+}
+```
+
+**Block Scope Like Apartment Walls:**
+```javascript
+{
+  let secret = "password123";  // Inside apartment
+}
+console.log(secret);  // ❌ Wall blocks access!
+
+var public = "hello";  // In shared hallway (function scope)
+// Everyone in the function can see it
+```
+
+**Real Example:**
+```javascript
+if (true) {
+  var leaky = "I escape!";    // Function-scoped (escapes block)
+  let contained = "Trapped";  // Block-scoped (stays in block)
+}
+console.log(leaky);      // "I escape!" ✅
+console.log(contained);  // ❌ ReferenceError
+```
+
+**Rule:** Always use `let`/`const` (block scope) instead of `var` (function scope) for safer, more predictable code.
+
+</details>
+
 ### Resources
 
 - [MDN: Scope](https://developer.mozilla.org/en-US/docs/Glossary/Scope)
@@ -1450,6 +1575,144 @@ function example() {
 - "How does shadowing relate to closures?"
 - "What happens with shadowing in nested functions?"
 - "Can function parameters shadow outer variables?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Why `var` Can't Shadow `let`/`const` (Illegal Shadowing):**
+V8 creates Environment Records for blocks. `let`/`const` bind to Environment Record (block scope). `var` binds to Variable Object (function scope). If `var` tried to shadow `let`/`const`, it would create TWO bindings with same name in overlapping scopes → ambiguity. ECMAScript spec forbids this.
+
+**Technical Example:**
+```javascript
+{
+  let x = 1;   // Environment Record: { x: 1 }
+  var x = 2;   // Tries to add to Variable Object (function scope)
+               // Conflict! SyntaxError
+}
+```
+
+**Shadowing in Closures:**
+Each closure captures its own shadowing variable's Lexical Environment. Inner closure "sees" inner variable, outer sees outer variable.
+
+**Function Parameters Shadowing:**
+Parameters are treated as local variables. They CAN shadow outer variables (legal shadowing).
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Accidental shadowing caused payment processing bug.
+
+**Bug:**
+```javascript
+const TAX_RATE = 0.08;  // Company-wide constant
+
+function calculateTotal(items) {
+  let total = 0;
+
+  items.forEach(item => {
+    const TAX_RATE = 0.1;  // ❌ Developer accidentally shadowed!
+    total += item.price * (1 + TAX_RATE);
+  });
+
+  return total;
+}
+```
+
+**Impact:**
+- Wrong tax calculated (10% instead of 8%)
+- Overcharging: $15k+ over 1 week
+- Customer refunds: 200+ requests
+- Detection time: 5 days (customer complaint triggered investigation)
+
+**Fix - ESLint Rule:**
+```javascript
+// .eslintrc.js
+rules: {
+  'no-shadow': ['error', { builtinGlobals: true }]
+}
+
+// Now shadowing TAX_RATE throws linting error
+```
+
+**Alternative Fix - Rename:**
+```javascript
+items.forEach(item => {
+  const SPECIAL_TAX = 0.1;  // ✅ Different name
+  total += item.price * (1 + (item.special ? SPECIAL_TAX : TAX_RATE));
+});
+```
+
+**Metrics After Fix:**
+- Tax calculation accuracy: 100%
+- Shadow-related bugs: 0
+- Linter catches: 15 potential shadowing issues (prevented bugs)
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Shadowing Type | Legal? | Risk | Use Case | Winner |
+|---------------|--------|------|----------|--------|
+| **`let` shadows `let`** | ✅ Yes | Low (intentional) | Reuse common names in nested scopes | ✅ Safe |
+| **`const` shadows `const`** | ✅ Yes | Low | Reuse common names immutably | ✅ Safe |
+| **`var` shadows `var`** | ✅ Yes | High (confusing hoisting) | Legacy code only | ❌ Avoid |
+| **`var` shadows `let`/`const`** | ❌ SyntaxError | N/A | N/A | N/A |
+| **`let`/`const` shadows `var`** | ✅ Yes | Medium (confusing mix) | Migration from `var` | ⚠️ Caution |
+| **Parameter shadows outer** | ✅ Yes | Low (common pattern) | Function encapsulation | ✅ Safe |
+
+**Best Practice:** Enable `no-shadow` ESLint rule to catch accidental shadowing (most shadowing is unintentional and buggy).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Shadowing Like Naming Conflicts:**
+
+Imagine two people named "John" in a building:
+- John 1: Lives on Floor 1 (outer scope)
+- John 2: Lives on Floor 2 (inner scope)
+
+When you're on Floor 2 and say "John", you mean John 2 (inner shadows outer).
+
+```javascript
+let john = "Floor 1 John";  // Outer John
+
+function floor2() {
+  let john = "Floor 2 John";  // Inner John (shadows outer)
+  console.log(john);  // "Floor 2 John" (sees inner first)
+}
+
+console.log(john);  // "Floor 1 John" (outer scope)
+```
+
+**Illegal Shadowing (var vs let):**
+```javascript
+{
+  let john = "Block John";   // Lives in apartment (block scope)
+  var john = "Function John";  // ❌ Tries to live in entire floor (function scope)
+  // Conflict! Can't have same name in overlapping spaces
+}
+```
+
+**Real Example - Parameter Shadowing:**
+```javascript
+const username = "global_user";
+
+function login(username) {  // Parameter shadows global
+  console.log(username);  // Uses parameter, not global ✅
+}
+
+login("alice");  // "alice"
+console.log(username);  // "global_user" (outer unchanged)
+```
+
+**Rule:** Avoid shadowing unless intentional (for encapsulation). Use ESLint to catch accidents.
+
+</details>
 
 ### Resources
 
@@ -2340,6 +2603,178 @@ const fn = createBigClosure();
 - "Can you explain closure in the context of React hooks?"
 - "What are the performance implications of using closures?"
 - "How would you debug a closure-related memory leak?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**V8 Closure Implementation:**
+1. **Context Creation:** When inner function created, V8 creates Context object (heap-allocated)
+2. **Variable Capture:** Outer variables referenced by inner function → marked "captured" → moved from stack to Context
+3. **Scope Chain Link:** Inner function's `[[Scope]]` property points to Context (hidden property)
+4. **Garbage Collection:** Context lives as long as any closure references it (can cause memory leaks)
+
+**Performance:**
+- Creating closure: ~100ns (Context allocation)
+- Accessing captured variable: ~2ns (one pointer dereference vs direct stack access ~0.5ns)
+- Memory: 40-80 bytes per Context (depends on captured variables)
+
+**React Hooks & Closures:**
+`useEffect`, `useCallback`, `useMemo` create closures over props/state. Stale closure bug = old Context captured with outdated values.
+
+**Memory Leak Pattern:**
+```javascript
+// ❌ Leak: Event listener holds closure forever
+element.addEventListener('click', () => {
+  const hugeData = fetch(...);  // Captured in closure
+  // If listener never removed, hugeData never freed
+});
+```
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Memory leak in SPA dashboard - heap grew from 50MB → 2GB after 1 hour.
+
+**Bug:**
+```javascript
+function setupDashboard() {
+  const metrics = fetchMetrics();  // 10MB data structure
+
+  setInterval(() => {
+    updateChart(metrics);  // ❌ Closure captures metrics
+  }, 1000);
+
+  // Function returns but metrics never freed!
+}
+
+// Called 100 times (user navigates back/forth)
+// 100 × 10MB = 1GB leaked!
+```
+
+**Detection:**
+- Chrome DevTools → Memory → Heap Snapshot
+- Found 100 `metrics` objects retained
+- Retainers tree → `setInterval` closures
+
+**Fix - Clear References:**
+```javascript
+function setupDashboard() {
+  const metrics = fetchMetrics();
+
+  const intervalId = setInterval(() => {
+    updateChart(metrics);
+  }, 1000);
+
+  // Return cleanup function
+  return () => {
+    clearInterval(intervalId);  // ✅ Removes closure
+    // metrics now eligible for GC
+  };
+}
+
+const cleanup = setupDashboard();
+// Later:
+cleanup();  // Frees memory
+```
+
+**Metrics After Fix:**
+- Heap after 1 hour: 50MB (stable)
+- Memory leak: 0
+- Dashboard navigation: No performance degradation
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Pattern | Closure | Module Scope | Class Instance | Winner |
+|---------|---------|--------------|----------------|--------|
+| **Encapsulation** | ✅ Private per instance | ⚠️ Shared across instances | ✅ Private per instance | Closure/Class |
+| **Performance** | ~100ns/create, ~2ns/access | ~0.5ns/access | ~50ns/create, ~1ns/access | ✅ Module |
+| **Memory** | 40-80 bytes/closure | Minimal (shared) | 24+ bytes/instance | ✅ Module |
+| **Flexibility** | ✅ Dynamic creation | ❌ Static | ✅ Dynamic with `new` | Closure/Class |
+| **Debugging** | ⚠️ Hard (hidden [[Scope]]) | ✅ Easy | ✅ Easy (this.property) | Module/Class |
+| **GC Risk** | ⚠️ Can leak if not careful | ✅ No risk | ✅ Cleared when instance freed | Module/Class |
+
+**When to use closures:**
+- Private variables in functions (counters, caches)
+- Event handlers with context
+- Currying and partial application
+- React hooks (useState, useEffect)
+
+**When to avoid:**
+- High-performance loops (use module scope)
+- Large data structures (risk of leaks)
+- Debugging-heavy code (closure internals hard to inspect)
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Closure Like a Backpack:**
+
+When a function is created inside another function, it "packs a backpack" with all the variables it needs from the outer function.
+
+```javascript
+function makeCounter() {
+  let count = 0;  // This goes in the backpack
+
+  return function increment() {
+    count++;  // Still has access to count (from backpack!)
+    return count;
+  };
+}
+
+const counter = makeCounter();
+counter();  // 1 (backpack has count = 0, increments to 1)
+counter();  // 2 (same backpack, count = 1, increments to 2)
+counter();  // 3 (same backpack, count = 2, increments to 3)
+
+// Even though makeCounter finished, increment still has its "backpack"!
+```
+
+**Why It's Useful - Data Privacy:**
+```javascript
+function createPassword() {
+  let secret = "password123";  // Private (in backpack)
+
+  return {
+    check(input) {
+      return input === secret;  // ✅ Can access secret
+    }
+    // ❌ No way to GET secret directly!
+  };
+}
+
+const pwd = createPassword();
+pwd.check("password123");  // true
+pwd.secret;  // undefined (can't access directly!)
+```
+
+**Real Example - React useState:**
+```javascript
+// Simplified React useState
+function useState(initialValue) {
+  let state = initialValue;  // Closure variable (backpack)
+
+  function setState(newValue) {
+    state = newValue;  // Updates backpack
+    rerender();  // Trigger UI update
+  }
+
+  return [state, setState];
+}
+
+const [count, setCount] = useState(0);
+setCount(5);  // Modifies the closure's state variable
+```
+
+**Rule:** Closures = functions that remember where they were born (carry their environment in a "backpack").
+
+</details>
 
 ### Resources
 
@@ -3546,6 +3981,183 @@ outer();  // Prints 'global', not 'outer'!
 2. "What's the difference between lexical and dynamic scope?"
 3. "How do closures preserve lexical environments?"
 4. "Can you modify the outer lexical environment from inner?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Lexical Environment Structure (V8):**
+```
+Lexical Environment = {
+  Environment Record: {  // Hash table of variables
+    a: 1,
+    b: 2
+  },
+  Outer Reference: <parent Lexical Environment>  // Pointer to outer scope
+}
+```
+
+**Creation Phases:**
+1. **Global Execution:** Global Lexical Environment created (Outer Reference = null)
+2. **Function Call:** New Lexical Environment created (Outer Reference = where function was DEFINED, not CALLED)
+3. **Block Entry:** New Environment Record added to existing Lexical Environment
+
+**Garbage Collection:**
+- Lexical Environment kept alive if ANY closure references it
+- V8 marks Environment as "used" if inner function escapes outer scope
+- If no references → GC frees Environment after outer function returns
+
+**Modification Rules:**
+- Can modify variables in outer Lexical Environment (if mutable: `let`/`var`)
+- Cannot modify `const` (throws TypeError)
+- Cannot add NEW bindings to outer Environment from inner (only access existing)
+
+**Performance:**
+- Variable lookup: Traverses Outer Reference chain (~2ns per level)
+- V8 optimization: Inline cache stores lookup path (subsequent accesses ~0.5ns)
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Performance degradation in data transformation pipeline.
+
+**Bug:**
+```javascript
+function processData(items) {
+  // Deeply nested scope chain (6 levels)
+  items.forEach(item => {  // Level 1
+    item.tags.forEach(tag => {  // Level 2
+      tag.properties.forEach(prop => {  // Level 3
+        prop.values.forEach(val => {  // Level 4
+          val.attributes.forEach(attr => {  // Level 5
+            attr.metadata.forEach(meta => {  // Level 6
+              // Accessing top-level variable
+              if (meta.id === globalConfig.id) {  // 6-level lookup! ❌
+                process(meta);
+              }
+            });
+          });
+        });
+      });
+    });
+  });
+}
+```
+
+**Impact:**
+- Processing 10k items: 2.5 seconds
+- Variable lookup overhead: ~800ms (32% of total time!)
+- User complaint: "Search is slow"
+
+**Fix - Hoist to Nearest Scope:**
+```javascript
+function processData(items) {
+  const targetId = globalConfig.id;  // ✅ Cache in local scope
+
+  items.forEach(item => {
+    item.tags.forEach(tag => {
+      tag.properties.forEach(prop => {
+        prop.values.forEach(val => {
+          val.attributes.forEach(attr => {
+            attr.metadata.forEach(meta => {
+              if (meta.id === targetId) {  // 1-level lookup ✅
+                process(meta);
+              }
+            });
+          });
+        });
+      });
+    });
+  });
+}
+```
+
+**Metrics After Fix:**
+- Processing 10k items: 1.7 seconds (32% faster!)
+- Variable lookup overhead: ~50ms (97% reduction)
+- User feedback: "Much faster now"
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Approach | Lexical Environment | Global Variables | Module Scope | Winner |
+|----------|-------------------|------------------|--------------|--------|
+| **Scope Safety** | ✅ Encapsulated per function | ❌ Pollutes global | ✅ Module-private | Lexical/Module |
+| **Performance** | ~2ns per level lookup | ~0.5ns (direct access) | ~0.5ns (direct access) | ✅ Global/Module |
+| **Memory** | 40+ bytes per Environment | Minimal (single object) | Minimal (single scope) | ✅ Global/Module |
+| **Collision Risk** | ✅ None (separate Environments) | ❌ High (name conflicts) | ✅ None (imports explicit) | Lexical/Module |
+| **Testability** | ✅ Easy (pass dependencies) | ❌ Hard (global state) | ✅ Easy (mock imports) | Lexical/Module |
+| **Debugging** | ⚠️ Complex (nested scopes) | ✅ Simple (window.x) | ✅ Simple (named exports) | Global/Module |
+
+**Best Practice:** Use Lexical Environments for encapsulation, Module scope for shared utilities, avoid Global variables.
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Lexical Environment Like a Phone Book with a Parent:**
+
+Each function has its own "phone book" (Environment Record) with all its local variables. If it can't find a name, it looks in its parent's phone book, then grandparent's, etc.
+
+```javascript
+const grandparent = "granny";  // Global phone book
+
+function parent() {
+  const parentVar = "mom";  // Parent's phone book
+
+  function child() {
+    const childVar = "kid";  // Child's phone book
+
+    // Looking up "grandparent":
+    // 1. Check child's phone book → not found
+    // 2. Check parent's phone book → not found
+    // 3. Check global phone book → found! "granny"
+
+    console.log(grandparent);  // "granny" ✅
+  }
+
+  child();
+}
+```
+
+**Each Function Remembers Its Parent:**
+```javascript
+function outer() {
+  const secret = "password";  // Outer's phone book
+
+  function inner() {
+    console.log(secret);  // Looks in outer's phone book ✅
+  }
+
+  return inner;
+}
+
+const func = outer();
+func();  // "password" (still remembers outer's phone book!)
+```
+
+**Modification Example:**
+```javascript
+function outer() {
+  let count = 0;  // Mutable variable
+
+  function increment() {
+    count++;  // ✅ Can modify outer's variable
+    console.log(count);
+  }
+
+  increment();  // 1
+  increment();  // 2 (same count variable)
+}
+```
+
+**Rule:** Lexical Environment = function's local variables + pointer to parent's Lexical Environment (forms a chain).
+
+</details>
 
 ### Resources
 - [ECMA-262: Lexical Environments](https://tc39.es/ecma262/#sec-lexical-environments)
@@ -4762,6 +5374,220 @@ function processItems(items) {
 - "How does the scope chain affect closure performance?"
 - "Why do `with` and `eval` break scope chain optimization?"
 - "How can you optimize deep scope chains?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Scope Chain vs Prototype Chain:**
+
+| Feature | Scope Chain | Prototype Chain |
+|---------|-------------|-----------------|
+| **Purpose** | Resolve VARIABLES | Resolve PROPERTIES |
+| **Lookup** | Lexical Environment → Outer → Global | Object → `[[Prototype]]` → `Object.prototype` → null |
+| **Created** | At function DEFINITION time (lexical) | At object CREATION time (dynamic) |
+| **Performance** | ~2ns per level (fast) | ~10-20ns per level (slower) |
+| **Can Modify?** | No (chain is fixed) | Yes (`Object.setPrototypeOf`, but slow) |
+
+**Why `eval`/`with` Break Optimization:**
+- V8 cannot determine scope chain at parse time (dynamic scope modification)
+- Inline caches disabled (can't predict variable locations)
+- TurboFan JIT bailout → slow interpreted mode
+- Performance degradation: 10-100x slower
+
+**V8 Scope Chain Optimization:**
+1. **Context Slot Assignment:** Each variable assigned fixed slot in Context (array-like)
+2. **Inline Cache:** Variable lookup path cached (context index stored)
+3. **TurboFan Inlining:** Small functions with shallow scope chains inlined (eliminates lookup)
+4. **Escape Analysis:** If variable doesn't escape, allocated on stack (not heap Context)
+
+**Deep Scope Chain Optimization:**
+- Hoist frequently-accessed outer variables to local scope
+- Use modules (flat scope) instead of nested functions
+- Limit closure depth (<3 levels ideal)
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Rendering performance degradation in React app with deep component nesting.
+
+**Bug:**
+```javascript
+// 5-level nested components, each creating closure
+function App() {
+  const theme = useTheme();  // Level 1
+
+  return (
+    <Layout>
+      {items.map(item => (  // Level 2
+        <Card key={item.id}>
+          {item.tags.map(tag => (  // Level 3
+            <Tag key={tag}>
+              {tag.values.map(val => (  // Level 4
+                <Value>
+                  {() => {  // Level 5
+                    // Accessing theme requires 5-level scope chain lookup!
+                    return <span style={{color: theme.color}}>{val}</span>;
+                  }}
+                </Value>
+              ))}
+            </Tag>
+          ))}
+        </Card>
+      ))}
+    </Layout>
+  );
+}
+```
+
+**Impact:**
+- Rendering 1,000 values: 450ms
+- Scope chain lookups: ~200ms (44% of render time!)
+- FPS dropped to 15 (target: 60)
+
+**Fix - Hoist to Nearest Scope:**
+```javascript
+function App() {
+  const theme = useTheme();
+
+  return (
+    <Layout>
+      {items.map(item => {
+        const themeColor = theme.color;  // ✅ Cache at iteration level
+
+        return (
+          <Card key={item.id}>
+            {item.tags.map(tag => (
+              <Tag key={tag}>
+                {tag.values.map(val => (
+                  <Value>
+                    <span style={{color: themeColor}}>{val}</span>
+                  </Value>
+                ))}
+              </Tag>
+            ))}
+          </Card>
+        );
+      })}
+    </Layout>
+  );
+}
+```
+
+**Metrics After Fix:**
+- Rendering 1,000 values: 250ms (44% faster!)
+- Scope chain lookups: ~50ms (75% reduction)
+- FPS: 60 (smooth)
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Scope Depth | Performance | Memory | Code Clarity | GC Pressure | Winner |
+|-------------|------------|--------|--------------|-------------|--------|
+| **Shallow (1-2 levels)** | ~1-2ns lookup | Minimal | ✅ Clear | Low | ✅ Best |
+| **Medium (3-4 levels)** | ~4-6ns lookup | Moderate | ⚠️ OK | Medium | ⚠️ OK |
+| **Deep (5+ levels)** | ~10+ns lookup | High (many Contexts) | ❌ Confusing | High | ❌ Avoid |
+
+**Optimization Strategies:**
+
+| Approach | Performance Gain | Code Impact | When to Use |
+|----------|-----------------|-------------|-------------|
+| **Hoist variables** | 50-80% faster | ✅ Minimal | Always (for hot paths) |
+| **Use modules** | 90% faster | ⚠️ Refactor needed | Architecture changes |
+| **Inline small functions** | 100% faster (eliminated) | ✅ Automatic (TurboFan) | Small pure functions |
+| **Avoid `eval`/`with`** | 10-100x faster | ✅ Just don't use | Always |
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Scope Chain Like a Chain of Boxes:**
+
+Imagine you're looking for your keys. You search:
+1. Your pocket (local scope) - not there
+2. Your bag (parent scope) - not there
+3. Your car (grandparent scope) - not there
+4. Your house (global scope) - found!
+
+That's the scope chain: checking each "box" until you find what you need.
+
+```javascript
+const house = "keys here!";  // Global (house)
+
+function car() {
+  const carVar = "sunglasses";  // Parent (car)
+
+  function bag() {
+    const bagVar = "wallet";  // Child (bag)
+
+    function pocket() {
+      const pocketVar = "phone";  // Local (pocket)
+
+      // Looking for "house":
+      // 1. pocket? No
+      // 2. bag? No
+      // 3. car? No
+      // 4. house? Yes! Found "keys here!"
+      console.log(house);
+    }
+
+    pocket();
+  }
+
+  bag();
+}
+```
+
+**Deep Chain Is Slow:**
+```javascript
+// ❌ Bad: 5-level chain
+function a() {
+  const x = 1;
+  function b() {
+    function c() {
+      function d() {
+        function e() {
+          console.log(x);  // Must check 5 boxes! Slow
+        }
+        e();
+      }
+      d();
+    }
+    c();
+  }
+  b();
+}
+
+// ✅ Good: Cache at nearest scope
+function a() {
+  const x = 1;
+  function b() {
+    const cachedX = x;  // Bring it closer!
+    function c() {
+      function d() {
+        function e() {
+          console.log(cachedX);  // Only check 4 boxes (faster!)
+        }
+        e();
+      }
+      d();
+    }
+    c();
+  }
+  b();
+}
+```
+
+**Real Analogy:**
+Instead of going to your house every time you need your keys (slow), put a spare key in your car (fast access!).
+
+**Rule:** Keep scope chains shallow (<3 levels). Hoist frequently-accessed variables to nearest scope for performance.
+
+</details>
 
 ### Resources
 
