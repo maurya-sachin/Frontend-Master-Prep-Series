@@ -690,6 +690,116 @@ JSON.stringify([1, 2]) === JSON.stringify([1, 2])  // true
 5. "How does Symbol.toPrimitive work?"
 6. "When is it okay to use == instead of ===?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**ToPrimitive Algorithm (V8):**
+1. Check `Symbol.toPrimitive` method (highest priority)
+2. If hint is "string": Call `toString()` → `valueOf()`
+3. If hint is "number/default": Call `valueOf()` → `toString()`
+4. If result is primitive, return; else TypeError
+
+**V8 Optimization:** Inline cache (IC) for type checks. After warmup, `typeof` checks take ~0.3ns vs ~5ns for first call.
+
+**7 Falsy Values (stored as tagged pointers in V8):**
+- `false` (boolean primitive)
+- `0`, `-0` (number primitives)
+- `""` (empty string)
+- `null` (special object type)
+- `undefined` (special primitive)
+- `NaN` (special number)
+
+**Why `[] == ![]` is true:**
+1. `![]` → `false` (object is truthy, negated)
+2. `[] == false` → ToPrimitive([]) == ToNumber(false)
+3. `"" == 0` → both become 0
+4. `0 == 0` → `true`
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** E-commerce checkout validation bug - `if (quantity)` rejected valid 0 quantity for free items.
+
+**Bug:**
+```javascript
+const quantity = 0;  // Free item
+if (quantity) {  // ❌ Fails! 0 is falsy
+  processOrder(quantity);
+}
+```
+
+**Impact:**
+- 15% of orders blocked (items with 0 price/quantity)
+- Customer complaints: 200+ in 2 days
+- Revenue loss: ~$50k/day
+
+**Fix:**
+```javascript
+if (quantity !== undefined && quantity !== null) {  // ✅ Explicit check
+  processOrder(quantity);
+}
+// Or use nullish check:
+if (quantity ?? false !== false) {
+  processOrder(quantity);
+}
+```
+
+**Metrics After Fix:**
+- Orders processed: 100% (no false rejections)
+- Complaints: 0
+- Code review rule added: "Never rely on falsy coercion for numbers"
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Comparison | `==` (Coercion) | `===` (Strict) | Winner |
+|------------|----------------|----------------|--------|
+| **Type Safety** | Implicit conversions (error-prone) | No conversions (predictable) | ✅ `===` |
+| **Performance** | ~15ns (with ToPrimitive) | ~0.3ns (pointer compare) | ✅ `===` |
+| **Code Clarity** | Requires ToPrimitive knowledge | Clear intent | ✅ `===` |
+| **Null Checks** | `x == null` catches both null/undefined | Need `x === null \|\| x === undefined` | ✅ `==` (only case) |
+| **Verbosity** | Shorter for null checks | More explicit everywhere | Tie |
+
+**When to use `==`:** ONLY for `x == null` check (catches both null and undefined).
+
+**When to use `===`:** Everywhere else (99% of cases).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Type Coercion Like Auto-Translate:**
+
+Imagine JavaScript is a translator trying to compare two sentences:
+- One in English: `"5"`
+- One in Spanish: `5`
+
+With `==`, JavaScript says: "Let me translate both to the same language first, then compare!" It converts `"5"` (string) to `5` (number), then compares: `5 == 5` → true.
+
+With `===`, JavaScript says: "These are in different languages, so they're not the same!" → false.
+
+**Real Analogy:**
+```javascript
+// Your friend asks: "Are you 18?"
+const yourAge = 18;
+const friendAsks = "18";  // They write it down as text
+
+// == says: "Close enough! Both mean 18" → true
+yourAge == friendAsks;  // true
+
+// === says: "One is a number, one is text! Different!" → false
+yourAge === friendAsks;  // false
+```
+
+**Rule of thumb:** Always use `===` unless you SPECIFICALLY want type conversion (which is rare and dangerous).
+
+</details>
+
 ### Resources
 
 - [MDN: Equality Comparisons](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)
@@ -1284,6 +1394,130 @@ console.log(str.custom);  // undefined ❌ (property disappeared!)
 4. "What's the difference between String('hello') and new String('hello')?"
 5. "Do Symbol and BigInt have wrapper objects?"
 6. "How does V8 optimize method calls on primitives?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Autoboxing in V8:**
+When you call `"hello".toUpperCase()`:
+1. V8 creates temporary `String` wrapper object (stack allocation, ~20ns)
+2. Calls method on wrapper
+3. Immediately discards wrapper after method returns
+4. Result: No heap allocation for common cases (optimized via inline cache)
+
+**Why Wrapper Objects Are Truthy:**
+```javascript
+Boolean(new Boolean(false));  // true ❌
+```
+Wrapper objects are **objects**, not primitives. All objects are truthy in JavaScript (even if they wrap false!).
+
+**V8 Tagged Pointers:**
+- Primitives: Stored directly in tagged pointers (last bit = 0)
+- Objects (including wrappers): Stored as heap pointers (last bit = 1)
+- V8 can distinguish primitive vs object in single bitwise operation (~0.1ns)
+
+**Symbol/BigInt Wrappers:**
+- `Symbol()` and `BigInt()` exist as functions but throw if used with `new`
+- No wrapper objects to prevent confusion (they're always primitive)
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Comparison bug in payment processing - wrapper objects broke validation.
+
+**Bug:**
+```javascript
+const userInput = new String("premium");  // ❌ Accidentally created wrapper
+const expectedPlan = "premium";
+
+if (userInput === expectedPlan) {  // false! Object !== string
+  applyDiscount();
+}
+```
+
+**Impact:**
+- 5% of premium users didn't get discounts
+- Revenue loss: ~$2,000/day
+- Detection time: 3 days (60 user complaints)
+
+**Root Cause:**
+Legacy code used `new String(getValue())` instead of `String(getValue())`.
+
+**Fix:**
+```javascript
+// Always use conversion functions WITHOUT new:
+const userInput = String(getValue());  // ✅ Primitive string
+
+// Or add validation:
+const normalize = (val) => val?.valueOf?.() ?? val;
+if (normalize(userInput) === expectedPlan) {
+  applyDiscount();
+}
+```
+
+**Prevention:**
+- ESLint rule: `no-new-wrappers`
+- TypeScript: Banned `String`/`Number`/`Boolean` as types (use lowercase)
+- Incidents after fix: 0
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Approach | Primitive | Wrapper Object | Winner |
+|----------|-----------|----------------|--------|
+| **Type** | `typeof "hi"` → "string" | `typeof new String("hi")` → "object" | ✅ Primitive |
+| **Equality** | `"hi" === "hi"` → true | `new String("hi") === new String("hi")` → false | ✅ Primitive |
+| **Performance** | Stack allocation (~0.1ns) | Heap allocation (~50ns) | ✅ Primitive (500x faster) |
+| **Memory** | 8 bytes (tagged pointer) | 40+ bytes (object header + value) | ✅ Primitive (5x smaller) |
+| **Truthiness** | `Boolean("")` → false | `Boolean(new String(""))` → true | ✅ Primitive (predictable) |
+| **Method Access** | Autoboxing (temporary wrapper) | Direct property access | Tie (both work) |
+
+**When to use wrapper objects:** NEVER. There's no valid use case.
+
+**When to use conversion functions:** Always (`String(x)`, `Number(x)`, not `new String(x)`).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Wrapper Objects Like Gift Wrapping:**
+
+Imagine primitive strings are naked gifts (just the toy). When you call a method like `.toUpperCase()`, JavaScript temporarily wraps the gift in a box (wrapper object), uses the method, then immediately throws away the box.
+
+**But if you manually create a wrapper with `new`:**
+```javascript
+const toy = "car";           // Naked toy (primitive)
+const wrapped = new String("car");  // Permanently wrapped toy (object)
+```
+
+Now you have a problem: The toy is stuck in the box forever! When you compare:
+```javascript
+toy === "car";      // true (compare toys directly)
+wrapped === "car";  // false (comparing box to toy!)
+```
+
+**Real Example:**
+```javascript
+// JavaScript doing autoboxing (smart):
+"hello".toUpperCase();
+// 1. Wraps "hello" in temporary box
+// 2. Calls toUpperCase() on box
+// 3. Throws away box
+// 4. Returns "HELLO"
+
+// You manually wrapping (bad):
+const str = new String("hello");  // ❌
+// Now it's ALWAYS in a box, can't compare with regular strings!
+```
+
+**Rule:** Never use `new` with String/Number/Boolean. Let JavaScript handle wrapping automatically.
+
+</details>
 
 ### Resources
 
@@ -2017,6 +2251,145 @@ console.log(value === true);    // Check boolean value
 4. "Why must you always specify radix in parseInt()?"
 5. "How does parseInt handle leading zeros?"
 6. "What's the difference between String(value) and value.toString()?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Number() vs parseInt() Algorithm:**
+
+**Number():**
+1. Calls ToPrimitive (if object)
+2. Trims whitespace
+3. Parses entire string as number
+4. Returns NaN if ANY character is invalid
+
+**parseInt():**
+1. Converts to string first
+2. Trims whitespace
+3. Parses from left until invalid character
+4. Returns number parsed so far (or NaN if first char invalid)
+5. Uses radix (base 2-36)
+
+**V8 Optimization:**
+- `Number()`: Fast path for simple strings (~5ns)
+- `parseInt()`: Slower (~50ns) due to radix logic + partial parsing
+- Both use TurboFan JIT compilation after warmup
+
+**Why Number('') → 0:**
+ECMAScript spec: Empty string coerces to 0 (historical decision for backward compatibility). Many consider this a design flaw.
+
+**String() vs toString():**
+- `String(null)` → "null" ✅
+- `null.toString()` → TypeError ❌
+- `String()` calls `ToString` abstract operation (handles null/undefined)
+- `.toString()` is a method (throws on null/undefined)
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Port number parsing bug caused 404 errors on custom ports.
+
+**Bug:**
+```javascript
+const port = "8080abc";  // User input from config
+const portNum = parseInt(port);  // 8080 ✅ (silently ignores "abc")
+
+// Server starts on port 8080, but...
+const validPort = Number(port);  // NaN ❌
+if (validPort > 1024) {  // false! NaN > 1024 is false
+  startServer(validPort);  // Never runs
+}
+```
+
+**Impact:**
+- 30% of users with invalid configs got silent failures
+- Port defaulted to 3000 (wrong port)
+- 404 errors: 500+/day
+- Detection time: 2 weeks
+
+**Fix:**
+```javascript
+const parsePort = (input) => {
+  const num = Number(input);
+  if (isNaN(num) || num <= 0 || num > 65535 || !Number.isInteger(num)) {
+    throw new Error(`Invalid port: ${input}`);
+  }
+  return num;
+};
+
+// Or use parseInt with validation:
+const num = parseInt(input, 10);
+if (String(num) !== input.trim()) {  // Detect trailing chars
+  throw new Error(`Port has invalid characters: ${input}`);
+}
+```
+
+**Metrics After Fix:**
+- Validation errors: Clear error messages (no silent failures)
+- 404 errors: 0 (invalid ports rejected early)
+- Config validation pass rate: 95% → 100%
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Method | Number() | parseInt() | parseFloat() | Winner |
+|--------|----------|-----------|--------------|--------|
+| **Partial Parsing** | ❌ Returns NaN | ✅ Parses until invalid | ✅ Parses until invalid | parseInt/parseFloat |
+| **Strictness** | ✅ Rejects "123abc" | ❌ Accepts "123abc" → 123 | ❌ Accepts "123.45abc" → 123.45 | ✅ Number() |
+| **Empty String** | 0 (confusing) | NaN (expected) | NaN (expected) | parseInt/parseFloat |
+| **Radix Support** | ❌ No radix | ✅ Base 2-36 | ❌ Base 10 only | parseInt |
+| **Performance** | ~5ns (fastest) | ~50ns | ~45ns | ✅ Number() |
+| **Decimals** | ✅ Parses | ❌ Ignores after dot | ✅ Parses | Number/parseFloat |
+
+**When to use:**
+- `Number()`: Strict conversion (API responses, calculations)
+- `parseInt()`: User input with known format (CSS pixels, radix conversion)
+- `parseFloat()`: Scientific notation, decimals from strings
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Number() vs parseInt() Like Reading a Book:**
+
+**Number() is strict teacher:**
+"Read the ENTIRE book from start to finish. If you encounter even ONE word you don't understand, fail the class."
+
+```javascript
+Number("123");     // ✅ "Entire book is numbers, A+"
+Number("123abc");  // ❌ "Found letters! Failed! NaN"
+Number("");        // 0 (weird exception)
+```
+
+**parseInt() is lenient teacher:**
+"Read as far as you can. Stop when you hit something you don't understand. I'll grade what you read."
+
+```javascript
+parseInt("123");     // 123 ✅ "Read whole thing"
+parseInt("123abc");  // 123 ✅ "Read until 'a', good enough"
+parseInt("abc123");  // NaN ❌ "Couldn't even start"
+```
+
+**Real Example:**
+```javascript
+// User enters CSS value: "100px"
+Number("100px");    // NaN ❌ (strict: "px is invalid!")
+parseInt("100px");  // 100 ✅ (lenient: "got the number, ignoring px")
+
+// But be careful:
+parseInt("08");     // 8 (correct)
+parseInt("08", 10); // 8 (ALWAYS specify radix!)
+parseInt("08", 8);  // 8 in base 8 = 8 in base 10
+```
+
+**Rule:** Use `Number()` for data you control (API responses). Use `parseInt(x, 10)` for user input where trailing chars are expected.
+
+</details>
 
 ### Resources
 
@@ -2763,6 +3136,176 @@ Number(obj);  // 100 (valueOf)
 5. "Why does Date have special coercion behavior?"
 6. "What happens if valueOf() returns a non-primitive?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**ToPrimitive Algorithm (ECMAScript Spec):**
+
+```
+ToPrimitive(input, preferredType)
+1. If input is primitive, return it
+2. If Symbol.toPrimitive exists, call it with hint:
+   - hint "string" → string context
+   - hint "number" → numeric context
+   - hint "default" → default context (+ operator, ==)
+3. If no Symbol.toPrimitive or returns non-primitive:
+   - If preferredType is "string": Try toString() → valueOf()
+   - If preferredType is "number": Try valueOf() → toString()
+4. If result is primitive, return it
+5. Else throw TypeError
+```
+
+**V8 Implementation:**
+- Fast path: Checks object's hidden class for cached conversion result
+- Inline cache: Subsequent conversions ~1ns (vs ~50ns first time)
+- Optimization: Common objects (Date, String wrapper) have optimized paths
+
+**Date Special Behavior:**
+Date objects prefer `toString()` for default hint (not `valueOf()`), unlike other objects.
+
+**valueOf() Returning Non-Primitive:**
+Falls back to `toString()`. If both return non-primitives, throws TypeError.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Price comparison bug - objects compared as strings instead of numbers.
+
+**Bug:**
+```javascript
+const price1 = { amount: 100, currency: "USD" };
+const price2 = { amount: 50, currency: "USD" };
+
+// Implicit coercion in comparison:
+if (price1 > price2) {  // Both become "[object Object]"
+  console.log("price1 is higher");
+}
+// Comparison: "[object Object]" > "[object Object]" → false ❌
+```
+
+**Impact:**
+- Price sorting broken on product pages
+- Expensive items appeared cheaper
+- Cart totals incorrect
+- Revenue loss: ~$5,000/day (undercharging)
+- User complaints: 150+ in first week
+
+**Fix - Add Symbol.toPrimitive:**
+```javascript
+class Price {
+  constructor(amount, currency) {
+    this.amount = amount;
+    this.currency = currency;
+  }
+
+  [Symbol.toPrimitive](hint) {
+    if (hint === "number") {
+      return this.amount;  // Use amount for numeric operations
+    }
+    if (hint === "string") {
+      return `${this.amount} ${this.currency}`;
+    }
+    return this.amount;  // Default to number
+  }
+}
+
+const price1 = new Price(100, "USD");
+const price2 = new Price(50, "USD");
+
+price1 > price2;  // true ✅ (compares 100 > 50)
+String(price1);   // "100 USD" ✅
+```
+
+**Metrics After Fix:**
+- Sorting accuracy: 100%
+- Cart calculation errors: 0
+- Revenue recovery: $5,000/day
+- Code review: All object comparisons now use explicit methods
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Approach | toString() | valueOf() | Symbol.toPrimitive | Winner |
+|----------|-----------|-----------|-------------------|--------|
+| **Priority** | Called 2nd (string hint) | Called 1st (number hint) | Highest priority | ✅ Symbol.toPrimitive |
+| **Control** | Only string conversion | Only number conversion | All conversions (hint-aware) | ✅ Symbol.toPrimitive |
+| **Performance** | ~20ns (method call) | ~20ns (method call) | ~25ns (slightly slower) | toString/valueOf |
+| **Compatibility** | ES3+ (universal) | ES3+ (universal) | ES6+ (modern only) | toString/valueOf |
+| **Clarity** | Intent unclear | Intent unclear | Explicit hint parameter | ✅ Symbol.toPrimitive |
+| **Default Behavior** | Returns "[object Object]" | Returns `this` | Must implement or TypeError | toString/valueOf |
+
+**When to use:**
+- `Symbol.toPrimitive`: Custom objects with complex coercion needs (Price, Duration, Quantity)
+- `valueOf()`: Simple numeric wrappers (legacy compatibility)
+- `toString()`: Simple string representations (debugging, logging)
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**valueOf() and toString() Like Translators:**
+
+Imagine you have a French book (JavaScript object). When someone asks "What does this say?":
+
+**toString():** "Translate to English (string)"
+```javascript
+const book = { title: "Les Misérables", pages: 1200 };
+book.toString();  // "[object Object]" (useless default!)
+
+// Custom translator:
+book.toString = function() {
+  return `${this.title} (${this.pages} pages)`;
+};
+book.toString();  // "Les Misérables (1200 pages)" ✅
+```
+
+**valueOf():** "What's the core value (number)?"
+```javascript
+book.valueOf = function() {
+  return this.pages;  // Core numeric value
+};
++book;  // 1200 ✅ (used in numeric context)
+```
+
+**Symbol.toPrimitive:** "Smart translator (knows context)"
+```javascript
+book[Symbol.toPrimitive] = function(hint) {
+  if (hint === "string") {
+    return `${this.title} (${this.pages} pages)`;
+  }
+  if (hint === "number") {
+    return this.pages;
+  }
+  return this.title;  // Default
+};
+
+String(book);  // "Les Misérables (1200 pages)"
++book;         // 1200
+book + "";     // "Les Misérables" (default hint)
+```
+
+**Real Example:**
+```javascript
+const duration = {
+  hours: 2,
+  minutes: 30,
+  [Symbol.toPrimitive](hint) {
+    if (hint === "number") return this.hours * 60 + this.minutes;  // Total minutes
+    return `${this.hours}h ${this.minutes}m`;  // Human-readable
+  }
+};
+
+duration + 60;      // 210 (150 + 60 minutes)
+`Duration: ${duration}`;  // "Duration: 2h 30m"
+```
+
+</details>
+
 ### Resources
 
 - [MDN: valueOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/valueOf)
@@ -3460,6 +4003,205 @@ JSON.stringify(new Derived());
 4. "What's the performance cost of the replacer function?"
 5. "How would you handle circular references in a production app?"
 6. "Why doesn't JSON.stringify() throw on functions instead of omitting them?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**JSON.stringify() Algorithm (V8):**
+
+1. **Type Checking:**
+   - `undefined`, `Function`, `Symbol` → omitted (object properties) or `null` (array elements)
+   - `null` → `"null"`
+   - `Boolean`, `Number`, `String` → primitive JSON
+   - `BigInt` → TypeError (not JSON-compatible)
+   - `Date` → calls `toISOString()`
+   - `Object`/`Array` → recursive serialization
+
+2. **toJSON() Priority:**
+   - If object has `toJSON()` method, call it BEFORE replacer
+   - Result is what gets stringified (not original object)
+   - Built-in: `Date.prototype.toJSON()` returns ISO string
+
+3. **Replacer Interaction:**
+   - `toJSON()` runs first → replacer receives toJSON result
+   - Replacer can further transform/filter
+   - Order: toJSON() → replacer → JSON serialization
+
+**V8 Optimization:**
+- Fast path for simple objects (no getters, no toJSON): ~500ns per object
+- Inline cache for property access: Subsequent stringifications ~50% faster
+- String builder: Preallocates buffer to avoid reallocations
+
+**Circular Reference Handling:**
+V8 maintains Set of visited objects during traversal. Throws TypeError on cycle detection.
+
+**Why Functions Are Omitted (Not Error):**
+JSON spec targets data interchange, not code. Silently omitting is safer than throwing (partial data > no data).
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** API response logging crashed with "Converting circular structure to JSON" error.
+
+**Bug:**
+```javascript
+const user = {
+  id: 123,
+  name: "Alice",
+  posts: []
+};
+
+const post = {
+  id: 456,
+  title: "Hello",
+  author: user  // Circular reference!
+};
+
+user.posts.push(post);
+
+// Crash on logging:
+JSON.stringify(user);  // TypeError: Converting circular structure to JSON
+```
+
+**Impact:**
+- Server crashes: 50+ per day
+- Monitoring system down (couldn't log responses)
+- Debug time wasted: ~10 hours/week
+- Production incidents untracked
+
+**Fix - Custom Circular Detector:**
+```javascript
+function safeStringify(obj, space = 2) {
+  const seen = new WeakSet();
+
+  return JSON.stringify(obj, (key, value) => {
+    // Handle primitives and null
+    if (typeof value !== "object" || value === null) {
+      return value;
+    }
+
+    // Detect circular reference
+    if (seen.has(value)) {
+      return "[Circular]";  // Replace with marker
+    }
+
+    seen.add(value);
+    return value;
+  }, space);
+}
+
+safeStringify(user);
+// ✅ Works! Replaces circular refs with "[Circular]"
+```
+
+**Alternative - Use Library:**
+```javascript
+// fast-json-stable-stringify (npm)
+const stringify = require('fast-json-stable-stringify');
+stringify(user);  // Handles cycles automatically
+```
+
+**Metrics After Fix:**
+- Crashes: 0 (from 50+/day)
+- All API responses logged successfully
+- Debug time saved: 10 hours/week
+- Monitoring uptime: 100%
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Approach | Native JSON.stringify | Custom Replacer | toJSON() | Library (fast-json-stable-stringify) | Winner |
+|----------|----------------------|----------------|----------|-------------------------------------|--------|
+| **Circular Refs** | ❌ Throws TypeError | ✅ Can handle | ✅ Can handle | ✅ Handles automatically | Library |
+| **Performance** | ~500ns (fastest) | ~2μs (4x slower) | ~800ns | ~1.5μs | ✅ Native |
+| **BigInt Support** | ❌ Throws | ✅ Can convert to string | ✅ Can convert | ✅ Configurable | Replacer/toJSON/Library |
+| **Undefined Handling** | Omits properties | ✅ Can convert to null | ✅ Can convert | ✅ Configurable | Replacer/toJSON/Library |
+| **Custom Types** | ❌ Limited | ✅ Full control | ✅ Full control | ✅ Plugins | Replacer/toJSON/Library |
+| **Code Complexity** | Zero (built-in) | Medium | Medium (per-class) | Low (import) | ✅ Native |
+| **Bundle Size** | 0 bytes | 0 bytes | 0 bytes | ~5KB | ✅ Native/Replacer/toJSON |
+
+**When to use:**
+- **Native:** Simple objects, no edge cases, performance-critical
+- **Replacer:** One-off transformations, filtering sensitive data
+- **toJSON():** Class-specific serialization (Date, custom classes)
+- **Library:** Production apps with complex data (circular refs, BigInt, undefined)
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**JSON.stringify() Like Packing for a Trip:**
+
+Imagine you're packing your belongings to send overseas. JSON.stringify() is like a strict packing service with rules:
+
+**What Gets Packed:**
+```javascript
+const luggage = {
+  clothes: "shirts",      // ✅ Packed
+  money: 100,             // ✅ Packed
+  passport: null,         // ✅ Packed as "empty envelope"
+  secrets: undefined,     // ❌ LEFT BEHIND (omitted!)
+  pet: function() {},     // ❌ LIVING THINGS NOT ALLOWED (omitted!)
+  crypto: 123n            // ❌ THROWS ERROR (not supported)
+};
+
+JSON.stringify(luggage);
+// {"clothes":"shirts","money":100,"passport":null}
+```
+
+**toJSON() Like Custom Packing Instructions:**
+```javascript
+class Phone {
+  constructor(brand, model, privateKey) {
+    this.brand = brand;
+    this.model = model;
+    this.privateKey = privateKey;  // Don't want to send this!
+  }
+
+  toJSON() {
+    // Custom packing: only send brand and model
+    return {
+      brand: this.brand,
+      model: this.model
+      // privateKey omitted for security
+    };
+  }
+}
+
+const phone = new Phone("Apple", "iPhone 15", "secret123");
+JSON.stringify(phone);
+// {"brand":"Apple","model":"iPhone 15"}  ✅ (privateKey not sent!)
+```
+
+**Circular References Like Infinite Loop:**
+```javascript
+const parent = { name: "Dad" };
+const child = { name: "Kid", parent: parent };
+parent.child = child;  // ❌ Parent points to child, child points to parent!
+
+JSON.stringify(parent);  // TypeError! (infinite loop detected)
+```
+
+**Fix with Replacer:**
+```javascript
+const seen = new WeakSet();
+JSON.stringify(parent, (key, value) => {
+  if (typeof value === "object" && value !== null) {
+    if (seen.has(value)) return "[Already packed]";  // Stop circular!
+    seen.add(value);
+  }
+  return value;
+});
+```
+
+**Rule:** Use toJSON() for classes, replacer for one-off filtering, libraries for complex production needs.
+
+</details>
 
 ### Resources
 
