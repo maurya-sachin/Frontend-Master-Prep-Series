@@ -848,7 +848,7 @@ console.log('End');
 
 ---
 
-## Question 6: Explain microtasks vs macrotasks and their execution order
+## Question 3: Explain microtasks vs macrotasks and their execution order
 
 **Difficulty:** 🔴 Hard
 **Frequency:** ⭐⭐⭐⭐
