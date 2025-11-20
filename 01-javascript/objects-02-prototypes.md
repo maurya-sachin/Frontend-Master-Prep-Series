@@ -276,6 +276,68 @@ const obj = Object.create(myPrototype);
 3. "Can you modify an object's prototype after creation?"
 4. "What are the performance implications of long prototype chains?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**V8 Hidden Classes & Prototypes:**
+- Each object has hidden class (shape) pointing to prototype
+- Property lookup: Own properties → Prototype → Prototype's prototype → null
+- Inline Cache (IC) optimizes repeated lookups (~1ns after warmup)
+
+**Memory**: Shared methods on prototype save memory. 1,000 instances sharing prototype = 1 method copy vs 1,000 copies.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Array polyfill added to `Array.prototype` caused conflicts across library updates.
+
+**Solution:** Use `Object.defineProperty` with `enumerable: false` to prevent iteration pollution:
+```javascript
+Object.defineProperty(Array.prototype, 'last', {
+  value: function() { return this[this.length - 1]; },
+  enumerable: false  // Won't show in for...in
+});
+```
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Prototypal inheritance pros**: Memory efficient, dynamic updates to all instances
+**Cons**: Slower than class-based (property lookup overhead), harder to debug
+
+**Use when**: Sharing methods across many instances, need dynamic behavior
+**Avoid when**: Performance-critical paths, simple data objects
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Prototype** = Template/blueprint. Like a cookie cutter for objects.
+
+```javascript
+function Dog(name) {
+  this.name = name;  // Own property (unique per dog)
+}
+
+Dog.prototype.bark = function() {  // Shared method (all dogs use same function)
+  return `${this.name} says woof!`;
+};
+
+const dog1 = new Dog('Rex');
+const dog2 = new Dog('Max');
+
+dog1.bark();  // Looks in dog1 → not found → checks Dog.prototype → found!
+```
+
+All dog instances share one `bark` function → saves memory.
+
+</details>
+
 ### Resources
 - [MDN: Inheritance and the Prototype Chain](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
 - [Understanding Prototypal Inheritance](https://javascript.info/prototype-inheritance)
@@ -604,6 +666,60 @@ level5.prop = level1.prop; // Cache if accessed frequently
 2. "How does `Object.create(null)` affect the prototype chain?"
 3. "Can circular prototype chains exist?"
 4. "How do you break a prototype chain?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Property Lookup Algorithm (V8):**
+1. Check own properties (hidden class descriptor array)
+2. Check `[[Prototype]]` → repeat until found or null
+3. Each lookup: ~1-5ns (own) or ~10-50ns (prototype chain)
+
+**Long chains (>5 levels)** degrade performance: Each level adds ~10ns overhead.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Framework extended native `Array.prototype` with 8 levels of inheritance. Array operations 40% slower.
+
+**Fix:** Flattened to 2 levels using composition over inheritance. Performance restored.
+
+Lesson: Keep prototype chains short (<3 levels). Use composition for deep hierarchies.
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Short chains (<3)**: Fast lookups, clear structure
+**Long chains (>5)**: Slow lookups, confusing debugging, hard to maintain
+
+**Prefer**: Composition over inheritance when possible. Mixin pattern better than deep chains.
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Prototype chain** = Family tree lookup.
+
+```javascript
+const grandparent = { wisdom: 'Always backup' };
+const parent = Object.create(grandparent);
+parent.skill = 'Coding';
+
+const child = Object.create(parent);
+child.name = 'Alice';
+
+console.log(child.wisdom);
+// Looks: child (no) → parent (no) → grandparent (yes!) → 'Always backup'
+```
+
+JS walks up the chain until it finds property or reaches end (null).
+
+</details>
 
 ### Resources
 - [MDN: Prototype Chain](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
@@ -943,6 +1059,77 @@ console.log(copies.hasOwnProperty('value')); // true
 2. "What's the difference between Object.create() and Object.setPrototypeOf()?"
 3. "When would you use Object.create(null)?"
 4. "Can you modify the prototype after using Object.create()?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Object.create() Polyfill:**
+```javascript
+if (!Object.create) {
+  Object.create = function(proto) {
+    function F() {}
+    F.prototype = proto;
+    return new F();
+  };
+}
+```
+
+**V8**: Creates new object with `[[Prototype]]` set to proto. No constructor execution. Faster than `new` for simple inheritance (~10-15ns vs ~20-30ns).
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Dictionary object inherited `toString()` from Object.prototype, causing bugs when user input key = "toString".
+
+**Solution:** Use `Object.create(null)` for truly empty objects (no prototype):
+```javascript
+const dict = Object.create(null);
+dict['toString'] = 'safe!';  // No collision
+```
+
+Perfect for hash maps, config objects, JSON parsers.
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Object.create() vs new:**
+- `Object.create`: Simple inheritance, no constructor logic, lighter
+- `new`: Full initialization, constructor runs, familiar pattern
+
+**Use Object.create when**: Pure inheritance needed, avoiding constructors, creating dictionary objects
+**Use new when**: Need initialization logic, traditional class pattern
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Object.create()** = Create object that inherits from another.
+
+```javascript
+const animal = {
+  eat: function() { console.log('Eating...'); }
+};
+
+const dog = Object.create(animal);
+dog.bark = function() { console.log('Woof!'); };
+
+dog.eat();   // Inherited from animal
+dog.bark();  // Own method
+```
+
+**Special case - Object.create(null):**
+```javascript
+const clean = Object.create(null);  // No prototype at all!
+clean.toString();  // Error - no inherited methods
+// Perfect for dictionaries/maps
+```
+
+</details>
 
 ### Resources
 - [MDN: Object.create()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)

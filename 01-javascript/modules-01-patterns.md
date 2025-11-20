@@ -320,6 +320,67 @@ const other = await import('./other.js');
 3. "How do bundlers handle different module formats?"
 4. "What's the performance difference between ESM and CommonJS?"
 
+<details>
+<summary><strong>🔍 Deep Dive: Module Loading Internals</strong></summary>
+
+**ES6 Modules (3-phase process):**
+1. **Construction**: Parse imports, build module graph
+2. **Instantiation**: Allocate memory, link imports/exports
+3. **Evaluation**: Run code, assign values
+
+**CommonJS** (single-phase):
+- Immediate execution + caching
+
+**V8 Optimization**: ESM imports are live bindings (reference), CommonJS exports are value copies. ESM enables better tree shaking because static analysis knows exactly what's used.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Bundle size increased from 150KB to 2.3MB after adding moment.js library.
+
+**Cause:** CommonJS doesn't support tree shaking. Importing one function pulls entire library.
+
+```javascript
+// ❌ CommonJS - imports ALL of moment (2.3MB)
+const moment = require('moment');
+const formatted = moment().format('YYYY-MM-DD');
+```
+
+**Solution:** Switch to ESM-compatible library or use dynamic imports:
+```javascript
+// ✅ ES6 - only imports what you need
+import { format } from 'date-fns';
+const formatted = format(new Date(), 'yyyy-MM-dd');
+// Bundle: 15KB (93% smaller)
+```
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| When to use ESM | When to use CommonJS |
+|-----------------|----------------------|
+| Modern projects | Legacy Node.js (<12) |
+| Browser targets | Dynamic requires needed |
+| Tree shaking critical | Conditional module loading |
+| TypeScript projects | Quick scripts/prototypes |
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**ESM** = Restaurant menu you pre-order from (they know exactly what to prepare)
+**CommonJS** = Buffet (everything made, you take what you want, rest wasted)
+
+ESM analyzes imports before running → bundlers remove unused code (tree shaking)
+CommonJS runs immediately → bundler can't tell what's used → includes everything
+
+</details>
+
 ### Resources
 - [MDN: JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
 - [ES Modules: A Cartoon Deep Dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
@@ -547,6 +608,56 @@ import Header from './Header.js'; // ✅ Bundled, immediate
 2. "Can you use dynamic import in CommonJS?"
 3. "What's the difference between import() and require()?"
 4. "How do bundlers handle dynamic imports?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**How Webpack handles `import()`:**
+- Creates separate chunk with unique ID
+- Generates JSONP request at runtime
+- Caches loaded modules in `webpackJsonp` array
+- Each dynamic import → separate network request (~100-200ms overhead)
+
+**Performance**: Initial bundle loads 60% faster, but route transitions add 100-300ms delay for chunk loading.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** React app initial load time 8.5 seconds (3.2MB bundle).
+
+**Solution:** Code splitting with dynamic imports reduced main bundle to 450KB. Route-specific chunks load on demand.
+
+```javascript
+const Dashboard = lazy(() => import('./Dashboard')); // 800KB chunk
+const Settings = lazy(() => import('./Settings'));   // 200KB chunk
+// Initial load: 8.5s → 2.1s (75% faster)
+```
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Dynamic Import Pros**: Smaller initial bundle, faster first load, better caching
+**Cons**: Network latency on route change, complexity, waterfall requests
+
+**Use when**: Routes, modals, tabs, admin features
+**Avoid for**: Critical path, above-fold content, small modules (<20KB)
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+Think of your app as a pizza restaurant:
+- **Static imports** = Pre-make all pizzas (slow start, fast serve)
+- **Dynamic imports** = Make on order (fast start, small wait per order)
+
+Use dynamic imports for "premium toppings" (features) most users don't need immediately.
+
+</details>
 
 ### Resources
 - [MDN: Dynamic Import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)
@@ -854,6 +965,61 @@ export const publicData = 'public';
 2. "When would you use IIFE in modern JavaScript?"
 3. "What's the difference between IIFE and block scope?"
 4. "How do bundlers use IIFE pattern?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Why IIFE was needed pre-ES6:**
+- No block scope (`var` is function-scoped)
+- No module system (everything global)
+- No way to encapsulate code
+
+**V8 Optimization**: IIFE creates function scope → private variables stay in closure. Modern bundlers wrap each module in IIFE to prevent global pollution.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** jQuery plugin namespace collision - two plugins using same global variable `cache`.
+
+**Solution:** IIFE pattern isolates each plugin:
+```javascript
+(function($) {
+  const cache = new Map(); // Private to this plugin
+  $.fn.myPlugin = function() { /* uses cache */ };
+})(jQuery);
+```
+
+Each IIFE creates separate scope → no collision.
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Use IIFE when**: Legacy code, browser scripts (no bundler), isolating library code
+**Use ES6 modules when**: Modern apps, bundler available, Node.js projects
+
+IIFE is legacy pattern - ES6 modules solve same problem better.
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**IIFE** = Private room for your code. Variables inside can't escape to global scope.
+
+```javascript
+(function() {
+  const secret = "hidden"; // Only accessible here
+})();
+console.log(secret); // Error - can't access!
+```
+
+It's like a function that runs itself immediately and throws away the key.
+
+</details>
 
 ### Resources
 - [MDN: IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
@@ -1261,6 +1427,74 @@ class Service {
 2. "What are alternatives to the singleton pattern?"
 3. "Can you implement a singleton in TypeScript?"
 4. "How does ES6 module system relate to singletons?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Why Singleton works in JavaScript:**
+- Function-scoped `instance` variable (closure)
+- Constructor returns existing instance if present
+- Static property persists across all instantiations
+
+**ES6 modules are natural singletons**: Each module exports same object reference. Importing module twice gives same instance.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Multiple logger instances created with different configurations causing inconsistent logging format.
+
+**Solution:** Singleton Logger ensures one configuration:
+```javascript
+class Logger {
+  constructor(config) {
+    if (Logger.instance) return Logger.instance;
+    this.config = config;
+    Logger.instance = this;
+  }
+  log(msg) { console.log(`[${this.config.level}] ${msg}`); }
+}
+
+const logger = new Logger({ level: 'INFO' });
+// All future instances use same config
+```
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Singleton Pros**: Controlled access, memory efficient (one instance), global state management
+**Cons**: Hard to test, tight coupling, hidden dependencies, violates Single Responsibility
+
+**Use for**: Logger, config manager, cache, database connection
+**Avoid for**: Business logic, services with state, anything needing multiple instances
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Singleton** = Only one instance allowed. Like there's only one company CEO.
+
+```javascript
+class CEO {
+  constructor(name) {
+    if (CEO.instance) return CEO.instance;
+    this.name = name;
+    CEO.instance = this;
+  }
+}
+
+const ceo1 = new CEO('Alice');
+const ceo2 = new CEO('Bob');  // Still returns Alice!
+console.log(ceo1 === ceo2);   // true
+```
+
+First creation wins. All future attempts return same object.
+
+</details>
 
 ### Resources
 - [Singleton Pattern](https://www.patterns.dev/posts/singleton-pattern/)
