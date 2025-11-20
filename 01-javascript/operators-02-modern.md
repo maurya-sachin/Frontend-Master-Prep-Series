@@ -4,7 +4,7 @@
 
 ---
 
-## Question 15: Explain short-circuit evaluation with && and || operators
+## Question 1: Explain short-circuit evaluation with && and || operators
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐
@@ -283,6 +283,46 @@ function processResponseBetter(response) {
 - "Can you use short-circuit for conditional execution?"
 - "What are the pitfalls of using `||` for default values?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**V8 Short-circuit**: Evaluates left operand, checks truthiness (~1ns), skips right if can determine result. Saves function call overhead (10-50ns) when right side is expensive operation.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** `user.isAdmin && fetchAdminData()` called expensive API even for non-admins due to missing short-circuit understanding.
+
+**Fix**: Understanding short-circuit saved 95% of unnecessary API calls (4,000 → 200 calls/day).
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Short-circuit pros**: Performance optimization, concise conditional logic
+**Cons**: Can be cryptic, harder to debug
+
+**Use when**: Performance matters, simple conditions. Avoid for complex logic (use if/else for clarity).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Short-circuit** = Stop checking as soon as answer is obvious.
+
+```javascript
+false && anything  // Returns false (doesn't check "anything")
+true || anything   // Returns true (doesn't check "anything")
+```
+
+Like asking "Is it raining AND did I forget umbrella?" - If not raining, don't need to check umbrella!
+
+</details>
+
 ### Resources
 
 - [MDN: Logical OR (||)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR)
@@ -291,7 +331,7 @@ function processResponseBetter(response) {
 
 ---
 
-## Question 16: What is optional chaining (?.) in JavaScript?
+## Question 2: What is optional chaining (?.) in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐⭐
@@ -605,6 +645,52 @@ for (let i = 0; i < 1000000; i++) {
 - "What are the performance implications of optional chaining?"
 - "When should you NOT use optional chaining?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**V8 Implementation**: Checks each step for null/undefined before proceeding. Adds ~2-5ns overhead per `?.` vs direct access. Negligible for most apps.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Nested API response caused "Cannot read property of undefined" crashes:
+```javascript
+const city = response.data.user.address.city;  // ❌ Crash if any null
+```
+
+**Fix**: Optional chaining prevented 90% of production errors:
+```javascript
+const city = response.data?.user?.address?.city;  // ✅ Returns undefined safely
+```
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Optional chaining pros**: Prevents crashes, cleaner code, handles uncertain data
+**Cons**: Hides bugs (silently returns undefined), slight performance cost
+
+**Use for**: API responses, optional props. **Avoid for**: Required data (masks bugs).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Optional chaining (`?.`)** = "Check if exists before accessing".
+
+```javascript
+user.address.city  // Crashes if address is null
+user?.address?.city  // Returns undefined if anything null (safe!)
+```
+
+Think of it as asking "Does this exist?" at each step before proceeding.
+
+</details>
+
 ### Resources
 
 - [MDN: Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
@@ -613,7 +699,7 @@ for (let i = 0; i < 1000000; i++) {
 
 ---
 
-## Question 17: What is nullish coalescing (??) operator?
+## Question 3: What is nullish coalescing (??) operator?
 
 **Difficulty:** 🟢 Easy
 **Frequency:** ⭐⭐⭐⭐
@@ -911,6 +997,63 @@ text ?? "N/A"  // "" ("" is kept)
 - "What is `??=` (nullish coalescing assignment)?"
 - "When should you use `??` vs `||`?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Nullish values**: Only `null` and `undefined`. NOT false, 0, "", NaN (those are falsy but not nullish).
+
+**Performance**: Same as `||` (~2ns). V8 optimizes both identically.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** User volume setting of 0 replaced with default 50 using `||`:
+```javascript
+const volume = userSettings.volume || 50;  // 0 → 50 (wrong!)
+```
+
+**Fix**: Using `??` preserved 0 as valid:
+```javascript
+const volume = userSettings.volume ?? 50;  // 0 stays 0 ✅
+```
+
+Fixed 200+ user complaints about "volume resets".
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**`??`**: Only replaces null/undefined (strict)
+**`||`**: Replaces all falsy values (0, false, "", null, undefined)
+
+**Use `??` for**: Numbers, booleans, strings (where 0/""/false are valid)
+**Use `||` for**: Boolean-only checks
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**`??`** = "Use default only if actually missing (null/undefined)".
+
+```javascript
+0 ?? 100    // 0 (0 is valid, not "missing")
+null ?? 100 // 100 (null is "missing")
+```
+
+vs `||` = "Use default if falsy":
+```javascript
+0 || 100    // 100 (0 is falsy)
+null || 100 // 100 (null is falsy)
+```
+
+Use `??` when 0, false, or "" are valid values!
+
+</details>
+
 ### Resources
 
 - [MDN: Nullish Coalescing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)
@@ -919,7 +1062,7 @@ text ?? "N/A"  // "" ("" is kept)
 
 ---
 
-## Question 19: What is the spread operator (...) in JavaScript?
+## Question 4: What is the spread operator (...) in JavaScript?
 
 **Difficulty:** 🟡 Medium
 **Frequency:** ⭐⭐⭐⭐⭐
@@ -1254,6 +1397,58 @@ console.log(config2.headers);
 - "Can you use spread with strings?"
 - "What happens when spreading objects with duplicate keys?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Spread creates shallow copy**: Copies first level only. Nested objects/arrays still referenced. For deep copy, use `structuredClone()` or libraries.
+
+**Performance**: Array spread ~O(n). Object spread slower (~2-3x array) due to property descriptor checks.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Spread used for "deep clone" but nested objects shared reference, causing mutation bugs:
+```javascript
+const copy = {...original};  // Shallow only!
+copy.nested.value = 'changed';  // ❌ Mutates original.nested too
+```
+
+**Fix**: Deep clone for nested structures:
+```javascript
+const copy = structuredClone(original);  // True deep copy ✅
+```
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Spread pros**: Concise, immutable updates, flexible merging
+**Cons**: Shallow copy only, slower than `.slice()` for arrays
+
+**Use for**: Immutable state updates (React), merging objects. **Avoid for**: Deep structures (use structuredClone).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Spread (`...`)** = "Unpack" items from array/object.
+
+```javascript
+const arr = [1, 2, 3];
+const copy = [...arr];  // [1, 2, 3] (new array, same values)
+
+const obj = {a: 1};
+const merged = {...obj, b: 2};  // {a: 1, b: 2}
+```
+
+Like emptying a bag of items onto a table. Items stay same, but now spread out.
+
+</details>
+
 ### Resources
 
 - [MDN: Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
@@ -1261,7 +1456,7 @@ console.log(config2.headers);
 
 ---
 
-## Question 22: What are template literals in JavaScript?
+## Question 5: What are template literals in JavaScript?
 
 **Difficulty:** 🟢 Easy
 **Frequency:** ⭐⭐⭐⭐⭐
@@ -1345,6 +1540,62 @@ const score = 95;
 const result = highlight`${name} scored ${score} points`;
 // "<strong>Alice</strong> scored <strong>95</strong> points"
 ```
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**V8 Optimization**: Template literals compiled to string concatenation. Performance identical to `+` operator after JIT compilation (~5-10ns per interpolation).
+
+**Tagged templates** enable custom string processing (sanitization, i18n, SQL queries).
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** SQL injection vulnerability from string concatenation:
+```javascript
+const query = "SELECT * FROM users WHERE id = " + userId;  // ❌ Unsafe!
+```
+
+**Fix**: Tagged template with parameter escaping:
+```javascript
+const query = sql`SELECT * FROM users WHERE id = ${userId}`;  // ✅ Escaped
+```
+
+Tagged templates sanitize inputs automatically, preventing injection.
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+**Template literals pros**: Readable, multi-line, expression support, tagged templates
+**Cons**: Slightly larger bundle size (backticks less compressible than quotes)
+
+**Use for**: Dynamic strings, HTML/SQL generation, multi-line. **Avoid for**: Static strings (use regular strings).
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Template literals** = Strings with superpowers using backticks (\`).
+
+```javascript
+const name = "Alice";
+const age = 25;
+
+// Old way (hard to read):
+"Hello, " + name + "! You are " + age + " years old."
+
+// Template literal (easy to read):
+`Hello, ${name}! You are ${age} years old.`
+```
+
+**${...}** = Insert any JavaScript expression into string.
+
+</details>
 
 ### Resources
 
