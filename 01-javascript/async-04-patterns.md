@@ -672,6 +672,109 @@ const [u1, u2, u3] = await Promise.all([user1, user2, user3]);
 - "What's the best way to implement optimistic updates with rollback?"
 - "How would you design a resilient retry system with circuit breaker pattern?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Promise.all() vs Promise.allSettled() vs Promise.race():**
+- `all()`: Rejects on first failure (fail-fast, ~5ns overhead per promise)
+- `allSettled()`: Never rejects, waits for all (~8ns overhead)
+- `race()`: Resolves/rejects on first completion (~3ns overhead)
+
+**Sequential vs Parallel Performance:**
+```javascript
+// Sequential: 3s (1s + 1s + 1s)
+await task1(); await task2(); await task3();
+
+// Parallel: 1s (all run simultaneously)
+await Promise.all([task1(), task2(), task3()]);
+```
+
+**Request Deduplication Pattern:**
+Cache in-flight promises by request key (URL + params). Multiple identical requests share same promise.
+
+**Circuit Breaker States:**
+- **Closed**: Normal operation
+- **Open**: Failures exceeded threshold, reject immediately
+- **Half-Open**: Test if service recovered
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Search autocomplete made 100+ API calls per second, overloaded server.
+
+**Bug:**
+```javascript
+searchInput.on('keyup', async (e) => {
+  const results = await fetch(`/api/search?q=${e.target.value}`);
+  // Every keystroke = new request! ❌
+});
+```
+
+**Impact:**
+- Server CPU: 95% (usually 20%)
+- API rate limit hit: 500+ users blocked
+- Search latency: 5s (target: 200ms)
+
+**Fix - Debounce + AbortController:**
+```javascript
+let controller;
+
+searchInput.on('keyup', debounce(async (e) => {
+  controller?.abort();  // Cancel previous request
+  controller = new AbortController();
+
+  const results = await fetch(`/api/search?q=${e.target.value}`, {
+    signal: controller.signal
+  });
+}, 300));  // Wait 300ms after last keystroke
+```
+
+**Metrics After Fix:**
+- API calls: 95% reduction (100/s → 5/s)
+- Server CPU: 25% (normal)
+- Search latency: 150ms
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Pattern | Latency | Error Handling | Complexity | Best For |
+|---------|---------|----------------|------------|----------|
+| **Sequential** | High (additive) | ✅ Easy (try/catch per step) | Low | Dependent operations |
+| **Parallel** | Low (max of all) | ⚠️ Partial failures tricky | Medium | Independent operations |
+| **Retry** | High (with backoff) | ✅ Resilient | Medium | Flaky APIs |
+| **Circuit Breaker** | Low (fast fail) | ✅ Prevents cascades | High | Microservices |
+| **Debounce** | Medium (delayed) | ✅ Simple | Low | User input |
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Async Patterns Like Restaurant Orders:**
+
+**Sequential (Slow):**
+"First make pizza. When done, make salad. When done, make dessert."
+Total: 60 min
+
+**Parallel (Fast):**
+"Make pizza, salad, and dessert at the same time!"
+Total: 30 min (pizza takes longest)
+
+**Debounce:**
+Customer keeps changing order. Wait until they stop talking for 5 seconds before cooking.
+
+**Retry with Backoff:**
+Kitchen out of tomatoes. Try again in 1 min. Still out? Try in 2 min. Then 4 min, 8 min...
+
+**Circuit Breaker:**
+Kitchen keeps burning food. After 5 burnt dishes, stop sending orders for 10 min. Let kitchen recover.
+
+</details>
+
 ### Resources
 
 - [MDN: Async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
@@ -1232,6 +1335,134 @@ setTimeout(() => task.abort('Timeout'), 2000);
 - "How do you combine multiple abort signals?"
 - "What happens if you abort after the fetch completes but before json() finishes?"
 - "How would you implement a cancelable debounce function?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**AbortController Implementation:** Creates AbortSignal (event target). When `abort()` called, signal fires `abort` event. Fetch API listens to signal, cancels HTTP request.
+
+**Can You Cancel In-Progress Promises?** No! Promises are not cancelable. AbortController cancels the UNDERLYING OPERATION (HTTP request), not the promise. Promise still settles (rejects with AbortError).
+
+**Combining Multiple Signals:**
+```javascript
+const combined = AbortSignal.any([signal1, signal2, signal3]);
+// Aborts when ANY signal aborts
+```
+
+**Abort After Fetch But Before json():**
+Both fetch and `.json()` respect abort signal. If aborted between them, `.json()` throws AbortError.
+
+**Performance:** AbortController overhead ~50ns. Signal checking ~5ns per operation.
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Users navigated away but fetch requests continued, wasting bandwidth.
+
+**Bug:**
+```javascript
+async function loadData() {
+  const data = await fetch('/api/data');  // ❌ No cancellation
+  updateUI(data);  // User already left page!
+}
+
+// User clicks → starts fetch → clicks away → fetch still running
+```
+
+**Impact:**
+- Wasted bandwidth: 50GB/day
+- Server load: 30% unnecessary requests
+- Memory leaks: Responses kept in memory
+
+**Fix - AbortController:**
+```javascript
+let controller;
+
+async function loadData() {
+  controller?.abort();  // Cancel previous request
+  controller = new AbortController();
+
+  try {
+    const data = await fetch('/api/data', {
+      signal: controller.signal
+    });
+    updateUI(data);
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      console.log('Request canceled');  // Expected
+    } else {
+      throw err;
+    }
+  }
+}
+
+// Cleanup on unmount:
+onUnmount(() => controller?.abort());
+```
+
+**Metrics After Fix:**
+- Wasted bandwidth: 0 (requests canceled immediately)
+- Server load: 70% of previous (30% reduction)
+- Memory leaks: 0
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Approach | Cancellation | Complexity | Browser Support | Best For |
+|----------|-------------|------------|----------------|----------|
+| **AbortController** | ✅ Native | Low | ✅ Modern browsers | Fetch, async ops |
+| **Promise wrapper** | ⚠️ Fake (doesn't stop operation) | Medium | ✅ All | Legacy promises |
+| **Timeout** | ✅ Time-based | Low | ✅ All | Slow operations |
+| **Manual flag** | ⚠️ Check required | Medium | ✅ All | Custom logic |
+
+**When to use AbortController:** Navigation changes, component unmount, user cancellation, timeouts.
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**AbortController Like a Stop Button:**
+
+Imagine ordering food delivery:
+
+**Without AbortController:**
+```javascript
+orderFood();  // Started delivery
+// Changed mind? Too bad! Delivery continues
+```
+
+**With AbortController:**
+```javascript
+const controller = new AbortController();
+
+orderFood({ signal: controller.signal });
+
+// Changed mind?
+controller.abort();  // ✅ Cancels delivery truck
+```
+
+**Real Example:**
+```javascript
+// Search autocomplete
+searchInput.on('change', async (query) => {
+  const controller = new AbortController();
+
+  const results = await fetch(`/search?q=${query}`, {
+    signal: controller.signal
+  });
+
+  // User types again? Old request aborted automatically
+});
+```
+
+**Key Point:** You can't cancel a promise itself, but you CAN cancel what the promise is doing (HTTP request, timeout, etc.).
+
+</details>
 
 ### Resources
 
@@ -1799,6 +2030,123 @@ const results = await Promise.all(tasks);
 - "How does requestIdleCallback differ from throttling?"
 - "What's the difference between leading and trailing execution?"
 
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Debounce vs Throttle:**
+- **Debounce**: Wait for silence (e.g., search after user stops typing)
+- **Throttle**: Limit frequency (e.g., scroll handler max once per 100ms)
+
+**Leading vs Trailing:**
+- **Leading**: Execute immediately, ignore subsequent calls
+- **Trailing**: Execute after delay (default)
+
+**Max Wait Time:** Debounce with max wait ensures function runs eventually even if user never stops (prevents infinite delay).
+
+**requestIdleCallback vs Throttle:**
+- `requestIdleCallback`: Runs when browser idle (variable timing, ~10-50ms)
+- Throttle: Fixed interval (predictable, e.g., every 100ms)
+
+**Performance:** Debounce/throttle overhead ~100ns per call (timeout management).
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** Resize handler froze browser during window resize.
+
+**Bug:**
+```javascript
+window.addEventListener('resize', () => {
+  recalculateLayout();  // ❌ Fires 100+ times per second!
+  updateCharts();
+  reflow();
+});
+```
+
+**Impact:**
+- FPS: 5 (target: 60)
+- Browser frozen during resize
+- User complaints: "App is laggy"
+
+**Fix - Throttle:**
+```javascript
+const throttledResize = throttle(() => {
+  recalculateLayout();
+  updateCharts();
+  reflow();
+}, 100);  // Max once per 100ms
+
+window.addEventListener('resize', throttledResize);
+```
+
+**Metrics After Fix:**
+- FPS: 60 (smooth)
+- Handler calls: 95% reduction (100/s → 10/s)
+- User feedback: "Smooth now"
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Technique | Use Case | Responsiveness | CPU Usage | Best For |
+|-----------|----------|---------------|-----------|----------|
+| **Debounce** | Search input | Low (delayed) | ✅ Minimal | User input that settles |
+| **Throttle** | Scroll handler | High (regular updates) | ⚠️ Moderate | Continuous events |
+| **requestIdleCallback** | Analytics | Low (when idle) | ✅ Minimal | Non-critical tasks |
+| **requestAnimationFrame** | Animations | High (60fps) | ⚠️ Moderate | Visual updates |
+
+**Debounce when:** User finishes action (search, form input, window resize complete)
+
+**Throttle when:** Continuous updates needed (scroll position, mouse move, progress bar)
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Debounce vs Throttle Like Elevators:**
+
+**Debounce = Elevator Waiting for More People:**
+```javascript
+// Waits 5 seconds after LAST person enters
+// If someone enters at 4.9s, reset timer to 5s again
+debounce(closeElevator, 5000);
+```
+
+**Throttle = Elevator Departing Every 5 Minutes:**
+```javascript
+// Departs every 5 min, no matter what
+// People after departure wait for next cycle
+throttle(closeElevator, 300000);
+```
+
+**Real Examples:**
+
+**Debounce - Search:**
+```javascript
+// Wait 300ms after user STOPS typing
+const search = debounce(async (query) => {
+  const results = await fetch(`/search?q=${query}`);
+}, 300);
+
+input.on('keyup', (e) => search(e.target.value));
+```
+
+**Throttle - Scroll:**
+```javascript
+// Update scroll position max once per 100ms
+const updateScrollPos = throttle(() => {
+  console.log('Scroll position:', window.scrollY);
+}, 100);
+
+window.addEventListener('scroll', updateScrollPos);
+```
+
+</details>
+
 ### Resources
 
 - [Debouncing and Throttling Explained](https://css-tricks.com/debouncing-throttling-explained-examples/)
@@ -2017,6 +2365,156 @@ async function fetchUser(userObj) {
 - "How do you detect memory leaks in production?"
 - "What tools would you use to profile memory usage?"
 - "How do WeakMap and WeakSet help prevent leaks?"
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
+
+**Common Memory Leak Patterns in Async Code:**
+1. **Event listeners not removed:** `addEventListener` without `removeEventListener`
+2. **Timers not cleared:** `setInterval` without `clearInterval`
+3. **Closures holding references:** Large objects captured in async callbacks
+4. **Promise chains:** Uncaught promise keeps references alive
+5. **Global variables:** Accidental global assignments in async functions
+
+**WeakMap/WeakSet Benefits:**
+- Keys are weak references (garbage collected when no other references exist)
+- Perfect for caching data tied to DOM elements (auto-cleaned when element removed)
+
+**Detection Tools:**
+- Chrome DevTools Memory Profiler
+- Heap snapshots (compare before/after)
+- Allocation timeline
+
+**Performance:** Memory leak detection overhead ~10-50ms per snapshot (production monitoring should be throttled).
+
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
+
+**Problem:** SPA memory grew from 50MB → 1.5GB after 2 hours of use.
+
+**Bug:**
+```javascript
+function setupPolling() {
+  setInterval(async () => {
+    const data = await fetchLargeDataset();  // 10MB response
+    processData(data);
+  }, 5000);
+
+  // ❌ No cleanup! Interval runs forever, holds data references
+}
+
+// Called on every page navigation
+router.on('navigate', setupPolling);
+```
+
+**Impact:**
+- Heap size: 50MB → 1.5GB (after 100 navigations)
+- Browser tab crashes after 2 hours
+- User complaints: "App becomes unusable"
+
+**Fix - Cleanup:**
+```javascript
+let intervalId;
+
+function setupPolling() {
+  // Clear previous interval
+  if (intervalId) clearInterval(intervalId);
+
+  intervalId = setInterval(async () => {
+    const data = await fetchLargeDataset();
+    processData(data);
+  }, 5000);
+}
+
+// Cleanup on unmount
+function cleanup() {
+  clearInterval(intervalId);
+  intervalId = null;
+}
+
+router.on('leave', cleanup);
+```
+
+**Metrics After Fix:**
+- Heap size: Stable at 50-60MB
+- No crashes after 8+ hours
+- User feedback: "App stays fast"
+
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
+
+| Technique | Memory Safety | Performance | Complexity | Best For |
+|-----------|--------------|-------------|------------|----------|
+| **Manual cleanup** | ✅ Full control | ✅ Fast | Medium | Timers, listeners |
+| **WeakMap/WeakSet** | ✅ Auto GC | ✅ Fast | Low | DOM-tied caches |
+| **AbortController** | ✅ Auto cleanup | ✅ Fast | Low | Fetch requests |
+| **FinalizationRegistry** | ✅ Auto cleanup | ⚠️ Slow (GC-dependent) | High | Resource cleanup |
+| **Memory profiling** | ⚠️ Detection only | ❌ Slow (dev tool) | Low | Debugging |
+
+**Best Practice:** Always cleanup in component unmount/page leave handlers.
+
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
+
+**Memory Leaks Like Forgetting to Turn Off Lights:**
+
+When you leave a room, turn off the lights. In JavaScript async code, "leaving a room" = unmounting component or navigating away.
+
+**Common Leaks:**
+
+**1. Event Listeners (Lights Left On):**
+```javascript
+// ❌ Bad: Listener never removed
+element.addEventListener('click', handler);
+// Component unmounts → listener still exists!
+
+// ✅ Good: Remove listener
+element.addEventListener('click', handler);
+onUnmount(() => element.removeEventListener('click', handler));
+```
+
+**2. Intervals (Water Running):**
+```javascript
+// ❌ Bad: Interval runs forever
+const id = setInterval(() => fetchData(), 1000);
+
+// ✅ Good: Clear interval
+const id = setInterval(() => fetchData(), 1000);
+onUnmount(() => clearInterval(id));
+```
+
+**3. Closures Holding Large Data (Hoarding):**
+```javascript
+// ❌ Bad: hugeData kept in memory
+async function process() {
+  const hugeData = await fetchLarge();  // 100MB
+
+  setInterval(() => {
+    // Closure holds hugeData forever!
+    console.log(hugeData.length);
+  }, 1000);
+}
+
+// ✅ Good: Only keep what you need
+async function process() {
+  const hugeData = await fetchLarge();
+  const length = hugeData.length;  // Extract small value
+
+  setInterval(() => {
+    console.log(length);  // Only holds number, not 100MB
+  }, 1000);
+}
+```
+
+**Rule:** Always cleanup async operations when done (remove listeners, clear timers, abort requests).
+
+</details>
 
 ### Resources
 
