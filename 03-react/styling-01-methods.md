@@ -71,7 +71,8 @@ Each approach has specific use cases: CSS Modules for component isolation, CSS-i
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: CSS Styling Implementations</strong></summary>
 
 **CSS Modules Implementation Details:**
 
@@ -251,9 +252,11 @@ safelist: ['bg-blue-500', 'bg-red-500', 'bg-green-500']
 
 JIT's incremental compilation enables instant builds (typically <100ms for full page changes) compared to traditional Tailwind builds (3-5 seconds). Final production CSS bundles are typically 8-15KB gzipped versus 180KB+ for pre-generated utilities, dramatically improving load times.
 
----
 
-### 🐛 Real-World Scenario
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Performance Degradation</strong></summary>
 
 **Scenario: Large-scale e-commerce platform experiencing severe styling performance degradation during high-traffic sales events**
 
@@ -521,9 +524,11 @@ function ProductList({ products, theme, viewSettings }) {
 4. Compile-time extraction provides CSS-in-JS DX with CSS performance
 5. Memoization is critical to prevent unnecessary style recalculations
 
----
 
-### ⚖️ Trade-offs
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Styling Approaches Comparison</strong></summary>
 
 **Comprehensive Comparison Matrix**:
 
@@ -644,9 +649,11 @@ function ProductList({ products, theme, viewSettings }) {
 - **From Tailwind → CSS Modules**: Extract common utility patterns into reusable CSS classes, replace gradually.
 - **From Inline → Any Solution**: Inline styles are isolated, migrate component-by-component without risk.
 
----
 
-### 💬 Explain to Junior
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: Styling Approaches Simplified</strong></summary>
 
 **Simple Mental Models for Each Approach**:
 
@@ -703,6 +710,11 @@ Think of a store with racks of pre-made pieces: blue shirts, red pants, white ha
 ```
 
 **Why this matters in interviews**: "Tailwind enables rapid development by providing utility classes for common CSS properties. Its JIT compiler scans your code and only generates CSS for classes you actually use, resulting in tiny production bundles (8-15KB) compared to traditional CSS frameworks."
+
+</details>
+
+<details>
+<summary><strong>💬 More Junior Fundamentals: Inline Styles and Interview Q&A</strong></summary>
 
 **Inline Styles** = Wearing Sticky Notes
 
@@ -863,7 +875,8 @@ function App() {
 ```
 **Benefit**: CSS variables are browser-native, zero JavaScript overhead, works with any styling solution (CSS Modules, Tailwind, etc.).
 
----
+
+</details>
 
 ## Question 2: How do CSS-in-JS libraries work? (styled-components, Emotion)
 
@@ -918,7 +931,8 @@ const Button = styled.button`
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: CSS-in-JS Library Architecture</strong></summary>
 
 **Styled-Components Architecture - Complete Internal Flow**:
 
@@ -1227,9 +1241,11 @@ const fullHTML = renderToString(<App />);
 // Result: First Contentful Paint in <1.5s instead of 3-4s
 ```
 
----
 
-### 🐛 Real-World Scenario
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: SaaS Dashboard CSS-in-JS Performance Issues</strong></summary>
 
 **Scenario: High-traffic SaaS dashboard with performance issues due to CSS-in-JS**
 
@@ -1420,9 +1436,11 @@ const cellClasses = classNames({
 - First Contentful Paint: 1.1s
 - Time to Interactive: 1.2s
 
----
 
-### ⚖️ Trade-offs
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: CSS-in-JS Libraries Detailed Comparison</strong></summary>
 
 **Comprehensive Technical Comparison**:
 
@@ -1552,9 +1570,11 @@ Current State Assessment:
 - **SaaS Applications**: Emotion compile-time provides best balance of DX and performance.
 - **Component Libraries**: styled-components or Emotion runtime for maximum flexibility and portability.
 
----
 
-### 💬 Explain to Junior
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: CSS-in-JS Fundamentals</strong></summary>
 
 **How styled-components Works - The Sticker Factory Analogy**:
 
@@ -1897,3 +1917,4 @@ Question: Do my styles change based on props/state?
         └─ YES → CSS Modules (zero JavaScript dependency)
 ```
 
+</details>

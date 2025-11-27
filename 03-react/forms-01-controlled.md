@@ -62,6 +62,9 @@ Most modern React applications prefer controlled components for predictability a
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: DOM State vs React State Synchronization</strong></summary>
+
 #### DOM State vs React State Synchronization
 
 Understanding the fundamental difference between controlled and uncontrolled components requires examining how form state is managed at different layers:
@@ -778,9 +781,14 @@ User-perceived latency: 500ms → 20ms
 5. Consider form libraries for complex forms with many fields
 6. Profile before optimizing - measure the actual bottleneck
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Controlled vs Uncontrolled Components</strong></summary>
 
 #### Controlled vs Uncontrolled Components: Decision Matrix
 
@@ -2378,9 +2386,14 @@ After: 1 validation per field = 15 validations per registration
 5. Split forms into steps to reduce total validation load
 6. Use Zod for schema-based validation (DRY principle)
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: React Hook Form vs Formik vs Manual useState</strong></summary>
 
 #### React Hook Form vs Formik vs Manual useState
 
@@ -3003,6 +3016,10 @@ file: z.instanceof(FileList)
   .refine(files => files[0].size < 5 * 1024 * 1024, 'Max 5MB')
   .refine(files => ['image/jpeg', 'image/png'].includes(files[0].type), 'Only JPG/PNG')
 ```
+
+
+
+</details>
 
 ---
 

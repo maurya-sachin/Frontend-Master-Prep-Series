@@ -2,7 +2,8 @@
 
 ## Question 1: What are .d.ts files and how to create them?
 
-### Deep Dive: Declaration File Structure and Ambient Declarations
+### <details>
+<summary><strong>🔍 Deep Dive: Declaration File Structure and Ambient Declarations</strong></summary>
 
 Declaration files (`.d.ts`) are TypeScript-specific files that describe the shape and types of JavaScript code without containing implementation. They serve as type definitions for JavaScript libraries, enabling TypeScript's type checker to understand external code structure.
 
@@ -143,7 +144,8 @@ export {};
 
 ---
 
-### Real-World Scenario: DefinitelyTyped Integration Issue with Metrics
+### <details>
+<summary><strong>🐛 Real-World Scenario: DefinitelyTyped Integration Issue with Metrics</strong></summary>
 
 **Scenario: Migrating from Untyped to Typed jQuery Library**
 
@@ -268,9 +270,12 @@ const cfg: JQuery.AjaxSettings = {
 // Solution: Create declaration patch file
 ```
 
+</details>
+
 ---
 
-### Trade-offs: Manual vs Generated Declaration Files
+### <details>
+<summary><strong>⚖️ Trade-offs: Manual vs Generated Declaration Files</strong></summary>
 
 **Manual Declaration Files:**
 
@@ -388,9 +393,12 @@ Generated declarations:
 - Total: 1 hour
 - Sync drift risk: 0%
 
+</details>
+
 ---
 
-### Explain to Junior: Declaration Files and Type Inference
+### <details>
+<summary><strong>💬 Explain to Junior: Declaration Files and Type Inference</strong></summary>
 
 **Simple Analogy:**
 
@@ -538,11 +546,14 @@ declare module 'moment' {
 
 For example, if you're using a weather API library, a declaration file tells TypeScript: 'This library has a function called `getWeather` that takes a city name (string) and returns a promise of weather data (object with temperature, humidity, etc.).' This way, TypeScript can catch mistakes at compile time instead of runtime."
 
+</details>
+
 ---
 
 ## Question 2: How to type third-party JavaScript libraries?
 
-### Deep Dive: Typing Strategies and Advanced Patterns
+### <details>
+<summary><strong>🔍 Deep Dive: Typing Strategies and Advanced Patterns</strong></summary>
 
 Typing third-party JavaScript libraries is essential for maintaining type safety in TypeScript projects while using untyped or partially-typed dependencies. This requires understanding declaration file patterns, module augmentation, and complex type inference.
 
@@ -790,9 +801,12 @@ export type User = InferType<typeof userSchema>;
 // Now User is properly typed based on schema definition
 ```
 
+</details>
+
 ---
 
-### Real-World Scenario: Typing Untyped Charting Library with Complex API
+### <details>
+<summary><strong>🐛 Real-World Scenario: Typing Untyped Charting Library with Complex API</strong></summary>
 
 **Scenario: Integrating Chart.js (Popular but Complex Library)**
 
@@ -977,9 +991,12 @@ const chart = new Chart(ctx, {
 });
 ```
 
+</details>
+
 ---
 
-### Trade-offs: Different Typing Approaches
+### <details>
+<summary><strong>⚖️ Trade-offs: Different Typing Approaches</strong></summary>
 
 **Approach 1: Use DefinitelyTyped (@types packages)**
 
@@ -1097,9 +1114,12 @@ export {};
 | All Manual | 2 hours | 4 hours × 100 = 400 hours | 5 hours/week | 420 hours |
 | Hybrid (mix of above) | 1 hour | 2 hours × 30 libs = 60 hours | 1 hour/week | 65 hours |
 
+</details>
+
 ---
 
-### Explain to Junior: Making Sense of Third-Party Types
+### <details>
+<summary><strong>💬 Explain to Junior: Making Sense of Third-Party Types</strong></summary>
 
 **The Problem (Why This Matters):**
 
@@ -1342,3 +1362,4 @@ declare module 'chart.js' {
 
 This shows you understand both the practical and deeper aspects of library typing."
 
+</details>

@@ -34,7 +34,8 @@ const userInput = "<img src=x onerror='alert(1)'>";
 
 ---
 
-## 🔍 Deep Dive: XSS Prevention Mechanisms in React
+<details>
+<summary><strong>🔍 Deep Dive: XSS Prevention Mechanisms in React</strong></summary>
 
 ### How React's Default Protection Works
 
@@ -135,9 +136,11 @@ const userInput = "' onclick='alert(1)";
 // The onclick attribute is NOT created from the alt value
 ```
 
----
 
-## 🐛 Real-World Scenario: XSS Vulnerability Exploitation
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: XSS Vulnerability Exploitation</strong></summary>
 
 ### Case Study: E-commerce Platform Comment Section
 
@@ -275,9 +278,11 @@ const submitComment = async (commentText) => {
 - 98% of comments still display intended formatting
 - GDPR compliance achieved with proof of sanitization logging
 
----
 
-## ⚖️ Trade-offs: Security vs Functionality vs Performance
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Security vs Functionality vs Performance</strong></summary>
 
 ### Trade-off Matrix: Sanitization Strategies
 
@@ -363,9 +368,11 @@ script-src 'self' 'unsafe-inline';
 - Benefit: Easy to implement, no refactoring needed
 - Not recommended for production
 
----
 
-## 💬 Explain to Junior: Understanding XSS in React
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding XSS in React</strong></summary>
 
 ### Analogy: Restaurant Health Inspection
 
@@ -477,7 +484,8 @@ const SafeUserBio = ({ bio }) => {
 };
 ```"
 
----
+
+</details>
 
 ## Question 2: What are common security vulnerabilities in React apps and how to fix them?
 
@@ -521,7 +529,8 @@ fetch('/api/external-service', { /* request to your server */ });
 
 ---
 
-## 🔍 Deep Dive: Common React Security Vulnerabilities
+<details>
+<summary><strong>🔍 Deep Dive: Common React Security Vulnerabilities</strong></summary>
 
 ### 1. CSRF (Cross-Site Request Forgery) Vulnerabilities
 
@@ -907,9 +916,11 @@ const updateUser = async (userId, updates) => {
 };
 ```
 
----
 
-## 🐛 Real-World Scenario: Multi-Vulnerability Data Breach
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Multi-Vulnerability Data Breach</strong></summary>
 
 ### Case Study: SaaS Analytics Dashboard Platform
 
@@ -1133,9 +1144,11 @@ app.use((req, res, next) => {
 - Customer trust rebuilt
 - Introduced security review process for all code changes
 
----
 
-## ⚖️ Trade-offs: Security vs Developer Experience
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Security vs Developer Experience</strong></summary>
 
 ### Security Implementation Effort Matrix
 
@@ -1210,9 +1223,11 @@ app.use((req, res, next) => {
 | PCI DSS | No card data handling | Use payment providers |
 | SOC 2 | Monitoring, controls | Documentation |
 
----
 
-## 💬 Explain to Junior: React Security Basics
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: React Security Basics</strong></summary>
 
 ### The Three-Layer Security Model
 
@@ -1340,7 +1355,8 @@ Your answer:
 - Secure environment variables
 - Behind API authentication
 
----
+
+</details>
 
 ## Security Best Practices Checklist
 

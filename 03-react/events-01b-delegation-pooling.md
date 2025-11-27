@@ -16,6 +16,9 @@ Understanding these concepts is crucial for debugging event-related issues and o
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Event Delegation Architecture</strong></summary>
+
 **Event Delegation Architecture:**
 
 **1. React 16 vs React 17+ Event Delegation:**
@@ -323,9 +326,14 @@ function Counter() {
 }
 ```
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Large Data Table Performance Degradation</strong></summary>
 
 **Scenario:** Large data table with 10,000 rows experiencing severe performance issues due to improper event handling.
 
@@ -647,9 +655,14 @@ Business Impact:
 - Bounce rate: 34% → 12%
 ```
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Event Delegation vs Individual Listeners</strong></summary>
 
 **1. Event Delegation vs Individual Listeners**
 
@@ -879,9 +892,14 @@ Upgrade to React 17+ when:
 - Want event listeners on root (not document)
 ```
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: The Classroom and Rental Car Analogies</strong></summary>
 
 **Simple Explanation:**
 
@@ -1180,3 +1198,5 @@ React 17+:
 → Events work everywhere
 → No need for persist()
 ```
+
+</details>

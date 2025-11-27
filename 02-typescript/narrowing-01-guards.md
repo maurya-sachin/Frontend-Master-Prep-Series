@@ -134,7 +134,8 @@ function getArea(shape: Shape): number {
 
 ---
 
-### 🔍 Deep Dive: Control Flow Analysis and Narrowing Algorithm
+### <details>
+<summary><strong>🔍 Deep Dive: Control Flow Analysis and Narrowing Algorithm</strong></summary>
 
 **How TypeScript's Control Flow Analysis Works:**
 
@@ -364,9 +365,12 @@ function betterNesting(
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Type Guard Bug in E-commerce Platform
+### <details>
+<summary><strong>🐛 Real-World Scenario: Type Guard Bug in E-commerce Platform</strong></summary>
 
 **Context:**
 An e-commerce platform's product filtering system had inconsistent type narrowing that caused runtime errors when filtering products by different criteria. The issue affected 15% of filter operations and caused 3,200 errors per day.
@@ -609,9 +613,12 @@ describe('Product Type Guards', () => {
 4. **Test type narrowing**: Verify TypeScript actually narrows types in your IDE
 5. **Handle edge cases**: Check for undefined/null values in type guards
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Type Guard Strategies
+### <details>
+<summary><strong>⚖️ Trade-offs: Type Guard Strategies</strong></summary>
 
 **Strategy 1: Built-in Type Guards (typeof, instanceof)**
 
@@ -925,9 +932,12 @@ function formatId(id: string | number) {
 }
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Type Narrowing and Guards
+### <details>
+<summary><strong>💬 Explain to Junior: Type Narrowing and Guards</strong></summary>
 
 **Simple Analogy:**
 
@@ -1125,6 +1135,8 @@ For example, Redux actions are perfect for discriminated unions with a `type` pr
 4. **Custom guards** = Functions with `value is Type` syntax
 5. **Discriminated unions** = Objects with a common `type` property
 6. **Always test** = Hover over variables in VSCode to verify TypeScript narrowed correctly
+
+</details>
 
 ---
 
@@ -1403,9 +1415,12 @@ function handleApiResponse(response: unknown) {
 }
 ```
 
+</details>
+
 ---
 
-### 🔍 Deep Dive: Type Predicate Implementation and Advanced Patterns
+### <details>
+<summary><strong>🔍 Deep Dive: Type Predicate Implementation and Advanced Patterns</strong></summary>
 
 **How Type Predicates Work Internally:**
 
@@ -1811,9 +1826,12 @@ const dogs = filterByGuard(animals, isDog);
 // TypeScript knows dogs is Dog[]
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Type Guard Bug in Payment Processing System
+### <details>
+<summary><strong>🐛 Real-World Scenario: Type Guard Bug in Payment Processing System</strong></summary>
 
 **Context:**
 A payment processing system used custom type guards to validate payment method data from multiple providers (Stripe, PayPal, bank transfer). Incorrect type guards caused failed transactions worth $180,000/month and created severe data integrity issues.
@@ -2265,9 +2283,12 @@ function monitorPaymentValidation(payment: unknown) {
 5. **Monitor validation failures**: Spike in failures indicates data quality issues
 6. **Consider schema libraries**: Zod, Yup, io-ts for production-grade validation
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Type Predicate Implementation Strategies
+### <details>
+<summary><strong>⚖️ Trade-offs: Type Predicate Implementation Strategies</strong></summary>
 
 **Strategy 1: Simple Type Predicates**
 
@@ -2622,9 +2643,12 @@ async function fetchAndProcessUser(id: string) {
 }
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Custom Type Guards with Type Predicates
+### <details>
+<summary><strong>💬 Explain to Junior: Custom Type Guards with Type Predicates</strong></summary>
 
 **Simple Analogy:**
 
@@ -2975,3 +2999,4 @@ This pattern lets you build reusable validation utilities that work with any typ
 5. **Test your guards** with edge cases
 6. **Use `unknown`** as input type for maximum safety
 
+</details>

@@ -51,7 +51,8 @@ function Button({ variant = 'primary', size = 'md', className, ...props }) {
 </Button>
 ```
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Extensible Styles Pattern</strong></summary>
 
 The Extensible Styles pattern addresses one of the most fundamental challenges in component library design: how do you provide consistent default styling while allowing consumers to customize appearance for their specific needs? This pattern strikes a delicate balance between consistency and flexibility, enabling design systems to be both opinionated and adaptable.
 
@@ -223,6 +224,8 @@ The pattern has minimal performance impact when implemented correctly. String co
 **Design System Philosophy:**
 
 The pattern embodies a key design system principle: **progressive disclosure of complexity**. Simple use cases require no customization (just use defaults). Common customizations use prop-based variants (variant, size). Uncommon customizations use className overrides. Rare customizations use style prop or CSS variables. This layered approach serves 80% of users with simple APIs while providing escape hatches for the remaining 20%.
+
+</details>
 
 ### 🐛 Real-World Scenario
 

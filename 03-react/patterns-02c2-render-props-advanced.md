@@ -126,7 +126,8 @@ function DropdownMenu() {
 }
 ```
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Props Getters Pattern</strong></summary>
 
 **Props Getters Pattern Architecture and Evolution:**
 
@@ -1203,7 +1204,10 @@ const { data, loading } = useFetch('/api/users');
 const { getInputProps, getLabelProps } = useField();
 ```
 
-### 🔍 Deep Dive
+</details>
+
+<details>
+<summary><strong>🔍 Deep Dive: Pattern Evolution & Selection</strong></summary>
 
 **Pattern Selection Decision Tree and Historical Context:**
 
@@ -1645,6 +1649,8 @@ class ErrorBoundary extends React.Component {
 2. **Prioritize high-impact components:** Dashboard, auth flows, frequently used
 3. **Create hooks library first:** Foundation before migration prevents inconsistency
 4. **Gradual migration works:** 12 months, zero downtime, zero regressions
+
+</details>
 
 ### ⚖️ Trade-offs
 

@@ -196,7 +196,8 @@ tsc --extendedDiagnostics
 
 ---
 
-### 🔍 Deep Dive: Compiler Performance Internals and Optimization Techniques
+<details>
+<summary><strong>🔍 Deep Dive: Compiler Performance Internals and Optimization Techniques</strong></summary>
 
 Understanding what makes TypeScript compilation slow requires knowledge of the compiler's internal architecture and where it spends most of its time during the type checking and emit phases.
 
@@ -553,9 +554,12 @@ Improvements:
 - Watch: 60x faster
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Slow TypeScript Compilation in E-Commerce Platform
+<details>
+<summary><strong>🐛 Real-World Scenario: Slow TypeScript Compilation in E-Commerce Platform</strong></summary>
 
 **Context:**
 
@@ -966,9 +970,12 @@ jobs:
 5. **Module resolution**: `bundler` strategy is 5x faster than `node` for bundled apps
 6. **Caching**: Both TypeScript (.tsbuildinfo) and webpack caches are critical
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Type Safety vs Compilation Speed
+<details>
+<summary><strong>⚖️ Trade-offs: Type Safety vs Compilation Speed</strong></summary>
 
 TypeScript compilation performance often requires balancing type safety guarantees against build speed. Understanding these trade-offs helps make informed decisions for different environments (development vs production, local vs CI).
 
@@ -1382,9 +1389,12 @@ type SafeDeepPartial<T, Depth extends number = 3> = {
 | strict | ✅ Yes (new) | ✅ Yes | ✅ Yes |
 | Deep utility types | ❌ Avoid | ❌ Avoid | ❌ Avoid |
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: TypeScript Compilation Performance
+<details>
+<summary><strong>💬 Explain to Junior: TypeScript Compilation Performance</strong></summary>
 
 **Simple Analogy:**
 
@@ -1690,6 +1700,8 @@ type DeepPartial<T, Depth = 3> = Depth extends 0
 - transpileOnly = cook fast, taste later (async type checking)
 - Always measure with --diagnostics before optimizing
 
+</details>
+
 ---
 
 ## Question 2: What are type-level performance considerations in TypeScript?
@@ -1905,7 +1917,8 @@ npx @typescript/analyze-trace traceDir
 
 ---
 
-### 🔍 Deep Dive: Type System Performance and Evaluation Strategies
+<details>
+<summary><strong>🔍 Deep Dive: Type System Performance and Evaluation Strategies</strong></summary>
 
 TypeScript's type system is a compile-time constraint solver that evaluates type relationships through sophisticated algorithms. Understanding how these algorithms work reveals why certain type patterns are slow and how to optimize them.
 
@@ -2377,9 +2390,12 @@ type Memoized<T> = T extends keyof MemoCache
 // - state.ts is bottleneck → split file or optimize types
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: TypeScript Type Checking Causing IDE Freezes
+<details>
+<summary><strong>🐛 Real-World Scenario: TypeScript Type Checking Causing IDE Freezes</strong></summary>
 
 **Context:**
 
@@ -2852,9 +2868,12 @@ checkTypePerformance();
 5. **Split large files**: Enable incremental type checking per module
 6. **Monitor type performance**: Use --generateTrace to identify slow types
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Type Expressiveness vs Type Checking Performance
+<details>
+<summary><strong>⚖️ Trade-offs: Type Expressiveness vs Type Checking Performance</strong></summary>
 
 TypeScript's powerful type system allows for highly expressive types that catch bugs at compile time, but excessive type complexity can slow development to a crawl. Finding the right balance is crucial for productive development.
 
@@ -3324,9 +3343,12 @@ const complexData: Data = {
 //    - No: Rely on static types
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Type-Level Performance in TypeScript
+<details>
+<summary><strong>💬 Explain to Junior: Type-Level Performance in TypeScript</strong></summary>
 
 **Simple Analogy:**
 
@@ -3621,3 +3643,5 @@ To diagnose these issues, I use `tsc --generateTrace` to identify slow types, th
 - Always measure with --generateTrace
 - Limit recursion depth to 2-3 levels
 - Keep unions under 20 members when possible
+
+</details>

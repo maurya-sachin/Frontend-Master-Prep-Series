@@ -12,7 +12,8 @@ Key characteristics of Error Boundaries include: they only catch errors in compo
 
 When an error is caught, React will unmount the entire component tree from that error boundary downwards and display the fallback UI. In development mode, React also displays the error overlay, but in production, only the fallback UI is shown, preventing users from seeing broken UI or stack traces.
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Error Boundary Lifecycle</strong></summary>
 
 **Error Boundary Lifecycle and Internals:**
 
@@ -1138,7 +1139,10 @@ The `ErrorBoundary` + `Suspense` combination is particularly powerful with React
 
 Server Components in React 18+ have special error handling considerations. Errors in Server Components are serialized and sent to the client, where they're caught by Error Boundaries. Streaming SSR allows progressive error handling - if one component fails during streaming, only that part shows an error boundary while the rest of the page continues rendering. The `resetErrorBoundary` pattern becomes more powerful in React 18, allowing you to reset both error boundaries and refetch suspended data in one action.
 
-### 🔍 Deep Dive
+</details>
+
+<details>
+<summary><strong>🔍 Deep Dive: React 18 Concurrent Rendering</strong></summary>
 
 **React 18 Concurrent Rendering and Error Boundaries:**
 
@@ -1527,6 +1531,8 @@ function StatefulErrorBoundary({ children }) {
   );
 }
 ```
+
+</details>
 
 ### 🐛 Real-World Scenario
 

@@ -65,6 +65,9 @@ The key principle is: **WebSocket instance must persist across re-renders** but 
 
 ### 🔍 Deep Dive: WebSocket Lifecycle and React Integration Architecture
 
+<details>
+<summary><strong>🔍 Deep Dive: WebSocket Lifecycle and React Integration Architecture</strong></summary>
+
 **WebSocket Protocol Fundamentals and State Management**
 
 The WebSocket protocol operates through a precise lifecycle that React developers must understand to prevent memory leaks, connection failures, and state synchronization issues. The WebSocket API defines four distinct connection states represented by numeric constants: CONNECTING (0), OPEN (1), CLOSING (2), and CLOSED (3). Each state has critical implications for how React components should interact with the connection.
@@ -267,9 +270,14 @@ function ChatWithSocketIO() {
 
 Socket.io advantages include automatic reconnection with exponential backoff, fallback transports (polling if WebSocket unavailable), message queuing during disconnections, and built-in acknowledgments. For simple use cases or when you need maximum control, raw WebSockets suffice. For production chat, real-time collaboration, or multiplayer games, Socket.io's battle-tested abstractions save development time and prevent subtle bugs
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario: Production Memory Leak Crisis in Enterprise Chat Application
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Production Memory Leak Crisis in Enterprise Chat Application</strong></summary>
 
 **Production Issue: Catastrophic Memory Leak in SaaS Chat Platform**
 
@@ -415,6 +423,15 @@ if (window.WebSocket) {
 
 This instrumentation revealed sockets were created but **never** closed during navigation, confirming the missing cleanup bug
 
+</details>
+
+---
+
+### 🐛 Real-World Scenario: Multiplayer Gaming Platform Reconnection Nightmare
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Multiplayer Gaming Platform Reconnection Nightmare</strong></summary>
+
 **Solution Implementation: Comprehensive Cleanup Strategy**
 
 The team refactored all WebSocket-using components to include proper cleanup:
@@ -530,9 +547,14 @@ function useWebSocketHealthMonitor() {
 4. **Developer Education**: Internal tech talk on React lifecycle and cleanup patterns
 5. **Memory Profiling**: Made heap snapshot analysis part of standard QA workflow before production deploys
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: Choosing the Right Real-Time Communication Strategy
+
+<details>
+<summary><strong>⚖️ Trade-offs: Choosing the Right Real-Time Communication Strategy</strong></summary>
 
 **WebSockets vs Polling vs Server-Sent Events: Architecture Decision Framework**
 
@@ -798,9 +820,14 @@ function SmartConnection({ direction = 'both', frequency = 'high' }) {
 }
 ```
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: WebSocket Integration Simplified for Beginners
+
+<details>
+<summary><strong>💬 Explain to Junior: WebSocket Integration Simplified for Beginners</strong></summary>
 
 **Understanding Real-Time Communication with Simple Analogies**
 
@@ -977,6 +1004,15 @@ function SimpleChat() {
 export default SimpleChat;
 ```
 
+</details>
+
+---
+
+### 🔍 Deep Dive: Production-Grade Reconnection Architecture and State Machines
+
+<details>
+<summary><strong>🔍 Deep Dive: Production-Grade Reconnection Architecture and State Machines</strong></summary>
+
 **What each part does:**
 1. `ws.onopen` = "Connection ready!"
 2. `ws.onmessage` = "Got a message from server"
@@ -1077,6 +1113,8 @@ The key insight is that WebSocket integration is 20% connection logic and 80% ha
 I've seen this crash production apps where power users keep tabs open for 8+ hours. The browser heap grows from 45MB to over 1GB, eventually crashing the tab.
 
 The fix is simple: always return a cleanup function from useEffect that closes the WebSocket. Also guard state updates with an `isMounted` flag to prevent race conditions where messages arrive after unmount."
+
+</details>
 
 ---
 
@@ -2070,9 +2108,14 @@ function useWebSocketAnalytics(wsRef) {
 // - Heartbeat failure rate
 ```
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: WebSocket Reconnection Strategy Selection
+
+<details>
+<summary><strong>⚖️ Trade-offs: WebSocket Reconnection Strategy Selection</strong></summary>
 
 **Detailed Comparison for Game Architecture**
 
@@ -2354,6 +2397,15 @@ Connection lost?
     └── Stop retrying (server is definitely down)
 ```
 
+</details>
+
+---
+
+### 💬 Explain to Junior: WebSocket Reconnection Made Simple
+
+<details>
+<summary><strong>💬 Explain to Junior: WebSocket Reconnection Made Simple</strong></summary>
+
 ### Interview Answer Template
 
 **Q: "How would you implement WebSocket reconnection?"**
@@ -2384,6 +2436,8 @@ I'd also implement different strategies based on the error:
 - User action (logout): Stop retrying immediately
 
 For production apps, Socket.io library handles these details, but understanding the underlying mechanisms is important for debugging connection issues."
+
+</details>
 
 ### Common Mistakes
 

@@ -63,7 +63,8 @@ console.log(value.length);  // ❌ Error: Object is possibly 'null'
 
 ---
 
-### 🔍 Deep Dive: Strict Flags Internals and Migration Strategies
+<details>
+<summary><strong>🔍 Deep Dive: Strict Flags Internals and Migration Strategies</strong></summary>
 
 **1. Type Checker Architecture**
 
@@ -357,9 +358,12 @@ Strict mode adds minimal compilation overhead:
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Migrating a Production Codebase to Strict Mode
+<details>
+<summary><strong>🐛 Real-World Scenario: Migrating a Production Codebase to Strict Mode</strong></summary>
 
 **Context**: E-commerce platform with 150k lines of JavaScript migrating to TypeScript strict mode
 
@@ -701,9 +705,12 @@ export class UserService {
 7. **Type guards are crucial** - runtime validation with compile-time safety is powerful
 8. **CI/CD integration** - strict mode in CI prevented regression
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Gradual vs Immediate Strict Adoption
+<details>
+<summary><strong>⚖️ Trade-offs: Gradual vs Immediate Strict Adoption</strong></summary>
 
 **Decision Matrix:**
 
@@ -954,9 +961,12 @@ function displayUserProfile(userId: string): void {
 | Small project (<10k lines) | Immediate strict ✅ | Migration would be quick anyway |
 | Active development | Hybrid approach ✅ | New code strict, migrate legacy incrementally |
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: TypeScript Strict Mode Simplified
+<details>
+<summary><strong>💬 Explain to Junior: TypeScript Strict Mode Simplified</strong></summary>
 
 **The Analogy:**
 
@@ -1206,9 +1216,12 @@ function calculateTotal(items: Item[]): number {
 6. **Continuous integration**: Make type checking part of CI/CD pipeline
 7. **Documentation**: Create team guidelines for common patterns
 
+</details>
+
 ---
 
-### 🔍 Deep Dive: Migration Strategies and Internals
+<details>
+<summary><strong>🔍 Deep Dive: Migration Strategies and Internals</strong></summary>
 
 **1. File Conversion Strategies**
 
@@ -1725,9 +1738,12 @@ class Button {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: E-commerce Platform Migration (150k Lines)
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Platform Migration (150k Lines)</strong></summary>
 
 **Context**: Migrate a large JavaScript e-commerce platform to strict TypeScript
 
@@ -2376,9 +2392,12 @@ module.exports = {
 6. **Automate where possible** - ts-migrate saved ~40% of manual work
 7. **Celebrate milestones** - team morale is key to success
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Migration Approaches and Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Migration Approaches and Strategies</strong></summary>
 
 **Decision Matrix: Migration Strategy Selection**
 
@@ -2668,9 +2687,12 @@ export function fetchUser(id: string): Promise<User>;
 // Result: Full type safety across codebase
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Migrating to TypeScript Simplified
+<details>
+<summary><strong>💬 Explain to Junior: Migrating to TypeScript Simplified</strong></summary>
 
 **The Analogy:**
 
@@ -2941,3 +2963,5 @@ For a large codebase, I'd expect this to take 3-6 months depending on size, but 
 - Team training is essential for success
 
 **Remember:** Migration is a marathon, not a sprint. Take your time, learn patterns on simple code, and gradually increase strictness. The long-term benefits are massive!
+
+</details>

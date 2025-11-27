@@ -26,6 +26,9 @@ RTL automatically cleans up after each test, provides helpful error messages whe
 
 ### 🔍 Deep Dive: RTL Philosophy, Query Priorities, and Accessibility Testing
 
+<details>
+<summary><strong>🔍 Deep Dive: RTL Philosophy, Query Priorities, and Accessibility Testing</strong></summary>
+
 #### The Guiding Principles and Philosophical Foundation
 
 React Testing Library represents a paradigm shift in how we approach frontend testing. Created by Kent C. Dodds in 2018, it challenges the conventional wisdom that tests should have access to component internals. While its predecessor Enzyme (Airbnb, 2015) provided methods like `wrapper.state()`, `wrapper.instance()`, and `shallow()` rendering, RTL intentionally restricts access to these implementation details.
@@ -408,6 +411,9 @@ screen.getByRole('buton'); // Typo
 
 ### 🐛 Real-World Scenario: Debugging Flaky Async Tests in Production CI/CD Pipeline
 
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging Flaky Async Tests in Production CI/CD Pipeline</strong></summary>
+
 #### The Problem: Test Reliability Crisis
 
 Your team's CI/CD pipeline has become unreliable. A critical user profile test that passed perfectly during development now fails randomly in the continuous integration environment. The symptoms are frustrating:
@@ -652,9 +658,14 @@ test('shows loading, then data, then error on retry', async () => {
 });
 ```
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: RTL vs Enzyme, Query Selection Strategies, and Testing Approaches
+
+<details>
+<summary><strong>⚖️ Trade-offs: RTL vs Enzyme, Query Selection Strategies, and Testing Approaches</strong></summary>
 
 #### React Testing Library vs Enzyme: The Great Testing Philosophy Divide
 
@@ -910,9 +921,14 @@ const items = within(container).getAllByTestId('product-card');
 
 **Practical guideline**: Use semantic queries by default. Only optimize if tests are measurably slow (>1s per test).
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: User-Centric Testing Philosophy Made Simple
+
+<details>
+<summary><strong>💬 Explain to Junior: User-Centric Testing Philosophy Made Simple</strong></summary>
 
 #### The Restaurant Menu Analogy: Testing the Experience, Not the Kitchen
 
@@ -1248,6 +1264,8 @@ test('product grid performance', () => {
 
 This scoping strategy is essential for testing complex UIs with hierarchical structures, repeated patterns, and nested components. It improves test clarity, performance, and reduces false matches.
 
+</details>
+
 ---
 
 ## Question 2: What are testing best practices and anti-patterns?
@@ -1275,6 +1293,9 @@ The goal is **confidence that your app works as users expect**, not just passing
 ---
 
 ### 🔍 Deep Dive: Testing Patterns, Mocking Strategies, and Test Organization Architecture
+
+<details>
+<summary><strong>🔍 Deep Dive: Testing Patterns, Mocking Strategies, and Test Organization Architecture</strong></summary>
 
 #### Pattern 1: AAA (Arrange, Act, Assert) - The Universal Testing Structure
 
@@ -1692,6 +1713,9 @@ src/
 
 ### 🐛 Real-World Scenario: Fixing Brittle Tests After Major Refactoring (Redux → Context Migration)
 
+<details>
+<summary><strong>🐛 Real-World Scenario: Fixing Brittle Tests After Major Refactoring (Redux → Context Migration)</strong></summary>
+
 #### The Problem: Complete Test Suite Collapse
 
 Your team embarked on a major architectural refactoring: migrating the entire user authentication system from Redux to React Context API. The refactoring took 3 days, passed code review, and the application works perfectly in manual testing. However, when you run the test suite: **78 tests failed catastrophically**.
@@ -1878,9 +1902,14 @@ describe('User Profile Flow', () => {
 - ✅ Can run individually
 - ✅ Faster to fix when broken
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: Testing Strategies, Coverage Goals, and Resource Allocation
+
+<details>
+<summary><strong>⚖️ Trade-offs: Testing Strategies, Coverage Goals, and Resource Allocation</strong></summary>
 
 #### Unit vs Integration vs E2E Tests: The Testing Trophy Strategy
 
@@ -2158,9 +2187,14 @@ Slow E2E tests: 10%
 }
 ```
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: Writing Tests That Don't Suck (The "Future You" Will Thank You)
+
+<details>
+<summary><strong>💬 Explain to Junior: Writing Tests That Don't Suck (The "Future You" Will Thank You)</strong></summary>
 
 #### The "Future You" Principle: Writing Self-Documenting Tests
 
@@ -2372,3 +2406,5 @@ Does this test give me confidence the feature works?
 6. **Name tests clearly** - Future You will thank you
 
 **Remember:** Good tests are like good documentation. They explain what your app does and give you confidence it works.
+
+</details>

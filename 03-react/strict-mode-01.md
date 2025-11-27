@@ -13,7 +13,8 @@ StrictMode performs several checks:
 
 The importance of StrictMode lies in its ability to prevent subtle bugs that can manifest in production. It's especially valuable for teams migrating to newer React versions or maintaining large codebases where consistency is difficult. By catching issues during development, StrictMode saves countless hours of debugging and prevents user-facing bugs.
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: React StrictMode Internals</strong></summary>
 
 React StrictMode operates through React's Fiber architecture, serving as a development-only quality assurance layer that identifies potential problems before they reach production. Understanding its internal mechanisms reveals how React ensures code quality and future-compatibility.
 
@@ -170,11 +171,13 @@ if (fiber.mode & StrictMode) {
 
 This flag-based approach allows StrictMode to wrap only specific subtrees while maintaining performance for the rest of the application. The mode propagates down the component tree, so all children of a StrictMode wrapper inherit the strict checking behavior.
 
----
 
-### 🐛 Real-World Scenario
+</details>
 
-**Production Bug: E-Commerce Search Performance Degradation**
+<details>
+<summary><strong>🐛 Real-World Scenario: E-Commerce Search Performance Degradation</strong></summary>
+
+**Production Bug**
 
 **Context**: An e-commerce platform deployed a new product search feature. After launch, the analytics team noticed API costs had tripled, and users reported slow search responsiveness. The search component had passed all tests and code review.
 
@@ -372,11 +375,11 @@ After this incident, the team implemented:
 
 **Key Lesson**: StrictMode's 10-50% development slowdown prevented a 200% production cost overrun. The "annoying" warnings were signaling real bugs that cost $39,200 in excess API charges over 7 weeks before detection.
 
----
 
-### ⚖️ Trade-offs
+</details>
 
-**Development Performance vs. Production Quality**
+<details>
+<summary><strong>⚖️ Trade-offs: Development Performance vs. Production Quality</strong></summary>
 
 **StrictMode Enabled (Development)**:
 - **Performance Cost**: 10-50% slower render times due to double-rendering
@@ -518,9 +521,11 @@ This means there's literally **zero cost** to having StrictMode in production co
 
 **Recommendation**: Enable StrictMode by default in all new projects. The development overhead is small compared to the production bugs prevented. Only disable for specific components with documented reasons.
 
----
 
-### 💬 Explain to Junior
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: React StrictMode Fundamentals</strong></summary>
 
 **The Safety Net Analogy**
 
@@ -728,6 +733,8 @@ In production, it's automatically eliminated through dead code elimination when 
 **Q: "Your colleague disabled StrictMode because console warnings were slowing them down. What do you do?"**
 
 A: "I'd explain that StrictMode warnings are signals, not noise—each one indicates a real issue that could cause production bugs. I'd offer to help them fix the warnings rather than hide them. If they're seeing tons of warnings, it likely means there are systemic issues that need addressing. Disabling StrictMode is like removing the 'check engine' light instead of fixing the engine."
+
+</details>
 
 **Q: "How would you debug a memory leak in a React application?"**
 

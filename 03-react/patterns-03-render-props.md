@@ -23,7 +23,8 @@ The pattern works by encapsulating complex logic (data fetching, subscriptions, 
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Render Props Internals</strong></summary>
 
 **Render Props Internals and Mechanics:**
 
@@ -1272,9 +1273,12 @@ Hooks are the primary choice for most scenarios. Use render props for library AP
 **Key Decision Factor:**
 If you're building a library that others will consume, render props provide the most flexibility. If you're building application features, hooks provide the best developer experience and performance.
 
+</details>
+
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Architectural Comparison</strong></summary>
 
 **Architectural Differences and Internal Mechanics:**
 
@@ -2088,6 +2092,8 @@ function UsersTable() {
 - New projects: Use hooks exclusively
 - Internal company libraries: Can coordinate breaking changes
 - Small user base: Easier to communicate migration
+
+</details>
 
 ---
 

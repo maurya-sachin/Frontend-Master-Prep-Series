@@ -21,7 +21,8 @@ The pattern encourages a "render-as-you-fetch" approach rather than "fetch-on-re
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Suspense Internal Mechanism</strong></summary>
 
 **Suspense Internal Mechanism: Promise Throwing & Catching**
 
@@ -329,7 +330,12 @@ When `query` changes:
 
 This creates a natural "debouncing" effect without manual debounce logic.
 
+</details>
+
 ---
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Implementing Suspense in Production Dashboard</strong></summary>
 
 ### 🐛 Real-World Scenario
 
@@ -796,7 +802,12 @@ export default function Dashboard() {
 4. Use React DevTools Profiler to identify waterfalls
 5. Monitor real user metrics (LCP, TTI) in production
 
+</details>
+
 ---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Suspense vs Traditional Loading States</strong></summary>
 
 ### ⚖️ Trade-offs
 
@@ -955,6 +966,11 @@ function Dashboard() {
 // - Balancing performance and UX
 ```
 
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs Continued: Suspense vs Skeleton Screens</strong></summary>
+
 **3. Suspense vs Skeleton Screens**
 
 Both can coexist, but require thoughtful design:
@@ -1092,7 +1108,12 @@ function NewFeature() {
 - **Existing projects**: Incremental migration, new features first
 - **Legacy apps**: May not be worth migration cost unless rewriting
 
+</details>
+
 ---
+
+<details>
+<summary><strong>💬 Explain to Junior: Simple Explanations and Patterns</strong></summary>
 
 ### 💬 Explain to Junior
 
@@ -1365,6 +1386,8 @@ function Component() {
 }
 ```
 
+</details>
+
 ---
 
 ## Question 2: What are Suspense boundaries and error handling patterns?
@@ -1428,7 +1451,8 @@ Modern patterns also leverage `useTransition` to prevent Suspense boundaries fro
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Suspense Boundary Mechanics</strong></summary>
 
 **Suspense Boundary Mechanics**
 
@@ -1937,7 +1961,12 @@ function IndependentDashboard() {
 }
 ```
 
+</details>
+
 ---
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Implementing Robust Error Handling in Production</strong></summary>
 
 ### 🐛 Real-World Scenario
 
@@ -2447,7 +2476,12 @@ const monitor = monitorBoundaryHealth();
 4. **Cached data** enables graceful degradation when APIs fail
 5. **Monitoring** helps identify problematic boundaries and optimize
 
+</details>
+
 ---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Granular vs Coarse Boundaries and Error Strategies</strong></summary>
 
 ### ⚖️ Trade-offs
 
@@ -2722,7 +2756,12 @@ async function ServerDataComponent() {
 - Use **server-side** for public pages (landing, blog, products)
 - Use **client-side** for authenticated dashboards, admin panels
 
+</details>
+
 ---
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding Boundaries and Error Recovery</strong></summary>
 
 ### 💬 Explain to Junior
 
@@ -3021,3 +3060,5 @@ function App() {
   );
 }
 ```
+
+</details>

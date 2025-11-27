@@ -71,6 +71,9 @@ This approach provides type-safe validation, minimal re-renders, and excellent d
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Validation Strategies and Performance Optimization</strong></summary>
+
 #### Validation Strategies and Performance Optimization
 
 **1. Validation Modes (Performance Critical)**
@@ -500,9 +503,14 @@ User Impact:
 4. **Schema optimization**: Zod's simpler API and smaller bundle improved parse time
 5. **Debouncing async validation**: Reduced API calls from 20 to 1-2 per field
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Validation Library Selection Matrix</strong></summary>
 
 #### 1. Formik vs React Hook Form
 
@@ -1933,9 +1941,14 @@ Business Impact:
 - Async validation must be debounced (23 calls → 1 call)
 - Code splitting by form step is highly effective (45KB initial vs 163KB total)
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Validation Timing and Strategy Comparison</strong></summary>
 
 #### 1. Validation Timing Strategy
 
@@ -2472,3 +2485,5 @@ const checkEmail = debounce(validateEmail, 500);
 5. Debounce async validation (reduce API calls)
 6. Memoize components and calculations
 7. Always validate client (UX) + server (security)
+
+</details>

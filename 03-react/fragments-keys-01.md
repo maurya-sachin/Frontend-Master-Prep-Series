@@ -51,6 +51,9 @@ function List() {
 
 ## 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Fragment Implementation and Key Reconciliation</strong></summary>
+
 ### Fragment Implementation in React's Reconciliation Algorithm
 
 Fragments are a special React element type (`React.Fragment`) that signals to the reconciliation algorithm to skip creating a DOM node. When React processes the virtual DOM tree, it encounters a Fragment node and instead of creating a corresponding DOM element, it directly processes the fragment's children.
@@ -247,9 +250,14 @@ function GridWithFragment() {
 // All items are direct grid children
 ```
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: When to Use What
+
+<details>
+<summary><strong>⚖️ Trade-offs: Fragment vs Div Wrapper and Key Strategies</strong></summary>
 
 ### Fragment vs Div Wrapper
 
@@ -962,9 +970,14 @@ The team added these checks to their code review process:
 3. Added ESLint rule: `react/no-array-index-key`
 4. Added test case: Verify component state after list reordering
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Keys vs Performance Patterns
+
+<details>
+<summary><strong>⚖️ Trade-offs: Index vs ID Keys and Performance Optimization</strong></summary>
 
 ### Index vs ID Keys
 
@@ -1315,3 +1328,5 @@ This works correctly for all operations:
 - Remove: Deleted todo's key is removed, others stay stable
 - Reorder: Each todo moves but keeps its key and state
 - Check: Component state stays with correct todo via key
+
+</details>

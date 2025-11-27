@@ -235,7 +235,8 @@ describe('Repository<T>', () => {
 
 ---
 
-## 🔍 Deep Dive: Jest + TypeScript Configuration and Type Assertions
+<details>
+<summary><strong>🔍 Deep Dive: Jest + TypeScript Configuration and Type Assertions</strong></summary>
 
 ### ts-jest vs Babel Compilation
 
@@ -524,9 +525,12 @@ module.exports = {
 };
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Test Type Errors in Production E-commerce Platform
+<details>
+<summary><strong>🐛 Real-World Scenario: Test Type Errors in Production E-commerce Platform</strong></summary>
 
 ### The Problem
 
@@ -828,9 +832,12 @@ describe('OrderService - Runtime Validation', () => {
 4. **Type-safe mocks prevent false positives**: Mock with correct types from the start
 5. **CI/CD must include type checks**: Add `tsc --noEmit` to pipeline
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Type Safety in Tests
+<details>
+<summary><strong>⚖️ Trade-offs: Type Safety in Tests</strong></summary>
 
 ### 1. ts-jest vs Babel
 
@@ -1089,9 +1096,12 @@ module.exports = {
 - Critical code gets higher thresholds
 - Overall project stays maintainable
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Testing TypeScript Like Checking Homework
+<details>
+<summary><strong>💬 Explain to Junior: Testing TypeScript Like Checking Homework</strong></summary>
 
 ### The Analogy
 
@@ -1273,6 +1283,8 @@ The goal is meaningful tests, not just hitting a number. A test that verifies im
 - [ ] Can debug common Jest + TypeScript errors
 - [ ] Know when to use runtime validation (zod) vs type checking
 - [ ] Can configure path aliases in both tsconfig and Jest
+
+</details>
 
 ---
 
@@ -1578,7 +1590,8 @@ test('uses deep mock', async () => {
 
 ---
 
-## 🔍 Deep Dive: Type-Safe Mocking Internals
+<details>
+<summary><strong>🔍 Deep Dive: Type-Safe Mocking Internals</strong></summary>
 
 ### How jest.Mocked<T> Works
 
@@ -1845,9 +1858,12 @@ test('uses builder pattern', () => {
 });
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Mock Type Safety Prevented Production Data Loss
+<details>
+<summary><strong>🐛 Real-World Scenario: Mock Type Safety Prevented Production Data Loss</strong></summary>
 
 ### The Problem
 
@@ -2200,9 +2216,12 @@ jobs:
 4. **Enforce with ESLint and CI/CD**: Prevent unsafe code from merging
 5. **Trade-off analysis**: +8% build time is worth preventing data loss
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Mocking Strategies in TypeScript
+<details>
+<summary><strong>⚖️ Trade-offs: Mocking Strategies in TypeScript</strong></summary>
 
 ### 1. Manual Mocks vs Auto-Mocks
 
@@ -2485,9 +2504,12 @@ test('creates user', () => {
 // - Small test files
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Mocking Like Using a Stunt Double
+<details>
+<summary><strong>💬 Explain to Junior: Mocking Like Using a Stunt Double</strong></summary>
 
 ### The Analogy
 
@@ -2774,6 +2796,8 @@ Rule of thumb: If the real function is async (uses Promise), use mockResolvedVal
 - [ ] Know how to spy on methods with `jest.spyOn()`
 - [ ] Can create mock factories and builders
 - [ ] Understand trade-offs between mocking strategies
+
+</details>
 
 ---
 

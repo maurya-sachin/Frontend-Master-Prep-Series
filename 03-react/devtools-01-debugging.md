@@ -23,6 +23,9 @@ React DevTools also supports **Suspense boundaries**, **Server Components** (in 
 
 ### 🔍 Deep Dive: React DevTools Architecture and Advanced Features
 
+<details>
+<summary><strong>🔍 Deep Dive: React DevTools Architecture and Advanced Features</strong></summary>
+
 #### **Components Panel Deep Analysis**
 
 The Components panel represents your React application as a virtual DOM tree, not the actual browser DOM. This distinction is crucial because React maintains its own representation of the UI independent of the actual DOM nodes. When you select a component, DevTools shows:
@@ -248,9 +251,14 @@ function useUserData(userId) {
 // You can drill into custom hooks to see internal state
 ```
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario: Debugging Performance Regression in E-Commerce Product Listing
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging Performance Regression in E-Commerce Product Listing</strong></summary>
 
 #### **Problem Statement**
 
@@ -697,6 +705,8 @@ function ProductCard({ product }) {
 
 **Best Approach**: Use highlighting in development, add render tracking for specific production issues.
 
+</details>
+
 #### **4. Browser DevTools Integration Trade-offs**
 
 **React DevTools as Extension**:
@@ -775,9 +785,14 @@ module.exports = {
 };
 ```
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: Understanding React DevTools Like a Detective
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding React DevTools Like a Detective</strong></summary>
 
 #### **The Detective Analogy**
 
@@ -2801,3 +2816,5 @@ function BuggyComponent() {
 ```
 
 **Remember**: Debugging is like being a detective. Collect clues, form hypotheses, test them, and solve the mystery step by step. Don't guess randomly—use your tools systematically!
+
+</details>

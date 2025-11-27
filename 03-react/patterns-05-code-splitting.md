@@ -54,7 +54,8 @@ React.lazy only works with default exports, so if your component uses named expo
 
 ---
 
-### 🔍 Deep Dive: Dynamic Imports and Module Loading Internals
+<details>
+<summary><strong>🔍 Deep Dive: Dynamic Imports and Module Loading Internals</strong></summary>
 
 **How Dynamic Imports Work Under the Hood:**
 
@@ -1298,9 +1299,12 @@ function ExportButton() {
 
 These strategies can be combined for maximum effect. For example, route-based splitting at the page level, component-based splitting for heavy features within pages, and library splitting for shared dependencies across routes. The key is analyzing your bundle, understanding user behavior, and splitting at boundaries that provide the most benefit.
 
+</details>
+
 ---
 
-### 🔍 Deep Dive: Advanced Splitting Techniques and Module Federation
+<details>
+<summary><strong>🔍 Deep Dive: Advanced Splitting Techniques and Module Federation</strong></summary>
 
 **Route-Based Splitting Deep Dive:**
 
@@ -2160,6 +2164,8 @@ After: Debug specific 200-600 KB chunks (easy isolation)
 Before: Any change invalidates 4.2 MB bundle
 After: Only affected chunks invalidated (better caching)
 ```
+
+</details>
 
 ---
 

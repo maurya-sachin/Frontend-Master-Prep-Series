@@ -67,7 +67,8 @@ function Center({ children }) {
 </Stack>
 ```
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Layout Components Pattern</strong></summary>
 
 **Layout Components Architecture and Design System Philosophy:**
 
@@ -657,7 +658,10 @@ function MyCheckbox() {
 }
 ```
 
-### 🔍 Deep Dive
+</details>
+
+<details>
+<summary><strong>🔍 Deep Dive: Props Collection Pattern</strong></summary>
 
 **Props Collection Pattern Architecture:**
 
@@ -1294,6 +1298,8 @@ function useSimpleCheckbox() {
   };
 }
 ```
+
+</details>
 
 ### 💬 Explain to Junior
 

@@ -33,6 +33,9 @@ Comes from computer science—a fiber is a lightweight thread of execution. Each
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Fiber Node Structure and Reconciliation Algorithm</strong></summary>
+
 #### Fiber Node Structure
 
 Every React element has a corresponding Fiber node—a JavaScript object containing component state, props, and pointers to other Fibers. Here's the actual structure (simplified):
@@ -199,9 +202,14 @@ const lanes = SyncLane | InputContinuousLane; // Multiple priorities
 
 This allows React to work on urgent updates first, interrupt low-priority work, and batch similar priority updates together.
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Large Dashboard Rendering Blocking UI</strong></summary>
 
 #### Scenario: Large Dashboard Rendering Blocking UI
 
@@ -382,9 +390,14 @@ performance.measure('search', 'search-start', 'search-end');
 - **Reduced support tickets**: 60% fewer "app is slow" complaints
 - **Mobile users**: Performance on mobile devices improved dramatically
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Stack Reconciler vs Fiber Reconciler</strong></summary>
 
 #### Stack Reconciler vs Fiber Reconciler
 
@@ -559,9 +572,14 @@ SSR/SSG only?
 └─ No  → Consider concurrent rendering
 ```
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: The Party Organizer Analogy</strong></summary>
 
 #### Simple Explanation
 
@@ -1968,5 +1986,7 @@ function App() {
   };
 }
 ```
+
+</details>
 
 Transitions add overhead (~5-10ms). Only use them when the work is expensive enough (>50ms) to justify the complexity.

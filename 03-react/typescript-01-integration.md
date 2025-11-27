@@ -89,6 +89,9 @@ interface RenderProps {
 
 ### 🔍 Deep Dive: TypeScript Inference and Component Typing
 
+<details>
+<summary><strong>🔍 Deep Dive: TypeScript Inference and Component Typing</strong></summary>
+
 **React.FC Evolution and the Shift to Explicit Typing**
 
 The history of React component typing reveals important lessons about TypeScript design patterns and demonstrates how the community's understanding of best practices evolves over time. Early React TypeScript documentation heavily promoted `React.FC<Props>` (or `React.FunctionComponent<Props>`) as the standard way to type functional components. This generic type provided automatic typing for common component features, most notably the implicit inclusion of the `children` prop. At the time of its introduction around 2018-2019, this seemed like a helpful convenience that would reduce boilerplate and make TypeScript adoption easier for React developers transitioning from JavaScript.
@@ -338,9 +341,14 @@ class Counter extends React.Component<CounterProps, CounterState> {
 
 The class component pattern `React.Component<Props, State>` provides type checking for `this.props` and `this.state`, ensuring that all property accesses and state updates conform to the defined interfaces. This pattern remains useful when working with component lifecycle methods that haven't been fully replaced by hooks in certain scenarios.
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario: Debugging TypeScript Errors in Production Form
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging TypeScript Errors in Production Form</strong></summary>
 
 **Problem Context**: A high-traffic e-commerce platform (500K daily checkouts, $12M monthly GMV) experienced a surge in payment failures after deploying a refactored checkout form during a major Black Friday promotion weekend. Error logs showed cryptic runtime errors like "Cannot read property 'email' of undefined" and "cardNumber is not a function," but with no clear pattern about which browsers or user flows triggered them. Investigation revealed that the development team had used `any` types extensively during rapid prototyping to meet an aggressive deadline, bypassing TypeScript's type checking entirely and shipping code that "compiled" but had no actual type safety. This created a ticking time bomb where type mismatches only surfaced at runtime when real users with unpredictable input patterns interacted with the form. The team had assumed TypeScript would catch type errors, but by using `any` everywhere, they had essentially turned TypeScript into JavaScript with extra syntax.
 
@@ -590,9 +598,14 @@ const CheckoutForm = ({ onSubmit }: CheckoutProps) => {
 4. **Type inference has limits** - Complex state requires explicit generic parameters
 5. **Strict mode is essential** - `"strict": true` catches implicit any and null issues early
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: Type Safety vs Developer Experience
+
+<details>
+<summary><strong>⚖️ Trade-offs: Type Safety vs Developer Experience</strong></summary>
 
 The debate between maximum type safety and developer experience represents one of the central tensions in TypeScript React development, touching on fundamental questions about software engineering priorities, team dynamics, and project lifecycle management. Teams must balance the long-term benefits of strict typing—fewer bugs, better refactoring, self-documenting code—against the short-term costs of writing more explicit code, learning complex type patterns, and dealing with verbose type definitions. This tension becomes especially acute in startups and fast-moving projects where time-to-market pressure conflicts with code quality ideals. Understanding these trade-offs helps make informed decisions based on project needs, team size, codebase maturity, product lifecycle stage, and the specific business context in which development occurs.
 
@@ -780,9 +793,14 @@ const Button = ({ label, onClick, disabled, variant = 'primary', ...rest }: Butt
 
 TypeScript type checking happens at compile-time only and has zero runtime performance impact. The choice between approaches affects development speed, bug discovery time, and maintenance cost—not runtime performance. However, the balanced approach often leads to smaller bundle sizes because it avoids redundant type definitions.
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: Understanding React Component Types
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding React Component Types</strong></summary>
 
 **The Restaurant Menu Analogy**:
 
@@ -1035,6 +1053,8 @@ const value = e.currentTarget.value;
 
 *This typing strategy catches errors at compile-time before they reach production, provides excellent IDE support with autocomplete and inline documentation, enables safe refactoring where renaming types updates all usages, and serves as living documentation for how components should be used."*
 
+</details>
+
 ---
 
 ## Question 2: What are advanced TypeScript patterns for React? (generics, utility types)
@@ -1186,6 +1206,9 @@ const TreeComponent = <T,>({ node }: { node: TreeNode<T> }) => (
 ---
 
 ### 🔍 Deep Dive: Generic Components and Type Inference
+
+<details>
+<summary><strong>🔍 Deep Dive: Generic Components and Type Inference</strong></summary>
 
 **The Power and Complexity of Generic Constraints**
 
@@ -1838,6 +1861,9 @@ const UserFormComponent = ({ onSubmit }: UserFormProps) => {
 
 **Results After Generic Type Implementation**:
 
+<details>
+<summary><strong>🐛 Real-World Scenario: Building Type-Safe Form Library</strong></summary>
+
 **Error Reduction**:
 - Production incidents from form validation: 34 in 3 months → 2 in 6 months (94% reduction)
 - Type errors caught at compile-time: 0 → 147 errors prevented before deployment
@@ -1863,9 +1889,14 @@ const UserFormComponent = ({ onSubmit }: UserFormProps) => {
 - Faster feature delivery (new forms take 83% less time)
 - Reduced technical debt (centralized, typed validation logic)
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: Generic Complexity vs Simplicity
+
+<details>
+<summary><strong>⚖️ Trade-offs: Generic Complexity vs Simplicity</strong></summary>
 
 The decision to use generic TypeScript patterns versus simple, non-generic approaches represents a fundamental trade-off between flexibility/reusability and simplicity/maintainability, with far-reaching implications for project architecture, team collaboration, and long-term evolution. This choice significantly impacts code complexity, initial development velocity, team onboarding time, debugging difficulty, refactoring safety, and long-term maintainability. The decision isn't binary—it exists on a spectrum from maximally simple (concrete types for everything) to maximally generic (parameterized types everywhere), and the optimal point depends on factors like team expertise, project maturity, reuse requirements, and maintenance burden tolerance.
 
@@ -2038,9 +2069,14 @@ interface FormData {
 
 This phased approach balances initial speed with long-term maintainability, preventing both over-engineering early and technical debt accumulation later.
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: Advanced Patterns Made Simple
+
+<details>
+<summary><strong>💬 Explain to Junior: Advanced Patterns Made Simple</strong></summary>
 
 **The Universal Container Analogy**:
 
@@ -2333,6 +2369,8 @@ type UserGetters = Getters<User>;
 *The 'as const' assertion is crucial for creating exact literal types from constant data. Without it, TypeScript infers broad types like string; with it, you get precise literals like 'primary' | 'secondary'. I use this extensively for variant systems, configuration objects, and route definitions where I want autocomplete for specific string values.*
 
 *The key benefit is writing DRY, type-safe code that scales. Instead of creating separate components for each data type—duplicating logic and creating maintenance burden—one generic component handles all cases with full type checking and IDE autocomplete. This reduces code duplication by 70-80% in component libraries, prevents runtime type errors through compile-time validation, provides excellent developer experience through precise autocomplete, and makes refactoring safe because type changes propagate automatically through the system."*
+
+</details>
 
 ---
 

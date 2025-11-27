@@ -65,7 +65,8 @@ tsc --showConfig
 
 ---
 
-### 🔍 Deep Dive: Compiler Architecture and Type System
+<details>
+<summary><strong>🔍 Deep Dive: Compiler Architecture and Type System</strong></summary>
 
 The TypeScript compiler is architected as a modular system with clear separation between parsing, type checking, and code generation. Understanding these internals helps optimize build times and troubleshoot compilation issues.
 
@@ -284,9 +285,10 @@ TypeScript automatically downloads type definitions for JavaScript libraries:
 }
 ```
 
----
+</details>
 
-### 🐛 Real-World Scenario: Build Time Explosion in Microservices Monorepo
+<details>
+<summary><strong>🐛 Real-World Scenario: Build Time Explosion in Microservices Monorepo</strong></summary>
 
 **Context:**
 A fintech company's TypeScript monorepo with 50+ microservices experienced catastrophic build times after adding shared libraries. CI/CD pipelines went from 4 minutes to 35 minutes, blocking deployments.
@@ -523,9 +525,10 @@ Incremental Build Performance:
 4. `skipLibCheck: true` saves significant time (30-40% in large projects)
 5. Build info caching in CI/CD prevents redundant work
 
----
+</details>
 
-### ⚖️ Trade-offs: TypeScript Compiler Configuration Decisions
+<details>
+<summary><strong>⚖️ Trade-offs: TypeScript Compiler Configuration Decisions</strong></summary>
 
 **1. Strict Mode vs. Gradual Migration**
 
@@ -965,6 +968,8 @@ For new projects, enable strict mode from the start. For migrating existing Java
 
 The trade-off is more initial development time fixing type errors, but this pays off with fewer runtime bugs and better code maintainability."
 
+</details>
+
 **Visual Mental Model:**
 
 ```
@@ -1134,7 +1139,8 @@ TypeScript provides over 100 compiler options that significantly impact type saf
 
 ---
 
-### 🔍 Deep Dive: Impact of Compiler Options on Code Generation and Type Safety
+<details>
+<summary><strong>🔍 Deep Dive: Impact of Compiler Options on Code Generation and Type Safety</strong></summary>
 
 Understanding how compiler options affect the generated code and type system helps make informed configuration decisions.
 
@@ -2364,3 +2370,5 @@ The key is balancing these trade-offs based on your browser support requirements
 4. Enable `incremental: true` for fast rebuilds
 5. `skipLibCheck: true` speeds up development (use `false` in CI)
 6. Source maps are essential for debugging (but secure them in production)
+
+</details>

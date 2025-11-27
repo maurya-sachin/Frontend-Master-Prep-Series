@@ -16,6 +16,9 @@ Key characteristics include automatic event delegation, event pooling (legacy), 
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Synthetic Event Architecture</strong></summary>
+
 **Synthetic Event Architecture:**
 
 React's synthetic event system is built on several key architectural decisions that optimize performance and developer experience:
@@ -181,7 +184,12 @@ Events are categorized by priority for Concurrent Mode:
 
 ---
 
+</details>
+
 ### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: E-Commerce Product Gallery Event Handler Issues</strong></summary>
 
 **Scenario:** E-commerce product page with image gallery experiencing event handler bugs causing poor user experience and lost sales.
 
@@ -421,9 +429,14 @@ function OptimizedGallery({ images }) {
 - **Page load time:** Reduced from 3.2s to 1.8s
 - **Conversion rate:** Increased from 2.1% to 2.7% (+28%)
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Synthetic Events vs Native Events</strong></summary>
 
 **1. Synthetic Events vs Native Events**
 
@@ -650,9 +663,14 @@ Choose inline handlers when:
 - Improved readability is more important than micro-optimization
 ```
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: The Hotel Reception Desk Analogy</strong></summary>
 
 **Simple Explanation:**
 
@@ -849,3 +867,5 @@ function handleClick(event) {
   event.nativeEvent.srcElement; // Now available
 }
 ```
+
+</details>

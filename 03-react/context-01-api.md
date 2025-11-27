@@ -41,6 +41,9 @@ Context is ideal for truly global state (theme, auth, locale) but should be used
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Context Creation Internals and Propagation Mechanism</strong></summary>
+
 **Context Creation Internals and Propagation Mechanism:**
 
 When you call `createContext(defaultValue)`, React creates a context object with internal fiber node references that form the foundation of its subscription system. The returned object contains:
@@ -367,9 +370,14 @@ unstable_batchedUpdates(() => {
 
 Understanding batching is crucial for optimizing applications with multiple contexts, as it determines whether updates cause one re-render or many.
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Context Provider Causing App-Wide Performance Degradation</strong></summary>
 
 **Production Bug: Context Provider Causing App-Wide Performance Degradation**
 
@@ -574,9 +582,14 @@ const ProductCard = memo(({ product }) => {
 4. **Context changes bypass memo** - understand propagation behavior
 5. **Combine with other optimization techniques** - debouncing, memoization, code splitting
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Context API vs Redux vs Zustand - Decision Matrix</strong></summary>
 
 **Context API vs Redux vs Zustand - Decision Matrix:**
 
@@ -937,6 +950,8 @@ And avoid it for:
 
 I also make sure to memoize context values to prevent unnecessary re-renders."
 
+</details>
+
 **Follow-up Q: "How do you optimize Context performance?"**
 
 **Answer:**
@@ -959,6 +974,8 @@ Think of Context like a **bulletin board** in a shared workspace:
 - The problem: even if you only care about one type of notice, you get interrupted for ALL notices
 
 That's why you create **multiple bulletin boards** (split contexts) - one for urgent notices, one for general updates, one for events. Now you only pay attention to the boards relevant to you.
+
+</details>
 
 ---
 

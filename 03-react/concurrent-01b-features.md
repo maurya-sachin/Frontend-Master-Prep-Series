@@ -107,6 +107,9 @@ Suspense is fundamental to React's concurrent rendering model, enabling better l
 
 ### 🔍 Deep Dive
 
+<details>
+<summary><strong>🔍 Deep Dive: Suspense Internal Mechanics and Concurrent Rendering Integration</strong></summary>
+
 **Suspense Internal Mechanics and Concurrent Rendering Integration:**
 
 Understanding how Suspense works at a deep level reveals the elegance of React's concurrent architecture. Suspense is not just a loading state manager—it's a fundamental primitive that enables React to pause, resume, and coordinate asynchronous rendering work.
@@ -517,9 +520,14 @@ React's Offscreen API will enhance Suspense:
 
 Suspense is not a feature built on top of concurrent rendering—it's a fundamental primitive that enables React to pause and resume rendering work, coordinate asynchronous operations, and deliver progressive user experiences.
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Route Navigation with Heavy Data Loading</strong></summary>
 
 **Production Issue: Route Navigation with Heavy Data Loading**
 
@@ -983,9 +991,14 @@ function OptimalPattern() {
 
 This solution transformed a frustrating user experience into one of the app's highest-rated features, all by leveraging React 18's concurrent features properly.
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: Suspense Benefits vs Considerations</strong></summary>
 
 **Suspense: Benefits vs. Considerations**
 
@@ -1373,9 +1386,14 @@ function ComplexComponent() {
 
 Suspense is a powerful pattern that shines in modern React apps, especially with transitions and code splitting. However, it requires careful setup (caching, error boundaries, testing) and works best in greenfield projects or progressive migrations. The key is to start small (code splitting), prove value, then expand to data fetching as the team gains confidence.
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: The Restaurant Analogy</strong></summary>
 
 **The Restaurant Analogy:**
 
@@ -1588,3 +1606,5 @@ function Good() {
 ```
 
 Suspense is one of React 18's most powerful features. Start with React.lazy for code splitting, then explore data fetching patterns as you get comfortable!
+
+</details>

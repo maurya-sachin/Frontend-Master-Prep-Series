@@ -186,7 +186,8 @@ test('renders with theme provider', () => {
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: React Testing Library Philosophy and Architecture</strong></summary>
 
 **React Testing Library Philosophy and Internal Architecture**
 
@@ -254,7 +255,12 @@ RTL's query system doubles as basic accessibility testing. If `getByRole('button
 
 This integration embeds accessibility into the development workflow rather than treating it as a separate concern. When tests force you to add labels for querying elements, you're simultaneously improving the experience for assistive technology users.
 
+</details>
+
 ---
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Flaky Tests Causing CI Pipeline Failures</strong></summary>
 
 ### 🐛 Real-World Scenario
 
@@ -431,7 +437,12 @@ afterEach(() => {
 
 "I encountered flaky tests causing 12% CI failure rates. I analyzed failure patterns and found three root causes: using `getBy` for async elements instead of `findBy`, missing cleanup for timers and subscriptions, and global state mutations without restoration. I implemented standardized cleanup patterns, migrated 800+ tests to use proper async queries, and created custom render utilities with automatic cleanup. This reduced flakiness from 12% to 0.3%, improved CI reliability to 99.7%, and saved ~2.5 hours daily in wasted re-runs."
 
+</details>
+
 ---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Query Strategy and Testing Approaches</strong></summary>
 
 ### ⚖️ Trade-offs
 
@@ -612,7 +623,12 @@ await waitFor(() => {
 
 **Performance Consideration:** `findBy` has 1000ms timeout by default. If your component loads in 50ms, you're still waiting up to 1000ms unnecessarily. Configure timeout for faster tests: `await screen.findByText('Hello', {}, { timeout: 500 })`.
 
+</details>
+
 ---
+
+<details>
+<summary><strong>💬 Explain to Junior: Testing Concepts and Patterns</strong></summary>
 
 ### 💬 Explain to Junior
 
@@ -815,6 +831,8 @@ In production, I've used these practices to maintain test suites with 2,000+ tes
 4. **Avoids pitfalls:** Explicitly mentions common mistakes (implementation details, fireEvent)
 5. **Production experience:** Provides metrics (2,000+ tests, 15 min CI, <1% flakiness)
 6. **Best practices:** MSW for mocking, Arrange-Act-Assert structure, cleanup
+
+</details>
 
 ---
 

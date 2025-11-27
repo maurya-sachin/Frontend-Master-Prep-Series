@@ -95,7 +95,8 @@ project/
 
 ---
 
-### 🔍 Deep Dive: Parser Implementation & Type Program
+### <details>
+<summary><strong>🔍 Deep Dive: Parser Implementation & Type Program</strong></summary>
 
 **How @typescript-eslint/parser Works:**
 
@@ -347,9 +348,12 @@ export default {
 };
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Slow Linting in Monorepo
+### <details>
+<summary><strong>🐛 Real-World Scenario: Slow Linting in Monorepo</strong></summary>
 
 **Problem:**
 Large monorepo with 50 packages, ESLint taking 3-4 minutes per run, blocking CI/CD pipeline.
@@ -587,9 +591,12 @@ npx lint-staged
 - Cache aggressively (ESLint cache + TypeScript program cache)
 - Lint only changed files in development, full project in CI
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Linting Configuration Decisions
+### <details>
+<summary><strong>⚖️ Trade-offs: Linting Configuration Decisions</strong></summary>
 
 **1. Type-Aware vs Non-Type-Aware Rules**
 
@@ -827,9 +834,12 @@ module.exports = {
 - ❌ Complex refactors
 - ❌ Rules that require understanding context
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: ESLint + TypeScript for Beginners
+### <details>
+<summary><strong>💬 Explain to Junior: ESLint + TypeScript for Beginners</strong></summary>
 
 **Analogy: ESLint as a Writing Tutor**
 
@@ -1061,6 +1071,8 @@ For example, only type-aware rules can detect that `fetch('/api')` returns a Pro
 
 The trade-off is performance vs. safety. In large projects, we often use type-aware rules selectively or only in CI to balance speed and thorough checking."
 
+</details>
+
 ---
 
 ## Question 2: What are the most important TypeScript ESLint rules to enforce?
@@ -1212,7 +1224,8 @@ async function fetchUser(id: number): Promise<User> {
 
 ---
 
-### 🔍 Deep Dive: Rule Implementation & Type Checker Integration
+### <details>
+<summary><strong>🔍 Deep Dive: Rule Implementation & Type Checker Integration</strong></summary>
 
 **How TypeScript ESLint Rules Work Internally**
 
@@ -1666,9 +1679,12 @@ FunctionDeclaration(node) {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Rule Configuration Causing False Positives
+### <details>
+<summary><strong>🐛 Real-World Scenario: Rule Configuration Causing False Positives</strong></summary>
 
 **Problem:**
 Team enabled strict TypeScript ESLint rules, but getting 200+ false positive errors in legitimate code, blocking development.
@@ -2058,9 +2074,12 @@ export default createRule({
 - Prefer type guards over `any` for runtime data
 - Monitor false positive rate (<5% is good)
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: TypeScript ESLint Rule Decisions
+### <details>
+<summary><strong>⚖️ Trade-offs: TypeScript ESLint Rule Decisions</strong></summary>
 
 **1. Strict Type Safety vs Developer Productivity**
 
@@ -2420,9 +2439,12 @@ const apiKey = '...';
 }
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Important TypeScript ESLint Rules
+### <details>
+<summary><strong>💬 Explain to Junior: Important TypeScript ESLint Rules</strong></summary>
 
 **Analogy: ESLint Rules as Code Reviewers**
 
@@ -2663,3 +2685,5 @@ In my experience, `no-explicit-any` and `no-floating-promises` catch the most re
 3. **Performance**: Type-aware rules are slower, so I use them selectively in large projects
 
 I typically start with `plugin:@typescript-eslint/recommended`, monitor false positives for 2 weeks, then add type-aware rules for critical files only. I use `overrides` in ESLint config to apply stricter rules to API/database code and relaxed rules to React components where type inference works well."
+
+</details>

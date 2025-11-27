@@ -323,7 +323,8 @@ function InfiniteLoop() {
 
 ---
 
-## 🔍 Deep Dive: useEffect Internal Implementation
+<details>
+<summary><strong>🔍 Deep Dive: useEffect Internal Implementation</strong></summary>
 
 ### How useEffect Works Under the Hood
 
@@ -831,6 +832,8 @@ useLayoutEffect(() => {
 // 99% of the time, use useEffect!
 // Only use useLayoutEffect when you MUST measure/mutate DOM before paint
 ```
+
+</details>
 
 ---
 
