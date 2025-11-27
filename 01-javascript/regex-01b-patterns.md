@@ -340,7 +340,10 @@ const nestedGood = /^a+$/;
 // Linear time complexity
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: Quantifier Implementation in Regex Engines</strong></summary>
+
 
 #### Quantifier Implementation in Regex Engines
 
@@ -565,7 +568,13 @@ console.timeEnd('(a+)+');
 | `(a+)+` | 20 | 1000 | 50MB |
 | `(a+)+` | 30 | TIMEOUT | N/A |
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Context: Markdown Parser for Blog Platform (Medium-like)</strong></summary>
+
 
 #### Context: Markdown Parser for Blog Platform (Medium-like)
 
@@ -882,7 +891,13 @@ function monitoredReplace(text, pattern, replacer) {
 - Reduced server capacity needs (8 → 6 servers)
 - Saved $4,800/month in infrastructure costs
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: Greedy vs Lazy Quantifiers</strong></summary>
+
 
 #### Greedy vs Lazy Quantifiers
 
@@ -1052,7 +1067,13 @@ const domain = email.substring(atIndex + 1); // 'example.com'
 
 **Recommendation:** Use capturing group for balance of performance, validation, and compatibility.
 
-### 💬 Explain to Junior
+
+</details>
+
+
+<details>
+<summary><strong>💬 Explain to Junior: Simple Analogy: Quantifiers as "How Many" Instructions</strong></summary>
+
 
 #### Simple Analogy: Quantifiers as "How Many" Instructions
 
@@ -1240,6 +1261,9 @@ const text = 'She said "Hello" and "World"';
 const quotes = text.match(/".*?"/g);
 console.log(quotes); // ['"Hello"', '"World"']
 ```
+
+
+</details>
 
 ---
 
@@ -1727,7 +1751,10 @@ const wrongBackref = /(\w+)\s+\0/; // \0 is not a backreference
 const correctBackref = /(\w+)\s+\1/;
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: Zero-Width Assertion Implementation</strong></summary>
+
 
 #### Zero-Width Assertion Implementation
 
@@ -2088,7 +2115,13 @@ const efficient = /(?<=\d{3}-)\d{3}(?=-\d{4})/g;
 // Savings: 24MB (significant for large datasets)
 ```
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Context: Banking App Password Validator</strong></summary>
+
 
 #### Context: Banking App Password Validator
 
@@ -2543,7 +2576,13 @@ async function forcePasswordResetForWeakPasswords() {
 5. ✅ Defense in depth: MFA, breach checks, monitoring
 6. ✅ Regular security audits catch issues before incidents
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: Lookahead vs Capturing Groups for Validation</strong></summary>
+
 
 #### Lookahead vs Capturing Groups for Validation
 
@@ -2840,7 +2879,13 @@ console.timeEnd('multiple');
 // Recommendation: Prioritize UX (multiple patterns with clear errors)
 ```
 
-### 💬 Explain to Junior
+
+</details>
+
+
+<details>
+<summary><strong>💬 Explain to Junior: Simple Analogy: Lookaround as Peeking Ahead/Behind</strong></summary>
+
 
 #### Simple Analogy: Lookaround as Peeking Ahead/Behind
 
@@ -3177,6 +3222,9 @@ console.log(text.replace(duplicatePattern, '$1'));
 // Output: 'the quick brown brown fox'
 // (Only removes first duplicate in sequence)
 ```
+
+
+</details>
 
 ---
 

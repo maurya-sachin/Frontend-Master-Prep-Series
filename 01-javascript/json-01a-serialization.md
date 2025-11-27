@@ -573,7 +573,10 @@ JSON.stringify(original, (key, value) => {
 console.log(original.age); // 30 - unchanged
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: JSON.stringify() and JSON.parse()</strong></summary>
+
 
 **V8 JSON.stringify Implementation:**
 
@@ -782,9 +785,15 @@ for (let i = 0; i < 100000; i++) {
 // Next 99000: 5-10x faster (optimized code)
 ```
 
+
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: JSON.stringify() and JSON.parse()</strong></summary>
+
 
 **Context: E-commerce Microservices Logging System**
 
@@ -1066,9 +1075,15 @@ Sentry.init({
 4. **Test populated Mongoose models** in integration tests
 5. **Use `safeStringify` utility** everywhere (replacer + WeakSet pattern)
 
+
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: JSON.stringify() and JSON.parse()</strong></summary>
+
 
 **1. JSON.stringify() vs Manual String Building**
 
@@ -1099,6 +1114,9 @@ function toCustomFormat(obj) {
 // vs JSON.stringify for standard JSON
 JSON.stringify(obj); // {"a":1,"b":2}
 ```
+
+
+</details>
 
 ---
 
@@ -1300,7 +1318,10 @@ flatted.stringify(circular); // Works! '{"name":"Object","self":"0"}'
 
 ---
 
-### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: JSON.stringify() and JSON.parse() Simplified</strong></summary>
+
 
 **Simple Analogy:**
 
@@ -1447,6 +1468,9 @@ JSON.stringify(user); // {"name":"Alice"} - password automatically excluded
 ```
 
 It's like having a "public version" of your object that's safe to share.
+
+
+</details>
 
 ---
 
@@ -2036,7 +2060,10 @@ fetchUserData(123)
   .catch(error => console.error('Error:', error.message));
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: JSON.stringify() and JSON.parse()</strong></summary>
+
 
 **V8 JSON.parse Implementation:**
 
@@ -2272,9 +2299,15 @@ console.timeEnd('eval');
 | **json5** | Slower | Good | Comments, trailing commas |
 | **yaml** | Slowest | Good | Rich syntax, references |
 
+
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+
+<details>
+<summary><strong>🐛 Real-World Scenario: JSON.stringify() and JSON.parse()</strong></summary>
+
 
 **Context: Frontend Dashboard Consuming Third-Party Weather API**
 
@@ -2727,9 +2760,15 @@ function Dashboard() {
 5. **Graceful degradation** - show fallback UI instead of crashing
 6. **Test error scenarios** - simulate API failures in integration tests
 
+
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+
+<details>
+<summary><strong>⚖️ Trade-offs: JSON.stringify() and JSON.parse()</strong></summary>
+
 
 **1. JSON.parse() vs eval() (Security)**
 
@@ -2754,6 +2793,9 @@ eval('(' + userInput + ')'); // Sends cookies to attacker!
 ```
 
 **Decision:** **ALWAYS use JSON.parse(), NEVER eval() for JSON**
+
+
+</details>
 
 ---
 
@@ -2941,7 +2983,10 @@ const restored = flatted.parse(str); // Works!
 
 ---
 
-### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: JSON.stringify() and JSON.parse() Simplified</strong></summary>
+
 
 **Simple Analogy:**
 
@@ -3130,6 +3175,9 @@ async function fetchData(url) {
   }
 }
 ```
+
+
+</details>
 
 ---
 

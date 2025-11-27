@@ -691,7 +691,7 @@ JSON.stringify([1, 2]) === JSON.stringify([1, 2])  // true
 6. "When is it okay to use == instead of ===?"
 
 <details>
-<summary><strong>🔍 Deep Dive</strong></summary>
+<summary><strong>🔍 Deep Dive: ToPrimitive Algorithm Internals</strong></summary>
 
 **ToPrimitive Algorithm (V8):**
 1. Check `Symbol.toPrimitive` method (highest priority)

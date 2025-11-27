@@ -1056,6 +1056,9 @@ benchmarkShortLived();
 
 ---
 
+<details>
+<summary><strong>🔍 Deep Dive: V8 Implementation of Weak References</strong></summary>
+
 ## 🔍 Deep Dive
 
 ### V8 Implementation of Weak References
@@ -1515,7 +1518,12 @@ invoke(calculator, 'add', 2, 3);
 // add returned 5
 ```
 
+</details>
+
 ---
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Memory Leak in Single Page Application</strong></summary>
 
 ## 🐛 Real-World Scenario
 
@@ -1834,7 +1842,12 @@ function clearOldProductsOptimized() {
 4. **Test with realistic data**: Load test with thousands of items
 5. **Profile regularly**: Take heap snapshots before/after major operations
 
+</details>
+
 ---
+
+<details>
+<summary><strong>⚖️ Trade-offs: WeakMap vs Map, WeakSet vs Set</strong></summary>
 
 ## ⚖️ Trade-offs
 
@@ -2142,7 +2155,12 @@ console.timeEnd('WeakMap access'); // ~15ms
 // Memory management is the key difference
 ```
 
+</details>
+
 ---
+
+<details>
+<summary><strong>💬 Explain to Junior: WeakMap and WeakSet Simplified</strong></summary>
 
 ## 💬 Explain to Junior
 
@@ -2429,3 +2447,5 @@ console.log(hasCircularRef(obj)); // true
 - Implementing private data or caching
 
 Remember: If you're unsure, start with regular Map/Set. Switch to WeakMap/WeakSet when you identify memory issues or need automatic cleanup!
+
+</details>

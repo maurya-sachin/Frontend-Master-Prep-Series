@@ -201,7 +201,7 @@ console.log(apiResponse);
 ```
 
 <details>
-<summary><strong>🔍 Deep Dive: JSON.stringify() Internals</strong></summary>
+<summary><strong>🔍 Deep Dive: JSON.stringify() Algorithm & Internals</strong></summary>
 
 **Algorithm (Simplified):**
 
@@ -281,7 +281,7 @@ function stringifyValue(value, replacer, space, seen) {
 </details>
 
 <details>
-<summary><strong>🐛 Real-World Scenario: API Data Leak</strong></summary>
+<summary><strong>🐛 Real-World Scenario: Password Leak in API Logs</strong></summary>
 
 **Scenario:** You're debugging a security incident where user passwords appeared in API logs.
 
@@ -402,7 +402,7 @@ logger.info("Login success:", safeStringify(user));
 </details>
 
 <details>
-<summary><strong>⚖️ Trade-offs: JSON.stringify() Approaches</strong></summary>
+<summary><strong>⚖️ Trade-offs: toJSON() vs Replacer vs Whitelisting</strong></summary>
 
 ### Approach 1: toJSON() Method
 
@@ -524,7 +524,7 @@ class-transformer:     ~3.5ms  (7x slower, includes validation)
 </details>
 
 <details>
-<summary><strong>💬 Explain to Junior Developer</strong></summary>
+<summary><strong>💬 Explain to Junior Developer: Type Conversion Simplified</strong></summary>
 
 **Senior:** "Hey, quick question - why are you using `JSON.stringify()` on the entire user object in that API response?"
 
@@ -695,7 +695,7 @@ JSON.stringify(new Derived());
 6. "Why doesn't JSON.stringify() throw on functions instead of omitting them?"
 
 <details>
-<summary><strong>🔍 Deep Dive</strong></summary>
+<summary><strong>🔍 Deep Dive: Number() vs parseInt() Algorithms</strong></summary>
 
 **JSON.stringify() Algorithm (V8):**
 
@@ -731,7 +731,7 @@ JSON spec targets data interchange, not code. Silently omitting is safer than th
 </details>
 
 <details>
-<summary><strong>🐛 Real-World Scenario</strong></summary>
+<summary><strong>🐛 Real-World Scenario: Port Number Parsing Bug</strong></summary>
 
 **Problem:** API response logging crashed with "Converting circular structure to JSON" error.
 
@@ -802,7 +802,7 @@ stringify(user);  // Handles cycles automatically
 </details>
 
 <details>
-<summary><strong>⚖️ Trade-offs</strong></summary>
+<summary><strong>⚖️ Trade-offs: Number() vs parseInt() vs parseFloat()</strong></summary>
 
 | Approach | Native JSON.stringify | Custom Replacer | toJSON() | Library (fast-json-stable-stringify) | Winner |
 |----------|----------------------|----------------|----------|-------------------------------------|--------|
@@ -823,7 +823,7 @@ stringify(user);  // Handles cycles automatically
 </details>
 
 <details>
-<summary><strong>💬 Explain to Junior</strong></summary>
+<summary><strong>💬 Explain to Junior: valueOf() and toString() as Translators</strong></summary>
 
 **JSON.stringify() Like Packing for a Trip:**
 

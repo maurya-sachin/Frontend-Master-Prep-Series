@@ -567,7 +567,10 @@ const intervalId = setInterval(() => fetchData(), 5000);
 window.addEventListener('beforeunload', () => clearInterval(intervalId));
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: JavaScript Timers</strong></summary>
+
 
 **Browser Timer Implementation (Chromium/V8):**
 
@@ -929,7 +932,13 @@ setTimeout(() => {
 // Node.js output: "Immediate", "Timeout"
 ```
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: JavaScript Timers</strong></summary>
+
 
 **Context: Real-Time Stock Trading Dashboard Memory Leak**
 
@@ -1242,7 +1251,13 @@ describe('Memory leak prevention', () => {
 4. **Automated testing** prevents regressions
 5. **Development tools** (timer registry) accelerate debugging
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: JavaScript Timers</strong></summary>
+
 
 **1. setTimeout vs setInterval**
 
@@ -1284,6 +1299,9 @@ setInterval(() => {
   sendHeartbeat(); // Fast, no async
 }, 30000);
 ```
+
+
+</details>
 
 ---
 
@@ -1453,7 +1471,10 @@ cron.schedule('*/10 * * * * *', async () => {
 | **Real-Time Chat** | ⭐ | ⭐ | N/A | ⭐⭐⭐⭐⭐ | WebSocket |
 | **Heartbeat** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | N/A | ⭐⭐⭐⭐ | setInterval or WS |
 
-### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: JavaScript Timers Simplified</strong></summary>
+
 
 **Simple Analogy:**
 
@@ -1636,6 +1657,9 @@ poll(); // Start polling
 3. Use **arrow functions** to preserve `this`
 4. Timers aren't perfectly accurate (event loop dependency)
 5. **Recursive setTimeout** is safer than **setInterval** for async work
+
+
+</details>
 
 ---
 
@@ -2268,7 +2292,10 @@ requestAnimationFrame(function loop() {
 });
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: JavaScript Timers</strong></summary>
+
 
 **Execution Timing Internals:**
 
@@ -2547,7 +2574,13 @@ setInterval(() => {
 }, 100);
 ```
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: JavaScript Timers</strong></summary>
+
 
 **Context: Live Sports Scores Dashboard API Polling**
 
@@ -2978,7 +3011,13 @@ function GameScoreCard({ gameId }) {
 4. **Loading state UX**: Don't show spinner on every poll
 5. **Request completion**: Wait for previous request before scheduling next
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: JavaScript Timers</strong></summary>
+
 
 **1. setTimeout vs setInterval: Complexity vs Simplicity**
 
@@ -3040,6 +3079,9 @@ const id = setInterval(() => {
   if (countdown === 0) clearInterval(id);
 }, 1000);
 ```
+
+
+</details>
 
 ---
 
@@ -3167,7 +3209,10 @@ accurateClock();
 | **Background Throttling** | Yes (1000ms min) | Yes (1000ms min) | Pauses completely |
 | **Best For** | API polling, async work | Clocks, heartbeats | Animations, visual updates |
 
-### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: JavaScript Timers Simplified</strong></summary>
+
 
 **Simple Analogy:**
 
@@ -3361,6 +3406,9 @@ function MyComponent() {
 3. **Recursive setTimeout waits** for completion → safe for async
 4. **Always clear setInterval** to prevent memory leaks
 5. **Use setTimeout for async work**, **setInterval for fast sync work**
+
+
+</details>
 
 ---
 

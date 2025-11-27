@@ -1414,7 +1414,10 @@ const microserviceContext = {
 console.log(chooseSerializer(microserviceContext)); // "ProtocolBuffers"
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: JSON Serialization</strong></summary>
+
 
 **Why Custom Serialization is Needed:**
 
@@ -1891,7 +1894,13 @@ function safeParse(json, options = {}) {
 - **Protocol Buffers**: Microservices, gRPC, strict schemas
 - **CBOR**: IoT, constrained devices, space-critical
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: JSON Serialization</strong></summary>
+
 
 **Context:**
 A state management library (similar to Redux) with a persistence middleware for saving app state to localStorage. The library is used by a large e-commerce application with ~50,000 daily active users.
@@ -2374,7 +2383,13 @@ class RobustPersistence {
 6. **Compression helps**: Added gzip for large states (50% size reduction)
 7. **Document migrations**: Each version change needs migration strategy
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: JSON Serialization</strong></summary>
+
 
 **1. toJSON() vs Replacer Function**
 
@@ -2406,6 +2421,9 @@ JSON.stringify(data, (key, value) => {
 **When to use:**
 - **toJSON()**: Domain objects, encapsulated logic, class-specific serialization
 - **Replacer**: Global transformations, debugging, one-off serialization
+
+
+</details>
 
 ---
 
@@ -2775,7 +2793,10 @@ try {
 }
 ```
 
-### 💬 Explain to Junior
+
+<details>
+<summary><strong>💬 Explain to Junior: JSON Serialization Simplified</strong></summary>
+
 
 **Simple Analogy:**
 
@@ -2787,6 +2808,9 @@ Imagine you're packing for a trip. Standard JSON is like a basic suitcase that c
 - **Circular reference** (photo of your suitcase inside your suitcase) → Causes infinite loop!
 
 **Custom serialization** is like having special packing instructions for each item type, so they arrive exactly as they were.
+
+
+</details>
 
 ---
 

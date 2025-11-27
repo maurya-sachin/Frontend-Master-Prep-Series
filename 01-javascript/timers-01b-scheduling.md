@@ -1045,7 +1045,8 @@ const manager = new AnimationManager();
 manager.start();
 ```
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Memory Leak Mechanics and Browser Timer Implementation</strong></summary>
 
 #### Memory Leak Mechanics
 
@@ -1304,7 +1305,10 @@ setImmediate(() => console.log('setImmediate'));
 5. Canvas + RAF (CPU intensive)
 6. setTimeout/setInterval (CPU, wasteful)
 
-### 🐛 Real-World Scenario
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Product Carousel Memory Leak</strong></summary>
 
 #### Context: E-commerce Product Carousel Memory Leak
 
@@ -1643,7 +1647,10 @@ function ProductCarousel({ images }) {
 - Memory profiling should be part of QA
 - Automated monitoring catches issues early
 
-### ⚖️ Trade-offs
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Timer Cleanup and Animation Methods</strong></summary>
 
 #### 1. Timer Cleanup Approaches
 
@@ -2123,9 +2130,10 @@ startPolling('/api/data', { signal: controller.signal });
 controller.abort();
 ```
 
----
+</details>
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Timers and requestAnimationFrame Simplified</strong></summary>
 
 #### Simple Analogy: Timers as Hired Workers
 
@@ -2741,6 +2749,8 @@ export default CountdownTimer;
 3. ✅ Proper state management (timeLeft, isRunning)
 4. ✅ Timer stops automatically at 0
 5. ✅ Start/Pause/Reset controls
+
+</details>
 
 ---
 

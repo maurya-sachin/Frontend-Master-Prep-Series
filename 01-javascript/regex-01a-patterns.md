@@ -341,7 +341,10 @@ const emails = complexText.match(/\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/gi);
 console.log(emails); // ['user@example.com', 'admin@test.org']
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: Regex Engine Internals: NFA vs DFA</strong></summary>
+
 
 #### Regex Engine Internals: NFA vs DFA
 
@@ -611,7 +614,13 @@ JavaScript regex vs other implementations:
 // ✅ /pattern/y (not in most other languages)
 ```
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Context: E-commerce Search Feature Causing Page Freezes</strong></summary>
+
 
 #### Context: E-commerce Search Feature Causing Page Freezes
 
@@ -932,7 +941,13 @@ describe('Regex Safety', () => {
 });
 ```
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: Regex vs String Methods</strong></summary>
+
 
 #### Regex vs String Methods
 
@@ -1102,7 +1117,13 @@ app.post('/signup', async (req, res) => {
 | Syntax highlighting | Regex | Pattern matching |
 | SQL injection | Parameterized queries | Security |
 
-### 💬 Explain to Junior
+
+</details>
+
+
+<details>
+<summary><strong>💬 Explain to Junior: Simple Analogy</strong></summary>
+
 
 #### Simple Analogy
 
@@ -1298,6 +1319,9 @@ Week 3: Anchors and boundaries (^, $, \b)
 Week 4: Groups and capturing ((abc), $1)
 Week 5: Real-world patterns (email, phone, URL)
 ```
+
+
+</details>
 
 ---
 
@@ -1764,7 +1788,10 @@ for (let i = 0; i < 100000; i++) {
 console.timeEnd('optimized'); // ~18ms
 ```
 
-### 🔍 Deep Dive
+
+<details>
+<summary><strong>🔍 Deep Dive: Character Class Optimization in V8</strong></summary>
+
 
 #### Character Class Optimization in V8
 
@@ -2075,7 +2102,13 @@ console.log('happy unhappy lucky unlucky'.match(notUnPrefix));
 // ['happy', 'lucky']
 ```
 
-### 🐛 Real-World Scenario
+
+</details>
+
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Context: International E-commerce Platform - Username Validation</strong></summary>
+
 
 #### Context: International E-commerce Platform - Username Validation
 
@@ -2452,7 +2485,13 @@ const i18nValidationChecklist = [
 ];
 ```
 
-### ⚖️ Trade-offs
+
+</details>
+
+
+<details>
+<summary><strong>⚖️ Trade-offs: Character Class Approaches</strong></summary>
+
 
 #### Character Class Approaches
 
@@ -2666,7 +2705,13 @@ app.post('/signup', async (req, res) => {
 });
 ```
 
-### 💬 Explain to Junior
+
+</details>
+
+
+<details>
+<summary><strong>💬 Explain to Junior: Simple Analogy</strong></summary>
+
 
 #### Simple Analogy
 
@@ -2914,6 +2959,9 @@ text.replace(/[^\w\s]/g, '')
 // 10. Unicode names
 /^[\p{L}\p{M}]+$/u
 ```
+
+
+</details>
 
 ---
 

@@ -85,7 +85,7 @@ element.addEventListener('click', (event) => {
 ---
 
 <details>
-<summary><strong>🔍 Deep Dive: Browser Event System Internals</strong></summary>
+<summary><strong>🔍 Deep Dive: Browser Event Propagation Internals</strong></summary>
 
 
 **How Browsers Implement Event Propagation:**
@@ -308,7 +308,7 @@ class EventListenerProfiler {
 ---
 
 <details>
-<summary><strong>🐛 Real-World Scenario: Modal Click-Outside Handler Bug</strong></summary>
+<summary><strong>🐛 Real-World Scenario: Modal Closes When Clicking Inside</strong></summary>
 
 
 **The Problem:**
@@ -530,7 +530,7 @@ class ModalMetrics {
 ---
 
 <details>
-<summary><strong>⚖️ Trade-offs: Capture vs Bubble Phase</strong></summary>
+<summary><strong>⚖️ Trade-offs: When to Use Capture vs Bubble</strong></summary>
 
 
 **When to Use Capture Phase:**
@@ -699,7 +699,7 @@ class EventPhaseStrategy {
 ---
 
 <details>
-<summary><strong>💬 Explain to Junior: Event Propagation</strong></summary>
+<summary><strong>💬 Explain to Junior: Event Propagation Simplified</strong></summary>
 
 
 **Simple Analogy:**
@@ -1005,7 +1005,7 @@ delegator.on('input[type="checkbox"]', 'change', function(e) {
 ---
 
 <details>
-<summary><strong>🔍 Deep Dive: Event Delegation Optimization</strong></summary>
+<summary><strong>🔍 Deep Dive: Event Delegation Memory & Performance</strong></summary>
 
 
 **Memory Impact Analysis:**
@@ -1305,7 +1305,7 @@ class ShadowDOMDelegation {
 ---
 
 <details>
-<summary><strong>🐛 Real-World Scenario: Performance Crisis in Large Data Table</strong></summary>
+<summary><strong>🐛 Real-World Scenario: 50,000 Event Listeners Crash Browser</strong></summary>
 
 
 **The Problem:**
@@ -1632,7 +1632,7 @@ class TablePerformanceMonitor {
 ---
 
 <details>
-<summary><strong>⚖️ Trade-offs: Event Delegation vs Individual Listeners</strong></summary>
+<summary><strong>⚖️ Trade-offs: Delegation vs Individual Listeners</strong></summary>
 
 
 **When Event Delegation Wins:**
@@ -1787,7 +1787,7 @@ class HybridEventStrategy {
 ---
 
 <details>
-<summary><strong>💬 Explain to Junior: Event Delegation</strong></summary>
+<summary><strong>💬 Explain to Junior: Event Delegation Simplified</strong></summary>
 
 
 **Simple Analogy:**
