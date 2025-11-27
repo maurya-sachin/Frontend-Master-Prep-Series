@@ -78,7 +78,8 @@ Each approach optimizes differently—CSS is best for simple transitions, Framer
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Animation Implementation and Performance</strong></summary>
 
 **CSS Transitions Internals:**
 
@@ -238,9 +239,12 @@ const style = {
 - **Framer Motion**: ~42KB gzipped, variable performance based on complexity
 - **React Spring**: ~28KB gzipped, physics calculations add CPU overhead but feel superior
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: E-Commerce Animation Debugging</strong></summary>
 
 **Scenario**: E-commerce site with 200+ product cards. When category changes, cards animate from old position to new position. Client reports "animation feels laggy—drops to 30fps, freezes main content."
 
@@ -403,9 +407,12 @@ function GoodAnimation() {
 }
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Animation Approaches Comparison</strong></summary>
 
 **CSS Transitions vs JavaScript Animations:**
 
@@ -624,6 +631,13 @@ function ScaleButton() {
 
 In production, I'd use CSS for simple cases, Framer Motion for UI animations requiring coordination, and React Spring for interactive, physics-based animations. The key is using GPU-accelerated properties like `transform` and `opacity`—never animate layout properties like `width` or `left`, as these trigger expensive recalculations."
 
+</details>
+
+---
+
+<details>
+<summary><strong>💬 Explain to Junior: Animation Methods Explained</strong></summary>
+
 **Common Beginner Mistakes:**
 
 1. **Animating layout properties**
@@ -666,6 +680,8 @@ useEffect(() => {
   Content
 </div>
 ```
+
+</details>
 
 ---
 
@@ -746,7 +762,8 @@ The key principle: **Minimize re-renders, maximize GPU acceleration, use refs fo
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Layout Thrashing and Performance Optimization</strong></summary>
 
 **Layout Thrashing Mechanics:**
 
@@ -979,9 +996,12 @@ console.log(`FPS: ${1000 / (measure.duration / 60)}`);
 // - "Layers" tab shows composite layers created
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Product Showcase Page Optimization</strong></summary>
 
 **Scenario**: Product showcase page with 50 cards that slide in on scroll. Client reports: "Scrolling is super janky, my phone lags for 5 seconds after scrolling."
 
@@ -1151,9 +1171,12 @@ Post-scroll performance:
 // Metrics: Layout: 0ms, Paint: 2ms, GPU: 20%
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Animation Strategies for Multiple Elements</strong></summary>
 
 **Animation Approach Comparison:**
 
@@ -1206,6 +1229,13 @@ Post-scroll performance:
 
 // Best for: Dragging, continuous feedback (e.g., game, data viz)
 ```
+
+</details>
+
+---
+
+<details>
+<summary><strong>💬 Explain to Junior: Performance Debugging Simplified</strong></summary>
 
 **Choosing Animation Strategy by Use Case:**
 
@@ -1350,4 +1380,6 @@ useEffect(() => {
   return () => cancelAnimationFrame(id);
 }, []);
 ```
+
+</details>
 

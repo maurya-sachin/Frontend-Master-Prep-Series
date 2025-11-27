@@ -1085,7 +1085,8 @@ Key Improvements:
 
 ---
 
-### ⚖️ Trade-offs: Context vs State Management Libraries
+<details>
+<summary><strong>⚖️ Trade-offs: Context vs State Management Libraries</strong></summary>
 
 When choosing between Context API and libraries like Redux, Zustand, or Jotai, consider these factors:
 
@@ -2828,7 +2829,8 @@ Key Improvements:
 
 ---
 
-### ⚖️ Trade-offs: useReducer vs useState vs State Management Libraries
+<details>
+<summary><strong>⚖️ Trade-offs: useReducer vs useState vs State Management Libraries</strong></summary>
 
 **useReducer**
 
@@ -3378,6 +3380,8 @@ Both "reduce" multiple things into a single result!
 
 **Q: "Can you combine useReducer with Context?"**
 > "Yes, that's a common pattern! I create a Context for the state and a separate Context for dispatch. This prevents unnecessary re-renders—components that only need actions can subscribe to the dispatch context, which never changes. I wrap both in a Provider component and create custom hooks for type safety. This pattern gives you Redux-like global state management without the boilerplate or dependencies. It's perfect for features like shopping carts, authentication, or theme management."
+
+</details>
 
 ---
 

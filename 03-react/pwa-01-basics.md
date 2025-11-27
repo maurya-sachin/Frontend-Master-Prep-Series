@@ -495,7 +495,8 @@ self.addEventListener('fetch', event => {
 
 ---
 
-### ⚖️ Trade-offs: PWA vs Native Apps & Caching Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: PWA vs Native Apps & Caching Strategies</strong></summary>
 
 #### PWA vs Native App Trade-offs
 
@@ -1415,9 +1416,12 @@ function useAPI(url) {
 }
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Offline-First vs Online-First Architecture
+<details>
+<summary><strong>⚖️ Trade-offs: Offline-First vs Online-First Architecture</strong></summary>
 
 #### Design Decision Matrix
 
@@ -1821,3 +1825,5 @@ module.exports = {
   ]
 };
 ```
+
+</details>

@@ -220,7 +220,8 @@ setItems(prev => [...prev, 4]); // New array reference
 
 ---
 
-## 🔍 Deep Dive: useState Internal Implementation
+<details>
+<summary><strong>🔍 Deep Dive: useState Internal Implementation</strong></summary>
 
 ### How useState Works Under the Hood
 
@@ -542,9 +543,12 @@ function setState(update) {
 }
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Race Condition in Search Component
+<details>
+<summary><strong>🐛 Real-World Scenario: Race Condition in Search Component</strong></summary>
 
 ### Problem: Stale setState Causing Incorrect Results
 
@@ -873,9 +877,12 @@ function ProductSearch() {
 5. **Monitoring** catches production issues early
 6. **Combined approaches** (debounce + abort) work best
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: When to Use useState vs Alternatives
+<details>
+<summary><strong>⚖️ Trade-offs: When to Use useState vs Alternatives</strong></summary>
 
 ### Decision Matrix: State Management Strategies
 
@@ -1216,9 +1223,12 @@ function BadExample() {
 - **URL State:** Filters, sort, pagination, search, selected item ID
 - **Local State:** Modals, tooltips, hover, focus, loading indicators
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: useState Like a Sticky Note System
+<details>
+<summary><strong>💬 Explain to Junior: useState Like a Sticky Note System</strong></summary>
 
 ### The Sticky Note Analogy
 
@@ -1505,5 +1515,7 @@ function CharacterCounter() {
 ```
 
 **Solutions in follow-up section or documentation**
+
+</details>
 
 ---

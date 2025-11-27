@@ -424,7 +424,8 @@ function ProductList() {
 
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Context Optimization Strategies</strong></summary>
 
 **Context Optimization Strategy Comparison**
 
@@ -825,6 +826,8 @@ function ReactNews() {
 - ❌ Not splitting high-frequency and low-frequency state
 
 The fundamental insight: React can't track which properties you use from a context value, so it treats the whole value as atomic. All optimizations work around this limitation by either reducing what changes (splitting, memoizing) or adding explicit tracking (selectors).
+
+</details>
 
 ---
 
@@ -1568,9 +1571,14 @@ const store = configureStore({
 5. **Profile before optimizing** - Metrics drove each migration decision
 6. **Bundle size matters less than DX** - +13KB was negligible compared to productivity gains
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Redux vs Zustand vs Context Comparison</strong></summary>
+
+
 
 **Comprehensive State Management Decision Matrix**
 
@@ -2137,6 +2145,8 @@ const auditMiddleware = store => next => action => {
 3. **Redux** = Powerful, middleware, DevTools, better for complex apps
 4. **Modern apps use multiple solutions** (Context + Zustand + React Query)
 5. **Start simple, add complexity when needed** (don't over-engineer)
+
+</details>
 
 ---
 

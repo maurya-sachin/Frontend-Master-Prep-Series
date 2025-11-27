@@ -314,7 +314,8 @@ With AbortController:
 - UI flicker: 0 instances
 ```
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **useEffect vs useLayoutEffect**
 
@@ -1545,7 +1546,12 @@ function AutoSaveForm() {
 }
 ```
 
-### ⚖️ Trade-offs
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Dependency Array Strategies**
 
@@ -1989,3 +1995,5 @@ useEffect(() => {
 3. Seeing old values? → Check closures (are all used values in deps?)
 4. Wrong data displayed? → Check race conditions (is latest request winning?)
 5. Component laggy? → Check effect count (too many effects or re-executions?)
+
+</details>

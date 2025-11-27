@@ -54,7 +54,8 @@ const MemoizedWithCustom = React.memo(
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: React.memo Implementation</strong></summary>
 
 React.memo implements a shallow comparison optimization at the component level, fundamentally changing how React's reconciliation algorithm decides whether to re-render a component. Understanding its internals reveals critical performance engineering principles.
 
@@ -207,9 +208,12 @@ Use React DevTools Profiler to measure impact:
 
 React.memo is a precision tool for surgical optimization, not a blanket solution. Its effectiveness depends entirely on stable prop references and the cost-benefit ratio of comparison versus rendering.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Performance Crisis</strong></summary>
 
 **Production Crisis: E-commerce Product List Performance Collapse**
 
@@ -403,9 +407,12 @@ const MemoizedProductCard = React.memo(ProductCard);
 
 This taught the team: **React.memo is useless without stable prop references.** The combination of React.memo + useMemo + useCallback is what delivered the 15x performance gain.
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: When to Use React.memo</strong></summary>
 
 **Decision Matrix: When to Use React.memo**
 
@@ -631,9 +638,12 @@ After profiling and selective optimization:
 
 **Conclusion:** Selective React.memo (based on profiling) delivers better ROI than blanket application.
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: React.memo in Simple Terms</strong></summary>
 
 **Simple Explanation:**
 
@@ -817,6 +827,8 @@ const ExpensiveChart = React.memo(Chart); // Chart renders in 50ms ✅
 **Key Takeaway:**
 
 React.memo is like having a smart assistant who checks "Did anything actually change?" before doing expensive work. But the assistant needs stable information to compare - that's where useMemo and useCallback come in. Use it strategically on slow components, not everywhere.
+
+</details>
 
 ---
 

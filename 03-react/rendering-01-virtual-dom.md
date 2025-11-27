@@ -603,7 +603,8 @@ const ProductCard = React.memo(
 
 ---
 
-### ⚖️ Trade-offs: Virtual DOM vs Alternatives
+<details>
+<summary><strong>⚖️ Trade-offs: Virtual DOM vs Alternatives</strong></summary>
 
 #### Virtual DOM (React) vs Direct DOM Manipulation
 
@@ -1856,9 +1857,12 @@ function selectKey(item) {
 // key={index}  // Unless list is truly static
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Reconciliation Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Reconciliation Strategies</strong></summary>
 
 #### React's Heuristic Approach vs Optimal Diffing
 
@@ -2182,3 +2186,5 @@ The only time index keys are acceptable is when the list is truly static—never
 Total Questions: 2
 Target: Senior Frontend Developer (₹30-50 LPA)
 Depth Level: Comprehensive (4 dimensions per question)
+
+</details>

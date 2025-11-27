@@ -35,7 +35,8 @@ Server-Side Rendering (SSR) is the process of rendering React components on the 
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: SSR Architecture and Rendering Mechanisms</strong></summary>
 
 #### SSR Architecture and Rendering Mechanisms
 
@@ -173,9 +174,14 @@ This is computationally expensive:
 - Client-side parsing: 200-400ms JavaScript parsing
 - Total Time to Interactive: 1000-2000ms (vs CSR which might be 2000-3000ms after bundle loads)
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Hydration Mismatch Bug
+<details>
+<summary><strong>🐛 Real-World Scenario: Hydration Mismatch Bug</strong></summary>
+
+
 
 **Incident: E-commerce platform product page showing wrong prices**
 
@@ -290,9 +296,14 @@ hydrateRoot(
 
 **Result:** 43% improvement in TTI for affected users, 0% hydration failures
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: SSR vs CSR vs SSG vs ISR
+<details>
+<summary><strong>⚖️ Trade-offs: SSR vs CSR vs SSG vs ISR</strong></summary>
+
+
 
 **Rendering Strategy Comparison:**
 
@@ -404,9 +415,14 @@ Assuming 1M monthly active users, 10 requests per user:
 | Static blog/docs | SSG | Cheapest, fastest CDN delivery |
 | High-traffic e-commerce | SSG + API + CSR | Hybrid: static shell, client fetches data |
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Understanding SSR vs CSR</strong></summary>
+
+
 
 **Restaurant Analogy:**
 
@@ -514,6 +530,8 @@ Common gotcha: Hydration mismatches. If the server renders one thing but the cli
    - SSR: When SEO or initial render speed critical
    - CSR: When personalization or low server cost matters
 
+</details>
+
 ---
 
 ## Question 2: How to implement SSR with hydration in React?
@@ -586,7 +604,8 @@ hydrateRoot(document.getElementById('root'), <App />);
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Complete SSR Implementation Architecture</strong></summary>
 
 #### Complete SSR Implementation Architecture
 
@@ -821,9 +840,14 @@ app.get('/', (req, res) => {
 - Better perceived performance
 - Reduces Time to First Meaningful Paint
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Hydration Mismatch During Authentication
+<details>
+<summary><strong>🐛 Real-World Scenario: Hydration Mismatch During Authentication</strong></summary>
+
+
 
 **Incident: Users logging in receive blank page after SSR render**
 
@@ -1003,9 +1027,14 @@ After fix:
 
 Result: 52% reduction in TTI, 0 user-facing hydration errors
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Manual SSR vs Framework Solutions
+<details>
+<summary><strong>⚖️ Trade-offs: Manual SSR vs Framework Solutions</strong></summary>
+
+
 
 **Decision Matrix for SSR Implementation:**
 
@@ -1113,9 +1142,14 @@ function App() {
 // FCP improved because header visible while loading
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Understanding SSR Hydration</strong></summary>
+
+
 
 **Step-by-step SSR Hydration Process:**
 
@@ -1252,4 +1286,6 @@ Modern frameworks like Next.js handle most of this automatically, but understand
 6. **Common bugs are hydration mismatches** caused by random values, browser APIs, or different initial state
 7. **SSR trades server cost for better SEO and initial performance** — not always the right choice
 8. **Streaming SSR significantly improves perceived performance** by sending content progressively
+
+</details>
 

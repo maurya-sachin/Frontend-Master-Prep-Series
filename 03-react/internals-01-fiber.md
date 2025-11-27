@@ -787,7 +787,8 @@ function App() {
 
 ---
 
-## ⚖️ Trade-offs: When to Use Fiber Features
+<details>
+<summary><strong>⚖️ Trade-offs: When to Use Fiber Features</strong></summary>
 
 ### useTransition vs useDeferredValue
 
@@ -1315,6 +1316,8 @@ Result: Input instant, expensive work happens in background
 - You're building data-heavy dashboards
 
 **Bottom line:** Fiber makes React better by default, but you get the most benefit when you actively use its concurrent features (`useTransition`, `useDeferredValue`, Suspense).
+
+</details>
 
 ---
 

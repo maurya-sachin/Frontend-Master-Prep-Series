@@ -36,7 +36,8 @@ Both leverage React's concurrent features to keep high-priority updates (like ty
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Transition Internals and Priority Lanes</strong></summary>
 
 **Transition Internals and Priority Lanes:**
 
@@ -187,7 +188,8 @@ This combination provides:
 
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Search Optimization with useTransition</strong></summary>
 
 **Production Issue: Search Interface with 10,000+ Products**
 
@@ -399,9 +401,12 @@ function ProductSearch() {
 4. **User perception matters**: 15ms input lag feels instant, 200ms feels sluggish
 5. **Monitor real users**: RUM (Real User Monitoring) data revealed the issue
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: useTransition vs useDeferredValue</strong></summary>
 
 **useTransition vs useDeferredValue: Decision Matrix**
 
@@ -609,9 +614,12 @@ function AccessibleTransition() {
 - **Combination**: Often the best approach for complex UIs
 - **Progressive enhancement**: Start with simpler solution, add complexity only if needed
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Making React 18 Apps Feel Instant</strong></summary>
 
 **The Coffee Shop Analogy:**
 
@@ -874,7 +882,8 @@ Automatic batching is enabled by default in React 18 and requires no code change
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Event Batching and React Scheduler</strong></summary>
 
 **Batching Algorithm and Internal Implementation:**
 
@@ -1181,9 +1190,12 @@ function Component() {
 
 Automatic batching is enabled by the concurrent renderer's ability to pause and resume work. The batching mechanism leverages the same scheduling infrastructure that powers transitions and Suspense.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Form Submission with Multiple State Updates</strong></summary>
 
 **Production Issue: Form Submission with Multiple State Updates**
 
@@ -1529,9 +1541,12 @@ useEffect(() => {
 
 This bug was actually fixed by React 18's batching, demonstrating that automatic batching can improve correctness, not just performance.
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Automatic Batching Behavior</strong></summary>
 
 **Automatic Batching: Benefits vs. Considerations**
 
@@ -1855,9 +1870,12 @@ function ProfiledComponent() {
 
 Automatic batching is a net positive for 95% of applications. The performance benefits far outweigh the rare edge cases. When issues arise, they usually indicate bugs that were masked by multiple renders. The key is thorough testing during migration and judicious use of `flushSync` for the few cases that require immediate DOM updates.
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Why Batching Makes Apps Faster</strong></summary>
 
 **The Restaurant Kitchen Analogy:**
 
@@ -2058,5 +2076,7 @@ function ExpandableSection() {
 5. **flushSync is rare**: Only for special cases like DOM measurements
 
 **Remember:** Think of batching like collecting multiple tasks and doing them all at once, instead of doing each task immediately as it arrives. It's more efficient and the user gets a better experience!
+
+</details>
 
 ---

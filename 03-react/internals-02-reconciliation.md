@@ -747,7 +747,8 @@ whyDidYouRender(React, {
 
 ---
 
-## ⚖️ Trade-offs: Virtual DOM vs Direct DOM Manipulation
+<details>
+<summary><strong>⚖️ Trade-offs: Virtual DOM vs Direct DOM Manipulation</strong></summary>
 
 ### Virtual DOM Approach (React, Vue, Preact)
 
@@ -2351,7 +2352,12 @@ function useChartLibrary(data) {
 
 ---
 
-## ⚖️ Trade-offs: Concurrent Features vs Traditional Approaches
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Concurrent Features vs Traditional Approaches</strong></summary>
 
 ### useTransition vs Manual Debouncing
 
@@ -2927,6 +2933,8 @@ function Museum() {
 > ```
 >
 > This makes apps faster automatically without code changes. The benefits are fewer renders, better performance, less layout thrashing."
+
+</details>
 
 ---
 

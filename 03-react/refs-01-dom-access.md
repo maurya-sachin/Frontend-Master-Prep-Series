@@ -748,7 +748,8 @@ ROI:
 
 ---
 
-### ⚖️ Trade-offs: Declarative vs Imperative DOM Access
+<details>
+<summary><strong>⚖️ Trade-offs: Declarative vs Imperative DOM Access</strong></summary>
 
 #### **Decision Matrix: When to Use Refs**
 
@@ -2326,9 +2327,12 @@ ROI:
 4. **forwardRef enables reusability** - Modal component works anywhere
 5. **Testing keyboard navigation is essential** - Often overlooked in testing
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: forwardRef vs Direct DOM Access
+<details>
+<summary><strong>⚖️ Trade-offs: forwardRef vs Direct DOM Access</strong></summary>
 
 #### **Decision Matrix**
 
@@ -2775,3 +2779,5 @@ The key benefit is encapsulation - the parent gets a clean API without knowing h
 - Add **useImperativeHandle** when you want to customize what the ref exposes
 - Prefer **declarative solutions** (props/state) whenever possible
 - Only use imperative APIs for truly imperative operations (focus, scroll, play/pause, etc.)
+
+</details>

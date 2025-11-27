@@ -25,7 +25,8 @@ React 16.8+ made functional components feature-complete with hooks, and they're 
 
 ---
 
-### 🔍 Deep Dive: Component Internals and Fiber Representation
+<details>
+<summary><strong>🔍 Deep Dive: Component Internals and Fiber Representation</strong></summary>
 
 **React Fiber Architecture**
 
@@ -263,7 +264,8 @@ This is a major reason functional components are the future - they're designed f
 
 ---
 
-### 🐛 Real-World Scenario: Class Component Memory Leak in Production Dashboard
+<details>
+<summary><strong>🐛 Real-World Scenario: Class Component Memory Leak in Production Dashboard</strong></summary>
 
 **The Problem:**
 
@@ -481,9 +483,12 @@ function StockTicker() {
 
 This bug cost the company $50,000 in lost trading opportunities (users couldn't monitor prices during browser slowdowns) and damaged trust. Proper cleanup patterns are non-negotiable.
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Functional vs Class Components
+<details>
+<summary><strong>⚖️ Trade-offs: Functional vs Class Components</strong></summary>
 
 **Performance Comparison**
 
@@ -763,9 +768,12 @@ Use **functional components** for all new code. Only use class components when:
 
 The React team has made it clear: functional components are the future, and all new features are hooks-first.
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: React Components Like Building Blocks
+<details>
+<summary><strong>💬 Explain to Junior: React Components Like Building Blocks</strong></summary>
 
 **Simple Analogy:**
 
@@ -997,7 +1005,8 @@ Modern React 17+ uses the "new JSX transform" which doesn't require importing Re
 
 ---
 
-### 🔍 Deep Dive: JSX Compilation and createElement Mechanics
+<details>
+<summary><strong>🔍 Deep Dive: JSX Compilation and createElement Mechanics</strong></summary>
 
 **Babel Transformation Process**
 
@@ -1355,9 +1364,12 @@ const userInput = '<script>alert("XSS")</script>';
 
 This is why React is secure by default - JSX escapes all values, and React elements use Symbols to prevent injection attacks.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: JSX Key Misuse Causing Performance Disaster
+<details>
+<summary><strong>🐛 Real-World Scenario: JSX Key Misuse Causing Performance Disaster</strong></summary>
 
 **The Problem:**
 
@@ -1602,9 +1614,12 @@ function FeedList({ posts }) {
 
 This bug cost the company 60% of daily active users over 2 weeks before it was fixed. Proper key usage is critical!
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: JSX vs createElement vs Template Literals
+<details>
+<summary><strong>⚖️ Trade-offs: JSX vs createElement vs Template Literals</strong></summary>
 
 **Readability Comparison**
 
@@ -1944,9 +1959,12 @@ export default defineConfig({
 
 JSX is the standard for a reason - it's readable, type-safe, and compiles efficiently.
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: JSX Like a Translation Layer
+<details>
+<summary><strong>💬 Explain to Junior: JSX Like a Translation Layer</strong></summary>
 
 **Simple Analogy:**
 
@@ -2240,3 +2258,5 @@ React.createElement(
 ```
 
 Understanding this conversion helps you debug React issues and optimize performance!
+
+</details>

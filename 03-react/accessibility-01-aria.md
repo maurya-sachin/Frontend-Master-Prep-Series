@@ -142,7 +142,8 @@ Focus management, ARIA attributes, and semantic HTML work together to create acc
 
 ---
 
-### 🔍 Deep Dive: ARIA Implementation Patterns and Screen Reader Integration
+<details>
+<summary><strong>🔍 Deep Dive: ARIA Implementation Patterns and Screen Reader Integration</strong></summary>
 
 **Understanding ARIA Roles**
 
@@ -416,9 +417,12 @@ function FormWithErrors() {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Debugging Accessibility Violations in Production
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging Accessibility Violations in Production</strong></summary>
 
 **Scenario: E-commerce Product Filter with WCAG 2.1 AA Violations**
 
@@ -623,9 +627,12 @@ test('ProductFilter has no accessibility violations', async () => {
 - WCAG 2.1 AA compliance: All criteria met
 - User report: Blind users successfully filter products
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: ARIA vs Semantic HTML, Manual vs Automated Testing
+<details>
+<summary><strong>⚖️ Trade-offs: ARIA vs Semantic HTML, Manual vs Automated Testing</strong></summary>
 
 **ARIA vs Semantic HTML: When to Use Each**
 
@@ -848,6 +855,8 @@ For most commercial websites, WCAG 2.1 Level AA is the target. It's a good balan
 - [ ] No content autoplay (video/audio)
 - [ ] Dynamic updates announced (aria-live)
 - [ ] Tested with real screen reader
+
+</details>
 
 ---
 
@@ -1123,7 +1132,8 @@ Combining automated, linting, keyboard, and screen reader testing creates compre
 
 ---
 
-### 🔍 Deep Dive: Advanced Accessibility Testing Patterns and Integration
+<details>
+<summary><strong>🔍 Deep Dive: Advanced Accessibility Testing Patterns and Integration</strong></summary>
 
 **Test-Driven Accessibility (TDAA)**
 
@@ -1521,9 +1531,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Building Accessible Data Tables with Complex Interactions
+<details>
+<summary><strong>🐛 Real-World Scenario: Building Accessible Data Tables with Complex Interactions</strong></summary>
 
 **Scenario: Financial Dashboard with Real-Time Data Table**
 
@@ -1987,9 +2000,12 @@ describe('AccessibleStockTable', () => {
 - Real-time updates announced
 - Users with disabilities can effectively use portfolio tracking
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Manual vs Automated Testing, Real Screen Readers vs Simulation
+<details>
+<summary><strong>⚖️ Trade-offs: Manual vs Automated Testing, Real Screen Readers vs Simulation</strong></summary>
 
 **Testing Method Comparison Table**
 
@@ -2104,9 +2120,12 @@ ROI: High for mission-critical products
 4. **Before major releases**: 2-4 hours manual screen reader testing
 5. **High-value products**: Budget for professional audit + user testing
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Testing Accessibility Like a Pro
+<details>
+<summary><strong>💬 Explain to Junior: Testing Accessibility Like a Pro</strong></summary>
 
 **What is Automated Accessibility Testing?**
 
@@ -2206,6 +2225,8 @@ The key insight: **if a screen reader user can't do something, it's a bug**, eve
 - [ ] Keyboard-only user can complete key tasks
 - [ ] No frustration with focus management
 ```
+
+</details>
 
 ---
 

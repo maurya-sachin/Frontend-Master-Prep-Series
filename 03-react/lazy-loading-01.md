@@ -14,7 +14,8 @@ Performance metrics are critical: measure First Contentful Paint (FCP), Largest 
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 #### Native HTML loading Attribute
 The `loading="lazy"` attribute on `<img>` tags tells the browser to defer loading until the image is close to the viewport. The browser uses its own intersection detection mechanism, typically starting to load images when they're approximately 50px away from the viewport (varies by browser).
@@ -208,9 +209,12 @@ import Image from 'next/image';
 - **LCP (Largest Contentful Paint):** Critical for above-the-fold images
 - **CLS (Cumulative Layout Shift):** Use width/height attributes to prevent layout shifts
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 **Problem:** E-commerce product listing page with 200+ product images loading on initial page load.
 
@@ -343,9 +347,12 @@ useEffect(() => {
 }, []);
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 #### Native Loading Attribute vs IntersectionObserver
 
@@ -474,9 +481,12 @@ useEffect(() => {
 | Skeleton loader | None | Good (engagement) | Moderate |
 | No placeholder | None | Poor (flash) | Simple |
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 **What is Lazy Loading? (Simple Analogy)**
 
@@ -1599,6 +1609,8 @@ const useIntersectionPattern = (options = {}) => {
   return [ref, state];
 };
 ```
+
+</details>
 
 ---
 

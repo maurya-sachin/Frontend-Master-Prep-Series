@@ -56,7 +56,8 @@ function Button() {
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Internal Architecture and Reconciliation</strong></summary>
 
 **Internal Architecture and Reconciliation:**
 
@@ -191,9 +192,14 @@ const ThemeContext = React.createContext<ThemeContextType | null>(null);
 
 Context API excels at managing global, infrequently-changing state like themes, localization, and authentication. For frequently-updating state or complex state logic with selectors, external libraries like Redux, Zustand, or Jotai provide better performance characteristics through optimized subscription mechanisms and built-in selector support.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Excessive Re-renders</strong></summary>
+
+
 
 **Production Bug: Excessive Re-renders Causing 3.2s Page Load**
 
@@ -435,9 +441,14 @@ function CartItem({ item }) {
 4. **Use React.memo strategically** - Prevent cascade re-renders for pure components
 5. **Monitor production metrics** - Set up performance budgets (TTI <2.5s, re-renders <30 per action)
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Context API vs Alternatives</strong></summary>
+
+
 
 **Context API vs Prop Drilling vs External State Management - Decision Matrix**
 
@@ -938,6 +949,8 @@ We had a dashboard with 150 components sharing user data, cart, and theme. Initi
 - ❌ "Context replaces Redux" (different use cases)
 - ❌ "Context has no performance issues" (naive usage causes re-render storms)
 - ❌ Not mentioning memoization or splitting strategies
+
+</details>
 
 ---
 

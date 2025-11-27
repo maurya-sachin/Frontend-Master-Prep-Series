@@ -273,7 +273,8 @@ function ProductDashboard() {
 4. **Filtering should be memoized**: Array operations on large datasets (500+ items) should always use useMemo
 5. **Object props kill memoization**: Any object/array/function prop must be memoized or child will re-render
 
-### ⚖️ Trade-offs: When Memoization Hurts Performance
+<details>
+<summary><strong>⚖️ Trade-offs: When Memoization Hurts Performance</strong></summary>
 
 **The Memoization Paradox:**
 
@@ -1814,6 +1815,8 @@ function DataLoader() {
 - [React Hooks API Reference](https://react.dev/reference/react)
 - [useHooks.com - Collection of hooks](https://usehooks.com/)
 - [React Hooks in TypeScript](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks)
+
+</details>
 
 ---
 

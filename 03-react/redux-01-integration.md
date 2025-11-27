@@ -691,7 +691,8 @@ const InventoryChart = React.memo(
 
 ---
 
-### ⚖️ Trade-offs: Redux vs Context API vs Zustand
+<details>
+<summary><strong>⚖️ Trade-offs: Redux vs Context API vs Zustand</strong></summary>
 
 **When to Use Redux:**
 
@@ -2234,9 +2235,12 @@ const store = configureStore({
 });
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Redux Toolkit vs Vanilla Redux vs Alternatives
+<details>
+<summary><strong>⚖️ Trade-offs: Redux Toolkit vs Vanilla Redux vs Alternatives</strong></summary>
 
 **Redux Toolkit vs Vanilla Redux:**
 
@@ -2651,3 +2655,5 @@ const fetchUser = createAsyncThunk('user/fetch', async (id) => {
 - ❌ "createSlice is confusing" (needs to learn Immer basics)
 - ✅ "I use RTK with TypeScript for full type safety" (shows modern expertise)
 - ✅ "RTK Query replaced our React Query + Redux setup" (understands when to consolidate)
+
+</details>

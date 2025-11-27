@@ -20,7 +20,8 @@ React's philosophy strongly favors composition over inheritance because componen
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 **React Element Tree Structure and Composition**
 
@@ -272,9 +273,12 @@ const Tab = ({ label, isActive, onClick }) => (
 
 This deep understanding of composition mechanics enables building highly flexible, reusable component libraries.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 **Problem: Building a Reusable Design System with Inconsistent Component APIs**
 
@@ -505,9 +509,12 @@ After 3 months of adopting composition patterns:
 4. **Accessibility by default**: Composition patterns make it easier to bake in a11y
 5. **Tree-shaking friendly**: Composition enables better code splitting and tree-shaking
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Children Pattern vs Render Props vs Slots**
 
@@ -714,9 +721,12 @@ Choose **compound components** when:
 - Users need to customize pieces
 - Creating design system components
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 **Simple Analogy: Building with LEGO Blocks**
 
@@ -976,9 +986,12 @@ Parent.Child = ({ id, children }) => {
 
 This pattern is particularly powerful for building design systems and component libraries where you want to provide flexibility without sacrificing ease of use. It's commonly seen in UI libraries like Reach UI, Radix UI, and Headless UI.
 
+</details>
+
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 **Architectural Foundation of Compound Components**
 
@@ -1374,9 +1387,12 @@ Select.Option = ({ value, children }) => {
 
 This deep implementation shows how compound components handle complex state management, accessibility, and user interactions while maintaining a clean, composable API.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 **Problem: Rebuilding a Legacy Form Library with Poor Accessibility**
 
@@ -1775,9 +1791,12 @@ After 4 months of migration to the new form library:
 4. **Easier to test**: Each component can be tested in isolation
 5. **Better DX**: Developers prefer JSX composition over config objects
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Compound Components vs Alternative Patterns**
 
@@ -2013,9 +2032,12 @@ Choose **Hooks + Components** when:
 - Logic can be used without specific UI
 - Building modern React codebase
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 **Simple Analogy: Toy Building Set**
 
@@ -2262,3 +2284,5 @@ const MyTabs = () => {
 Compound components = LEGO blocks that talk to each other through walkie-talkies (Context)!
 
 The parent holds the walkie-talkie transmitter (Provider), and all children have receivers (useContext) tuned to the same channel.
+
+</details>

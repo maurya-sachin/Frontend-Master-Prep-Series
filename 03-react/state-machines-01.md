@@ -793,7 +793,8 @@ onDone: {
 
 ---
 
-### ⚖️ Trade-offs: State Machines vs useReducer vs useState
+<details>
+<summary><strong>⚖️ Trade-offs: State Machines vs useReducer vs useState</strong></summary>
 
 Choosing the right state management approach is critical for long-term maintainability. The wrong choice leads to technical debt that compounds over time. This decision should be made based on complexity metrics, team expertise, and project requirements, not personal preference or familiarity.
 
@@ -1984,3 +1985,4 @@ visual documentation."
 - ✅ Leadership (migration strategy, team education)
 - ✅ Data-driven (specific metrics, bundle size trade-offs)
 
+</details>

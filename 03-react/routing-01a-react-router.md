@@ -519,7 +519,8 @@ function AppRouter() {
 
 ---
 
-### ⚖️ Trade-offs: React Router vs Alternatives and Pattern Comparisons
+<details>
+<summary><strong>⚖️ Trade-offs: React Router vs Alternatives and Pattern Comparisons</strong></summary>
 
 **React Router vs TanStack Router:**
 
@@ -1712,7 +1713,10 @@ function App() {
 
 ---
 
-### ⚖️ Trade-offs: Protection Patterns and Auth Strategies
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Protection Patterns and Auth Strategies</strong></summary>
 
 **Component-Based vs Loader-Based Protection:**
 
@@ -2259,5 +2263,7 @@ function ProtectedRoute({ children }) {
 **Interview Answer Template:**
 
 *"To implement protected routes, I create a ProtectedRoute wrapper component that checks authentication state from an AuthContext. If the user is authenticated, it renders the children components. If not, it redirects to the login page using Navigate, storing the intended destination in location state. After successful login, I redirect users back to where they originally tried to go. For role-based access, I extend this pattern to check user roles against allowed roles for each route. The authentication state is managed in a context provider that handles login, logout, and token storage in localStorage."*
+
+</details>
 
 ---

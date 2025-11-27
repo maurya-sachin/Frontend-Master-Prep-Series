@@ -556,7 +556,8 @@ function ProductCard({ productId }) {
 
 ---
 
-### ⚖️ Trade-offs: When to Extract Custom Hooks vs. Inline Logic
+<details>
+<summary><strong>⚖️ Trade-offs: When to Extract Custom Hooks vs. Inline Logic</strong></summary>
 
 Creating custom hooks involves architectural decisions that impact code maintainability, performance, and team productivity. Understanding when to extract logic versus keeping it inline requires balancing multiple factors.
 
@@ -1811,9 +1812,12 @@ function useFetch(url) {
 
 This bug is extremely common in production React apps and understanding the fix is crucial for any developer working with async data.
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Hook Pattern Selection and Design Decisions
+<details>
+<summary><strong>⚖️ Trade-offs: Hook Pattern Selection and Design Decisions</strong></summary>
 
 Choosing the right custom hook pattern involves balancing complexity, reusability, performance, and maintainability.
 
@@ -2310,3 +2314,5 @@ Page refresh     → read localStorage → state restored
 ```
 
 These patterns are the building blocks of professional React applications. Master these, and you'll recognize them everywhere in production code.
+
+</details>

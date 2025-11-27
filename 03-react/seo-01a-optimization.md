@@ -688,7 +688,8 @@ export async function getServerSideProps({ res }) {
 4. Core Web Vitals optimization had compound effects—better rankings AND higher CTR
 5. Proper internal linking (breadcrumbs, related products) improved deep page indexation by 320%
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Rendering Strategy Comparison</strong></summary>
 
 **Comprehensive Rendering Strategy Comparison:**
 
@@ -1100,5 +1101,7 @@ When asked: "How do you optimize React apps for SEO?"
 
 **Q6: "How would you debug why Google isn't indexing your React pages?"**
 **A:** "I'd follow a systematic debugging process. First, check Google Search Console's Coverage report to see if pages are indexed or have errors. Common issues include 'Discovered - currently not indexed' meaning Google found the page but hasn't crawled it yet, and 'Crawl anomaly' indicating technical problems. Second, use Chrome DevTools to disable JavaScript and view the page—this simulates what search engines see. If the page is empty, that's your problem—you need SSR. Third, use Google's Rich Results Test tool to see exactly what HTML Google receives and if structured data is valid. Fourth, check robots.txt isn't blocking crawlers accidentally. Fifth, verify canonical tags aren't pointing to the wrong URLs. Sixth, check server logs to confirm Googlebot is actually visiting the page. Seventh, look at Core Web Vitals in Search Console—failing metrics can prevent indexing. Finally, submit the sitemap to Search Console and request indexing for specific pages to trigger a re-crawl. This systematic approach identifies whether the issue is rendering, crawl access, technical errors, or performance problems."
+
+</details>
 
 ---

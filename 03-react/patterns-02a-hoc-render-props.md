@@ -91,7 +91,8 @@ function MouseTracker() {
 ### Resources
 - [Render Props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop)
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 The Render Props pattern emerged in the React ecosystem around 2017 as a solution to sharing stateful logic between components before hooks existed. At its core, it leverages JavaScript's first-class functions and React's component composition model to create highly flexible, reusable components.
 
@@ -200,7 +201,10 @@ Despite hooks being preferred, render props are still useful for:
 
 The pattern demonstrates React's flexibility and the power of treating functions as first-class citizens.
 
-### 🐛 Real-World Scenario
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 **Problem: Infinite Scroll List with Poor Performance**
 
@@ -390,7 +394,10 @@ function ProductList() {
 5. **Implement memory limits** to prevent unbounded growth
 6. **Use React.memo with custom comparison** for render props components
 
-### ⚖️ Trade-offs
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Render Props vs Custom Hooks vs HOC:**
 
@@ -546,7 +553,10 @@ function Mouse({ render, children }) {
 }
 ```
 
-### 💬 Explain to Junior
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 **The Restaurant Menu Analogy:**
 
@@ -810,7 +820,12 @@ function AccordionItem({ id, children }) {
 ### Resources
 - [Compound Components](https://kentcdodds.com/blog/compound-components-with-react-hooks)
 
-### 🔍 Deep Dive
+</details>
+
+---
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 Compound Components is an advanced React pattern that enables multiple components to work together while sharing implicit state through Context. This pattern is heavily used in design systems and component libraries because it provides flexibility without exposing internal implementation details.
 

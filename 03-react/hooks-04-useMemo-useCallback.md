@@ -392,7 +392,8 @@ Breakdown per render:
 - Large datasets (>10k items) where timing matters
 - Mobile devices with slower JavaScript engines
 
-### ⚖️ Trade-offs: When NOT to Use useMemo/useCallback
+<details>
+<summary><strong>⚖️ Trade-offs: When NOT to Use useMemo/useCallback</strong></summary>
 
 #### Cost-Benefit Analysis Framework
 
@@ -1438,7 +1439,12 @@ function Dashboard({ userId }) {
 // 5. Add console.log with captured values (remove before prod)
 ```
 
-### ⚖️ Trade-offs: Optimization Strategies and When to Use Them
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Optimization Strategies and When to Use Them</strong></summary>
 
 #### Strategy Comparison Matrix
 
@@ -2019,3 +2025,5 @@ console.timeEnd('render');
 ```
 
 **Remember:** Most components don't need optimization. Start simple, measure, then optimize only what's actually slow!
+
+</details>

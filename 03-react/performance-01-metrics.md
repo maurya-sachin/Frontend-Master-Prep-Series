@@ -29,7 +29,8 @@ Lighthouse audits automatically test these metrics. You can also integrate them 
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Core Web Vitals Internals</strong></summary>
 
 #### Core Web Vitals Internals
 
@@ -203,9 +204,12 @@ function HeavyComponent() {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Performance Crisis</strong></summary>
 
 **Company: E-commerce Platform**
 
@@ -324,9 +328,12 @@ getLCP(metric => {
 });
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Measurement and Optimization Strategies</strong></summary>
 
 **Measurement Strategy Comparison:**
 
@@ -440,9 +447,12 @@ if (userRole === 'admin') {
 }
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Core Web Vitals in Simple Terms</strong></summary>
 
 **Core Web Vitals: Simple Analogy**
 
@@ -509,6 +519,8 @@ For a real-world example, I optimized an e-commerce product page by: first, usin
 
 The key insight is that Core Web Vitals directly impact user experience and SEO ranking, so optimizing them should be part of your regular development workflow."
 
+</details>
+
 ---
 
 ## Question 2: How to use React DevTools Profiler for performance optimization?
@@ -553,7 +565,8 @@ Use the profiler data to identify slow components, then optimize with memoizatio
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: React DevTools Profiler Architecture</strong></summary>
 
 #### React DevTools Profiler Architecture
 
@@ -756,9 +769,12 @@ function EcommercePage() {
 // Solution: Memoize ProductCard to prevent re-renders when props don't change
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Social Media Feed Performance</strong></summary>
 
 **Company: Social Media Feed App (Twitter-like)**
 
@@ -939,9 +955,12 @@ TweetList (update): 8ms
 Tweet-NEW (mount): 2.5ms ✅
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Profiling Tools and Optimization Strategies</strong></summary>
 
 **Profiler Measurement Impact:**
 
@@ -1040,9 +1059,12 @@ export function createProfiler(componentName) {
 // In production: Disabled to avoid overhead
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Using DevTools Profiler</strong></summary>
 
 **React DevTools Profiler: Simple Analogy**
 
@@ -1161,6 +1183,8 @@ The key insight is the 'why did this render' section - it shows me if a componen
 For example, in a social media feed, I found that all 50 post components were re-rendering every time the theme changed, even though posts didn't use the theme. By wrapping the Post component with React.memo(), I prevented unnecessary re-renders and reduced render time from 450ms to 100ms.
 
 The Profiler API also lets me add timing measurements to specific components and send data to analytics for production monitoring."
+
+</details>
 
 ---
 

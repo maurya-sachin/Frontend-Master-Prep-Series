@@ -70,7 +70,8 @@ function MyComponent() {
 }
 ```
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 The State Reducer pattern is one of the most sophisticated inversion of control patterns in React, popularized by Kent C. Dodds and heavily used in libraries like Downshift and React Table. It provides users ultimate flexibility to control component behavior without modifying the component's source code. At its core, this pattern follows the Hollywood Principle: "Don't call us, we'll call you."
 
@@ -104,7 +105,10 @@ The pattern has minimal performance overhead because reducers are pure functions
 
 A frequent mistake is forgetting to call the base reducer, reimplementing all default logic manually. This defeats the purpose of inversion of control and creates maintenance burden. The solution is always call the base reducer first, then modify its output. Another pitfall is mutating the state returned by the base reducer instead of creating new objects. Reducers must be pure functions, so always spread the previous state when making modifications. Finally, avoid adding side effects in custom reducers—reducers should be pure. Move side effects to useEffect hooks that respond to state changes.
 
-### 🐛 Real-World Scenario
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 **Production Case: Video Player Controls Library at Netflix**
 
@@ -282,7 +286,10 @@ function usePlayerControls({ reducer = defaultPlayerReducer } = {}) {
 
 5. **TypeScript Integration:** Strict typing of actions and state prevented 90% of runtime errors in custom reducers.
 
-### ⚖️ Trade-offs
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **State Reducer Pattern vs. Alternative Approaches:**
 
@@ -431,7 +438,10 @@ When refactoring existing code to State Reducer:
 | Easy testing | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
 | Learning curve | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
-### 💬 Explain to Junior
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 **The Restaurant Kitchen Analogy:**
 
@@ -620,7 +630,12 @@ function Dashboard() {
 }
 ```
 
-### 🔍 Deep Dive
+</details>
+
+---
+
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 The Provider pattern combines React's Context API with custom hooks to create a powerful state management solution that eliminates prop drilling while maintaining type safety and developer experience. This pattern has become the foundation of virtually every major React state management library, from Redux to React Query to Zustand. Understanding its internals reveals fundamental principles about React's component composition model.
 
@@ -750,7 +765,10 @@ Another optimization is selector-based consumption, though this requires additio
 
 The Provider pattern differs fundamentally from prop drilling (passing props through every level) and component composition (passing components as props). Prop drilling is explicit and type-safe but becomes unwieldy beyond 3-4 levels. Component composition works well for layout but poorly for cross-cutting concerns like authentication or theming. Provider pattern excels at cross-cutting concerns but can make data flow less obvious.
 
-### 🐛 Real-World Scenario
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 **Production Case: E-Commerce Platform Global State Refactor at Shopify**
 
@@ -1033,7 +1051,10 @@ test('CartProvider calculates total correctly', () => {
 
 5. **TypeScript Catches 90% of Bugs:** Strict typing of context values prevented numerous bugs, especially during refactoring when changing the shape of state objects.
 
-### ⚖️ Trade-offs
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Provider Pattern vs. Alternative State Management Approaches:**
 
@@ -1209,7 +1230,10 @@ Choose **Zustand/Jotai** if:
 - ✅ Okay with external dependency
 - ✅ Need simpler API than Redux
 
-### 💬 Explain to Junior
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 **The Library Analogy:**
 

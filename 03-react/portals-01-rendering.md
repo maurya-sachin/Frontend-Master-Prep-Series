@@ -626,7 +626,8 @@ function Tooltip({ children, content, placement = 'top' }) {
 
 ---
 
-### ⚖️ Trade-offs: Portals vs Regular Rendering
+<details>
+<summary><strong>⚖️ Trade-offs: Portals vs Regular Rendering</strong></summary>
 
 #### When to Use Portals
 
@@ -1869,9 +1870,12 @@ function CorrectThemedModal() {
 
 **Real scenario:** Auth modal in dark mode app appeared with light theme, causing user confusion and accessibility issues (poor contrast).
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Event and Context Handling
+<details>
+<summary><strong>⚖️ Trade-offs: Event and Context Handling</strong></summary>
 
 #### React Tree vs DOM Tree Bubbling
 
@@ -2369,3 +2373,5 @@ const portalBehavior = {
   },
 };
 ```
+
+</details>

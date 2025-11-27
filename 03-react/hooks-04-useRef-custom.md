@@ -860,7 +860,8 @@ This bug pattern is **extremely common** in React applications and understanding
 
 ---
 
-### ⚖️ Trade-offs: Custom Hook Design Decisions with Refs
+<details>
+<summary><strong>⚖️ Trade-offs: Custom Hook Design Decisions with Refs</strong></summary>
 
 Building custom hooks involves architectural choices that impact API ergonomics, performance, and maintainability. Understanding trade-offs helps make informed decisions.
 
@@ -1843,6 +1844,8 @@ function InteractiveButton() {
 ```
 
 Successfully composing ref-based hooks requires understanding execution order, dependency management, and lifecycle coordination to build complex behaviors from simple, testable units.
+
+</details>
 
 ---
 

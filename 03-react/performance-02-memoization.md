@@ -347,7 +347,8 @@ This reduces perceived load time from 500ms to ~50ms because the chunk is alread
 
 ---
 
-### ⚖️ Trade-offs: When to Split (and When NOT to)
+<details>
+<summary><strong>⚖️ Trade-offs: When to Split (and When NOT to)</strong></summary>
 
 **Code Splitting is NOT Always the Right Choice:**
 
@@ -1127,9 +1128,12 @@ User experience: Buttery smooth
 4. **Memoize Calculations**: Use useMemo for expensive data transformations.
 5. **Isolate Components**: Use memo() to prevent unnecessary re-renders.
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Profiling Overhead and When to Optimize
+<details>
+<summary><strong>⚖️ Trade-offs: Profiling Overhead and When to Optimize</strong></summary>
 
 **The Profiler API Has Performance Costs:**
 
@@ -1402,6 +1406,8 @@ const name = useMemo(() => user.name, [user]);
 - Measure network requests (use Network tab for that).
 - Measure CSS layout/paint (use Chrome Performance tab for that).
 - Automatically fix issues (you still need to write better code).
+
+</details>
 
 ---
 

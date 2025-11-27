@@ -402,7 +402,8 @@ Lighthouse Score:
 4. **Virtualization for large lists**: Don't render 15,000 components
 5. **Stable references**: useCallback for functions in context
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Context API vs Alternative Solutions:**
 
@@ -1666,7 +1667,12 @@ function Dashboard() {
 
 This reduced initial bundle size by 120KB and improved Time to Interactive by 400ms.
 
-### ⚖️ Trade-offs
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Performance Optimization Trade-offs:**
 
@@ -2288,3 +2294,5 @@ I choose Context when I need simple state sharing with infrequent updates, and R
 - ❌ "Always use Redux instead of Context" (overkill for small apps)
 - ✅ "Context requires manual optimization, but works great when optimized properly"
 - ✅ "Split contexts by concern and memoize values for best performance"
+
+</details>

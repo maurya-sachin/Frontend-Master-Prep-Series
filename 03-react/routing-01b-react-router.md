@@ -804,7 +804,8 @@ function TodoList() {
 
 ---
 
-### ⚖️ Trade-offs: Loader Patterns and Data Fetching Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Loader Patterns and Data Fetching Strategies</strong></summary>
 
 **Loaders vs Component Data Fetching:**
 
@@ -1356,5 +1357,7 @@ function Users() {
 **Interview Answer Template:**
 
 *"Loaders and actions are React Router v6.4+ features for handling data fetching and mutations at the routing level. Loaders run before a route renders, fetching data that components can access via useLoaderData. This means data is ready immediately when the component appears. Actions handle form submissions - when a Form component is submitted, the action receives the form data, processes it, and can return redirects or validation errors. After actions complete, loaders automatically revalidate to get fresh data. This pattern provides automatic loading states via useNavigation, declarative error handling with errorElement, and cleaner component code since data logic lives at the route level."*
+
+</details>
 
 ---

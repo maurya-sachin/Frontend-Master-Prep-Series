@@ -23,7 +23,8 @@ While class components use distinct methods for different lifecycle phases, hook
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 #### Class Component Lifecycle Architecture
 
@@ -275,9 +276,12 @@ function UserProfile({ userName }) {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 #### Scenario: E-commerce Product Search with Critical Lifecycle Bugs
 
@@ -536,9 +540,12 @@ function ProductSearch({ query }) {
 4. **Cancel in-flight requests** - Use AbortController to prevent state updates on unmounted components
 5. **Separate concerns in hooks** - Use multiple useEffect hooks instead of one giant effect
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 #### Class Components vs Functional Components with Hooks
 
@@ -723,9 +730,12 @@ const ProductCard = React.memo(
 | Memoize callbacks | `useCallback` | Creating new functions every render |
 | Optimize child re-renders | `React.memo` on children | Premature optimization |
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 #### The Life of a Plant Analogy
 
@@ -1470,9 +1480,12 @@ function GoodComponent() {
 }
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario</strong></summary>
 
 #### Scenario: Social Media Feed with Critical Lifecycle Flow Issues
 
@@ -1873,9 +1886,12 @@ function debounce(func, wait) {
 4. **No request cancellation** - setState on unmounted components
 5. **Non-debounced scroll** - 100+ handleScroll calls per second
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 #### Lifecycle Complexity vs Control
 
@@ -2056,9 +2072,12 @@ function ProductList({ products, filter }) {
 // Cons: Easy to over-memoize, dependency array pitfalls
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior</strong></summary>
 
 #### The Restaurant Service Analogy
 
@@ -2287,3 +2306,5 @@ useEffect(() => {
 ```
 
 The most important rule is to always clean up side effects to prevent memory leaks, and to use dependency arrays in useEffect to control when effects re-run, avoiding infinite loops or unnecessary executions."
+
+</details>

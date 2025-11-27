@@ -637,7 +637,8 @@ i18next.init({
 
 ---
 
-### ⚖️ Trade-offs: i18next vs FormatJS vs Alternatives
+<details>
+<summary><strong>⚖️ Trade-offs: i18next vs FormatJS vs Alternatives</strong></summary>
 
 **i18next vs FormatJS (react-intl):**
 
@@ -2008,7 +2009,12 @@ detectPhysicalProperties();
 
 ---
 
-### ⚖️ Trade-offs: RTL Approaches and Formatting Strategies
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs: RTL Approaches and Formatting Strategies</strong></summary>
 
 **RTL Implementation Strategies:**
 
@@ -2652,3 +2658,5 @@ React:
   const isRTL = ['ar', 'he'].includes(i18n.language);
   document.dir = isRTL ? 'rtl' : 'ltr';
 ```
+
+</details>

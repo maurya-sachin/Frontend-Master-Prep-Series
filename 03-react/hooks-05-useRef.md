@@ -381,7 +381,8 @@ After Fix (1 week monitoring):
 
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **useRef vs useState vs Regular Variables**
 
@@ -1542,7 +1543,12 @@ function AnimatedMetric({ value, duration = 1000 }) {
 
 ---
 
-### ⚖️ Trade-offs
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Detailed Comparison Matrix**
 
@@ -2268,4 +2274,6 @@ function VideoPlayer({ src }) {
   // 5. duration → useState (displays on screen)
 }
 ```
+
+</details>
 

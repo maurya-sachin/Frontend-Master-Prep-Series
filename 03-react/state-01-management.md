@@ -371,7 +371,8 @@ const cartTotal = useMemo(() =>
 
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Local State vs Lifted State</strong></summary>
 
 **1. Local State vs Lifted State**
 
@@ -735,6 +736,8 @@ A: "React schedules a re-render of the component and its children. During re-ren
 
 Q: "When would you use state vs props?"
 A: "Use state for data that changes within the component (user input, toggles, local UI state). Use props to pass data from parent to child, configure child components, or pass callback functions. If multiple components need the same data, lift the state up to their common parent and pass it down as props."
+
+</details>
 
 ---
 
@@ -1383,9 +1386,14 @@ function PricingSummary({ selectedDates, totalPrice }) {
 4. Use derived state instead of duplicate computed state
 5. WebSocket/polling updates are easier with single source of truth
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Lifting State - When and How Much</strong></summary>
+
+
 
 **1. When to Lift State vs When to Keep Local**
 
@@ -1882,5 +1890,7 @@ A: "Only as high as the lowest common ancestor of components that need it. Lifti
 
 Q: "Can you give an example of when NOT to lift state?"
 A: "When state is truly local to one component, like hover state, focus state, or a dropdown's open/closed state - unless parent needs to control these for some reason."
+
+</details>
 
 ---

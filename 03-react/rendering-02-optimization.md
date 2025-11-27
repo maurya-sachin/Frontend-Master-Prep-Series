@@ -527,7 +527,8 @@ Recording results (filter change):
 
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: When to Use React.memo</strong></summary>
 
 **When to Use React.memo**
 
@@ -1743,9 +1744,12 @@ function PerformanceMonitor({ children, componentName, budget = 100 }) {
 </PerformanceMonitor>
 ```
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Profiling Tool Selection</strong></summary>
 
 **Profiling Tool Selection**
 
@@ -2185,3 +2189,5 @@ I also set up performance budgets and automated testing to catch regressions ear
 4. **Don't optimize everything** - Only optimize actual bottlenecks
 5. **Use production-like data** - Test with realistic data volumes
 6. **Document your findings** - Future you will thank you
+
+</details>

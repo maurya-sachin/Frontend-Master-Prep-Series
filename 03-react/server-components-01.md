@@ -14,7 +14,8 @@ The rendering model is fundamentally different: Server Components execute once p
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: RSC Protocol and Wire Format</strong></summary>
 
 **RSC Protocol and Wire Format:**
 
@@ -171,6 +172,8 @@ Server Components return a special format that preserves the React element tree 
 
 This format is then serialized to the RSC payload format that can be streamed to the client.
 
+</details>
+
 **Data Fetching Semantics:**
 
 Server Components introduce automatic request deduplication and memoization:
@@ -195,7 +198,8 @@ async function Settings() {
 
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Migrating E-Commerce Product Page to Server Components</strong></summary>
 
 **Scenario: Migrating E-Commerce Product Page to Server Components**
 
@@ -378,9 +382,12 @@ export default function AddToCartButton({ productId }) {
 4. **Leverage streaming**: Suspense boundaries allowed progressive enhancement
 5. **Parallel data fetching**: Server Components can fetch in parallel naturally
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Server Components vs Client Components</strong></summary>
 
 **Server Components vs Client Components: Decision Matrix**
 
@@ -635,9 +642,14 @@ export default function LazyImageGrid({ images }) {
 - **TTI**: ~900ms (first 12 images interactive immediately)
 - **Best of both**: Fast initial render + progressive enhancement
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Server vs Client Components</strong></summary>
+
+
 
 **The Restaurant Kitchen Analogy:**
 
@@ -789,6 +801,8 @@ function OrderTracker() {
 4. **How**: Default in Next.js App Router, use "use client" for interactivity
 5. **Composition**: Server Components wrap Client Components via props/children
 
+</details>
+
 ---
 
 ## Question 2: How to use Server Components with Next.js App Router?
@@ -807,7 +821,8 @@ Streaming and Suspense boundaries work seamlessly—you can wrap slow Server Com
 
 ---
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive: Next.js App Router File Conventions</strong></summary>
 
 **Next.js App Router File Conventions:**
 
@@ -1025,6 +1040,8 @@ export default function ProductPage({ params }) {
 
 Console output: `Fetching product: 123` (only once!)
 
+</details>
+
 **Client Component Integration:**
 
 **Composition Pattern 1: Children Prop**
@@ -1211,7 +1228,8 @@ export default async function ProductPage({ params }) {
 
 ---
 
-### 🐛 Real-World Scenario
+<details>
+<summary><strong>🐛 Real-World Scenario: Building a Blog Platform with Next.js App Router</strong></summary>
 
 **Scenario: Building a Blog Platform with Next.js App Router and Server Components**
 
@@ -1525,9 +1543,14 @@ export default async function PostsLayout({ children }) {
 4. **Leverage parallel fetching**: Post, comments, and recommendations fetch in parallel
 5. **Optimize for perceived performance**: Show article fast, stream secondary content later
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs: Server Components in Next.js App Router</strong></summary>
+
+
 
 **Server Components in Next.js App Router: When to Use vs Alternatives**
 
@@ -1756,9 +1779,14 @@ async function getInventory(productId) {
 - **Client SPA fastest TTFB** but worst overall (large bundle)
 - **Pages Router middle ground** but no streaming benefit
 
+</details>
+
 ---
 
-### 💬 Explain to Junior
+<details>
+<summary><strong>💬 Explain to Junior: Using Server Components in App Router</strong></summary>
+
+
 
 **The Restaurant Menu Analogy:**
 
@@ -2051,3 +2079,5 @@ export default function Page() {
 | Use useState/useEffect | ❌ No hooks | ✅ Yes |
 | Heavy computations | ✅ Yes (stays on server) | ⚠️ Blocks main thread |
 | Real-time updates | ❌ No WebSocket | ✅ Yes |
+
+</details>

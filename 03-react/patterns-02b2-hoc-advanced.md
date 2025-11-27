@@ -48,7 +48,8 @@ function Card({ header, media, content, actions }) {
 />
 ```
 
-### 🔍 Deep Dive
+<details>
+<summary><strong>🔍 Deep Dive</strong></summary>
 
 The Slots pattern represents a fundamental shift in how we think about component composition in React. While the traditional children prop is powerful, it's essentially a black box—the parent component has no control over what goes where. Slots bring structure and semantic meaning to component composition, drawing inspiration from Web Components' slot system and Vue.js's named slots feature.
 

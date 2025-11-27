@@ -668,7 +668,8 @@ function CheckoutFlow() {
 
 ---
 
-### ⚖️ Trade-offs
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **useReducer vs useState:**
 
@@ -2628,7 +2629,12 @@ function OnboardingWizard() {
 
 ---
 
-### ⚖️ Trade-offs
+</details>
+
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs</strong></summary>
 
 **Simple Reducer vs Complex Reducer with Immer:**
 
@@ -3305,3 +3311,5 @@ The goal is to make state updates predictable, testable, and maintainable. Compl
    - Use for deep nested state (3+ levels)
    - Cleaner than manual spread operators
    - Small bundle size tradeoff for better DX
+
+</details>
