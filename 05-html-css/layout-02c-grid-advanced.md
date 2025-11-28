@@ -293,7 +293,8 @@ Without subgrid, each card's sections would be independent heights!
 
 ---
 
-## Deep Dive: Grid Placement Algorithms in Depth
+<details>
+<summary><strong>🔍 Deep Dive: Grid Placement Algorithms in Depth</strong></summary>
 
 ### The Auto-Placement Algorithm (Grid-auto-flow)
 
@@ -448,9 +449,12 @@ Understanding when implicit tracks are sized:
 /* All cards with subgrid align to same row heights */
 ```
 
+</details>
+
 ---
 
-## Real-World Scenario: Grid Auto-Flow Performance Disaster
+<details>
+<summary><strong>🐛 Real-World Scenario: Grid Auto-Flow Performance Disaster</strong></summary>
 
 ### The Problem
 A large product catalog site added `grid-auto-flow: dense` for Pinterest-style masonry layout. Performance tanked from 60fps smooth scrolling to 8fps janky mess.
@@ -584,9 +588,12 @@ Use only when:
 - Static layout (no scrolling)
 - UX benefit justifies performance cost
 
+</details>
+
 ---
 
-## Trade-offs: Grid Sizing Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Grid Sizing Strategies</strong></summary>
 
 | Strategy | Use Case | Performance | Flexibility |
 |----------|----------|-------------|------------|
@@ -625,9 +632,12 @@ grid-auto-rows: minmax(100px, auto);
 
 **Browser support:** 85-90% of users
 
+</details>
+
 ---
 
-## Explain to Junior: Implicit Grid Concepts
+<details>
+<summary><strong>💬 Explain to Junior: Implicit Grid Concepts</strong></summary>
 
 ### Think of Explicit Grid as Your Plan
 
@@ -765,6 +775,8 @@ Perfect alignment!
 ### Resources
 - [MDN: Subgrid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Subgrid)
 - [Grid by Example: Auto-placement](https://gridbyexample.com/examples/#example19)
+
+</details>
 
 ---
 

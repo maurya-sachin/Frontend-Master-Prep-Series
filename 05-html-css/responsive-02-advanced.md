@@ -180,6 +180,9 @@ small { font-size: var(--font-size-sm); }
 
 ## 🔍 Deep Dive: Viewport Units, Browser Rendering, and Modern Viewport Solutions
 
+<details>
+<summary><strong>🔍 Deep Dive: Viewport Units, Browser Rendering, and Modern Viewport Solutions</strong></summary>
+
 ### Understanding Viewport Units at the Browser Level
 
 Viewport units create a fundamental challenge in web design: **what exactly is the "viewport"?** The answer varies dramatically depending on browser, device, and UI state.
@@ -466,9 +469,14 @@ document.documentElement.style.fontSize = '20px'; // User set 125%
 // Good (clamp(1rem, 5vw, 3rem)): 60px (3rem = 3 × 20px)
 ```
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Viewport Units Break iOS Safari Full-Height Layout
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Viewport Units Break iOS Safari Full-Height Layout</strong></summary>
 
 ### The Problem
 
@@ -733,9 +741,14 @@ window.addEventListener('load', () => {
 
 **Coverage:** 89.4% of mobile users have native support, 10.6% use JavaScript fallback
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Viewport Units vs Fixed Units vs Container Units
+
+<details>
+<summary><strong>⚖️ Trade-offs: Viewport Units vs Fixed Units vs Container Units</strong></summary>
 
 ### Viewport Units (vw, vh, dvh, svh, lvh)
 
@@ -998,9 +1011,14 @@ window.addEventListener('load', () => {
 
 **Result:** Responsive, accessible, modular, and performant!
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Viewport Units are Like Percentages of Your Window
+
+<details>
+<summary><strong>💬 Explain to Junior: Viewport Units are Like Percentages of Your Window</strong></summary>
 
 ### The Window Analogy
 
@@ -1519,6 +1537,9 @@ works in sidebar, main, modals, etc!
 
 ## 🔍 Deep Dive: Container Queries, Component Isolation, and Browser Implementation
 
+<details>
+<summary><strong>🔍 Deep Dive: Container Queries, Component Isolation, and Browser Implementation</strong></summary>
+
 ### The Fundamental Shift: From Page-Level to Component-Level Responsiveness
 
 Container queries represent a paradigm shift in responsive design. For 15+ years, responsive design meant "query the viewport," which created a fundamental coupling between components and page layout. Container queries break this coupling by enabling **intrinsic design** - components that adapt based on their own available space, not the global viewport.
@@ -1849,9 +1870,14 @@ Container query units (`cqw`, `cqh`, `cqi`, `cqb`, `cqmin`, `cqmax`) enable flui
 | `cqi` | Container inline size | Logical property (LTR/RTL aware) |
 | `cqb` | Container block size | Logical property (vertical text aware) |
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Media Queries Break Design System Card Component
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Media Queries Break Design System Card Component</strong></summary>
 
 ### The Problem
 
@@ -2170,9 +2196,14 @@ document.querySelectorAll('.product-card').forEach(card => {
 - Implementation time: 12 hours (1.5 days)
 - Payback period: 5 days
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Container Queries vs Media Queries vs JavaScript Resize
+
+<details>
+<summary><strong>⚖️ Trade-offs: Container Queries vs Media Queries vs JavaScript Resize</strong></summary>
 
 ### Container Queries
 
@@ -2436,9 +2467,14 @@ const resizeObserver = new ResizeObserver(debounce(entries => {
 resizeObserver.observe(chart);
 ```
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Container Queries are Like Room Sizes in a House
+
+<details>
+<summary><strong>💬 Explain to Junior: Container Queries are Like Room Sizes in a House</strong></summary>
 
 ### The House Layout Analogy
 
@@ -2608,6 +2644,8 @@ Media queries can't tell the difference, container queries can!
 
 ---
 
+</details>
+
 ### Common Mistakes & How to Avoid Them
 
 **Mistake 1: Forgetting to set container-type**
@@ -2703,3 +2741,5 @@ Media queries can't tell the difference, container queries can!
 ---
 
 **Next Topics**: Animations, Transitions, CSS Architecture
+
+</details>

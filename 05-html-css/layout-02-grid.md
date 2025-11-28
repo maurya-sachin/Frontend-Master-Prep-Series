@@ -360,6 +360,9 @@ START: Need to layout elements?
 
 ## 🔍 Deep Dive: Layout Algorithm Internals
 
+<details>
+<summary><strong>🔍 Deep Dive: Layout Algorithm Internals</strong></summary>
+
 ### Flexbox Layout Algorithm
 
 Flexbox uses a **single-axis layout model** that operates in two passes: the **measurement pass** and the **layout pass**.
@@ -428,9 +431,14 @@ FLEXBOX:           GRID:
                   └──────────────────┘
 ```
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Performance Regression Bug
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Performance Regression Bug</strong></summary>
 
 ### The Problem
 E-commerce site's product listing grid rendering dropped from **60fps** to **8fps** after adding "masonry layout" feature using `grid-auto-flow: dense`.
@@ -542,9 +550,14 @@ E-commerce site's product listing grid rendering dropped from **60fps** to **8fp
 - Auto-dimensions are not dynamic
 - Interactive performance is not critical (e.g., static blog layouts)
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Flexbox vs Grid Decision Matrix
+
+<details>
+<summary><strong>⚖️ Trade-offs: Flexbox vs Grid Decision Matrix</strong></summary>
 
 | Criterion | Flexbox | Grid | Winner |
 |-----------|---------|------|--------|
@@ -613,9 +626,14 @@ Layout needed?
 - Grid for 20% of complex cases
 - Combine both in same app
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Interview Answer Template
+
+<details>
+<summary><strong>💬 Explain to Junior: Interview Answer Template</strong></summary>
 
 ### Understanding the Fundamental Difference
 
@@ -739,6 +757,8 @@ Practice explaining these scenarios:
 2. "Design a dashboard with Grid and Flexbox"
 3. "Explain a layout that uses both technologies"
 4. "Performance: why would you choose Flexbox for a 1000-item list?"
+
+</details>
 
 ---
 
@@ -1071,6 +1091,9 @@ Explain the gap property, order property, and how flex-basis works. What's the d
 
 ## 🔍 Deep Dive: Flexbox Sizing Algorithm Internals
 
+<details>
+<summary><strong>🔍 Deep Dive: Flexbox Sizing Algorithm Internals</strong></summary>
+
 ### The Complete Flex Layout Algorithm
 
 The Flex layout algorithm is deceptively complex despite appearing simple. It operates in **5 distinct phases**:
@@ -1164,9 +1187,14 @@ Screen Reader: Announces as A, then C, then B (DOM order)
 3. Screen readers follow DOM order (creating disconnect)
 4. Text selection can be confusing (select A-C gets A, C, B)
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Responsive Layout Bugs with flex Properties
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Responsive Layout Bugs with flex Properties</strong></summary>
 
 ### The Problem
 A news website's mobile layout reordered content with `order`, but screen reader users were confused. Also, some flex items weren't sizing correctly due to flex-basis misunderstanding.
@@ -1321,9 +1349,14 @@ Now: DOM order matches mobile (primary layout), order only adjusts desktop.
 - Maintenance burden: High → Low
 - Breakage rate: 5% on responsive → 0%
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Choosing Between Flex Properties
+
+<details>
+<summary><strong>⚖️ Trade-offs: Choosing Between Flex Properties</strong></summary>
 
 | Property | Use When | Performance | Maintainability |
 |----------|----------|-------------|-----------------|
@@ -1385,9 +1418,14 @@ Now: DOM order matches mobile (primary layout), order only adjusts desktop.
 /* Result: 2rem spacing (gap + margin) */
 ```
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: flex Properties Demystified
+
+<details>
+<summary><strong>💬 Explain to Junior: flex Properties Demystified</strong></summary>
 
 ### Think of Flex Like a Rubber Band
 
@@ -1483,6 +1521,8 @@ A: "By default, flex items stretch to fill the cross axis (height in row directi
 
 **Q: Can I use order with accessibility in mind?**
 A: "Only use order for responsive adjustments at specific breakpoints. For major reordering, restructure the HTML instead to keep DOM and visual order in sync."
+
+</details>
 
 ---
 
@@ -1781,6 +1821,9 @@ Without subgrid, each card's sections would be independent heights!
 
 ## 🔍 Deep Dive: Grid Placement Algorithms in Depth
 
+<details>
+<summary><strong>🔍 Deep Dive: Grid Placement Algorithms in Depth</strong></summary>
+
 ### The Auto-Placement Algorithm (Grid-auto-flow)
 
 The browser's grid auto-placement algorithm is a **constraint-solving system** that works in several phases:
@@ -1933,9 +1976,14 @@ Understanding when implicit tracks are sized:
 /* All cards with subgrid align to same row heights */
 ```
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Grid Auto-Flow Performance Disaster
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Grid Auto-Flow Performance Disaster</strong></summary>
 
 ### The Problem
 A large product catalog site added `grid-auto-flow: dense` for Pinterest-style masonry layout. Performance tanked from 60fps smooth scrolling to 8fps janky mess.
@@ -2074,9 +2122,14 @@ Use only when:
 - Static layout (no scrolling)
 - UX benefit justifies performance cost
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Grid Sizing Strategies
+
+<details>
+<summary><strong>⚖️ Trade-offs: Grid Sizing Strategies</strong></summary>
 
 | Strategy | Use Case | Performance | Flexibility |
 |----------|----------|-------------|------------|
@@ -2115,9 +2168,14 @@ grid-auto-rows: minmax(100px, auto);
 
 **Browser support:** 85-90% of users (2024)
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Implicit Grid Concepts
+
+<details>
+<summary><strong>💬 Explain to Junior: Implicit Grid Concepts</strong></summary>
 
 ### Think of Explicit Grid as Your Plan
 
@@ -2257,6 +2315,8 @@ Perfect alignment!
   grid-template-columns: subgrid;  /* Aligns with parent */
 }
 ```
+
+</details>
 
 ---
 

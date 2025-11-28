@@ -288,7 +288,8 @@ p {
 
 ---
 
-### 🔍 Deep Dive: CSS Specificity Algorithm Internals
+<details>
+<summary><strong>🔍 Deep Dive: CSS Specificity Algorithm Internals</strong></summary>
 
 **How Browsers Calculate Specificity:**
 
@@ -451,9 +452,12 @@ Layers trump specificity WITHIN same origin!
 */
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Specificity Wars in Large Codebases
+<details>
+<summary><strong>🐛 Real-World Scenario: Specificity Wars in Large Codebases</strong></summary>
 
 **Problem: Third-Party Library Override Hell**
 
@@ -583,9 +587,12 @@ console.table(debugSpecificity('.button'));
 4. Prefer cascade layers over high specificity
 5. Use browser DevTools specificity inspector
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Selector Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Selector Strategies</strong></summary>
 
 **1. Low Specificity (Classes) vs High Specificity (IDs)**
 
@@ -712,9 +719,12 @@ Use NESTED selectors when:
 }
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: CSS Specificity Like a Scoring System
+<details>
+<summary><strong>💬 Explain to Junior: CSS Specificity Like a Scoring System</strong></summary>
 
 **Simple Analogy:**
 
@@ -781,6 +791,8 @@ div p span a {
 /* WRONG! !important is OUTSIDE the specificity system */
 /* It creates a separate "important cascade" that always wins */
 ```
+
+</details>
 
 ---
 
@@ -1143,7 +1155,8 @@ $breakpoint: 768px;
 
 ---
 
-### 🔍 Deep Dive: CSS Variables Implementation and Performance
+<details>
+<summary><strong>🔍 Deep Dive: CSS Variables Implementation and Performance</strong></summary>
 
 **How Browsers Process CSS Variables:**
 
@@ -1312,9 +1325,12 @@ const memoryUsage = {
 */
 ```
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Dynamic Theme System with Performance Optimization
+<details>
+<summary><strong>🐛 Real-World Scenario: Dynamic Theme System with Performance Optimization</strong></summary>
 
 **Problem: Theme Switch Causing Janky UI (300ms+ freeze)**
 
@@ -1484,9 +1500,12 @@ console.log({
 4. Use transitions to mask recalculation jank
 5. For extreme cases (1000+ vars), consider stylesheet swapping
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: CSS Variables vs Preprocessor Variables
+<details>
+<summary><strong>⚖️ Trade-offs: CSS Variables vs Preprocessor Variables</strong></summary>
 
 **Decision Matrix:**
 
@@ -1576,9 +1595,12 @@ document.documentElement.style.setProperty('--primary', '#ff0000');
 // Winner: CSS Variables for runtime changes
 ```
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: CSS Variables Like Labeled Containers
+<details>
+<summary><strong>💬 Explain to Junior: CSS Variables Like Labeled Containers</strong></summary>
 
 **Simple Analogy:**
 
@@ -1681,5 +1703,7 @@ $breakpoint: 768px;
   padding: calc(var(--spacing) * 2); /* Result: 16px ✅ */
 }
 ```
+
+</details>
 
 ---

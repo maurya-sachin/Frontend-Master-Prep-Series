@@ -327,7 +327,8 @@ Explain the gap property, order property, and how flex-basis works. What's the d
 
 ---
 
-## Deep Dive: Flexbox Sizing Algorithm Internals
+<details>
+<summary><strong>🔍 Deep Dive: Flexbox Sizing Algorithm Internals</strong></summary>
 
 ### The Complete Flex Layout Algorithm
 
@@ -422,9 +423,12 @@ Screen Reader: Announces as A, then C, then B (DOM order)
 3. Screen readers follow DOM order (creating disconnect)
 4. Text selection can be confusing (select A-C gets A, C, B)
 
+</details>
+
 ---
 
-## Real-World Scenario: Responsive Layout Bugs with flex Properties
+<details>
+<summary><strong>🐛 Real-World Scenario: Responsive Layout Bugs with flex Properties</strong></summary>
 
 ### The Problem
 A news website's mobile layout reordered content with `order`, but screen reader users were confused. Also, some flex items weren't sizing correctly due to flex-basis misunderstanding.
@@ -578,9 +582,12 @@ Now: DOM order matches mobile (primary layout), order only adjusts desktop.
 - Maintenance burden: High → Low
 - Breakage rate: 5% on responsive → 0%
 
+</details>
+
 ---
 
-## Trade-offs: Choosing Between Flex Properties
+<details>
+<summary><strong>⚖️ Trade-offs: Choosing Between Flex Properties</strong></summary>
 
 | Property | Use When | Performance | Maintainability |
 |----------|----------|-------------|-----------------|
@@ -642,9 +649,12 @@ Now: DOM order matches mobile (primary layout), order only adjusts desktop.
 /* Result: 2rem spacing (gap + margin) */
 ```
 
+</details>
+
 ---
 
-## Explain to Junior: flex Properties Demystified
+<details>
+<summary><strong>💬 Explain to Junior: flex Properties Demystified</strong></summary>
 
 ### Think of Flex Like a Rubber Band
 
@@ -744,6 +754,8 @@ A: "Only use order for responsive adjustments at specific breakpoints. For major
 ### Resources
 - [MDN: gap](https://developer.mozilla.org/en-US/docs/Web/CSS/gap)
 - [MDN: flex-basis](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis)
+
+</details>
 
 ---
 

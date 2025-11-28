@@ -458,6 +458,9 @@ function outer() {
 
 ## 🔍 Deep Dive: How Browsers Build the Accessibility Tree from Semantic HTML
 
+<details>
+<summary><strong>🔍 Deep Dive: How Browsers Build the Accessibility Tree from Semantic HTML</strong></summary>
+
 ### The Accessibility Tree Architecture
 
 When a browser parses HTML, it creates **three parallel trees** from the DOM:
@@ -1017,9 +1020,14 @@ console.log(analyzer.analyzeDocument(semanticPage));
 // Savings: 16% less memory (semantic elements optimize better)
 ```
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: E-commerce Site Losing 40% Organic Traffic Due to Non-Semantic HTML
+
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Site Losing 40% Organic Traffic Due to Non-Semantic HTML</strong></summary>
 
 ### The Problem
 
@@ -1563,9 +1571,14 @@ function calculateSemanticRatio() {
 }
 ```
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: When to Use Semantic HTML vs When Generic Elements Are Acceptable
+
+<details>
+<summary><strong>⚖️ Trade-offs: When to Use Semantic HTML vs When Generic Elements Are Acceptable</strong></summary>
 
 ### The Spectrum of Semantic Purity
 
@@ -2063,9 +2076,14 @@ function BlogPost({ post }) {
 
 **Result:** Best of both worlds - strong semantic structure for SEO and accessibility, flexible layout divs where needed.
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Understanding Semantic HTML Like Organizing a Library
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding Semantic HTML Like Organizing a Library</strong></summary>
 
 ### The Library Analogy
 
@@ -2442,3 +2460,5 @@ Before writing HTML, ask yourself:
 **If unsure, use `<div>` and add ARIA roles later.**
 
 ---
+
+</details>

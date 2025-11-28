@@ -356,6 +356,9 @@ START: Need to layout elements?
 
 ## Deep Dive: Layout Algorithm Internals
 
+<details>
+<summary><strong>🔍 Deep Dive: Layout Algorithm Internals</strong></summary>
+
 ### Flexbox Layout Algorithm
 
 Flexbox uses a **single-axis layout model** that operates in two passes: the **measurement pass** and the **layout pass**.
@@ -424,9 +427,14 @@ FLEXBOX:           GRID:
                   └──────────────────┘
 ```
 
+</details>
+
 ---
 
 ## Real-World Scenario: Performance Regression Bug
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Performance Regression Bug</strong></summary>
 
 ### The Problem
 E-commerce site's product listing grid rendering dropped from **60fps** to **8fps** after adding "masonry layout" feature using `grid-auto-flow: dense`.
@@ -533,9 +541,14 @@ E-commerce site's product listing grid rendering dropped from **60fps** to **8fp
 - Auto-dimensions are not dynamic
 - Interactive performance is not critical (e.g., static blog layouts)
 
+</details>
+
 ---
 
 ## Trade-offs: Flexbox vs Grid Decision Matrix
+
+<details>
+<summary><strong>⚖️ Trade-offs: Flexbox vs Grid Decision Matrix</strong></summary>
 
 | Criterion | Flexbox | Grid | Winner |
 |-----------|---------|------|--------|
@@ -603,9 +616,14 @@ Layout needed?
 - Grid for 20% of complex cases
 - Combine both in same app
 
+</details>
+
 ---
 
 ## Explain to Junior: Interview Answer Template
+
+<details>
+<summary><strong>💬 Explain to Junior: Interview Answer Template</strong></summary>
 
 ### Understanding the Fundamental Difference
 
@@ -733,6 +751,8 @@ Practice explaining these scenarios:
 ### Resources
 - [Flexbox vs Grid](https://css-tricks.com/quick-whats-the-difference-between-flexbox-and-grid/)
 - [MDN: Layout Cookbook](https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook)
+
+</details>
 
 ---
 

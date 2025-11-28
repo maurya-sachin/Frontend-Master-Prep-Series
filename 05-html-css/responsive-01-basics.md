@@ -202,7 +202,8 @@ body {
 
 ---
 
-## 🔍 Deep Dive: Mobile-First Architecture & CSS Cascade Optimization
+<details>
+<summary><strong>🔍 Deep Dive: Mobile-First Architecture & CSS Cascade Optimization</strong></summary>
 
 ### The CSS Cascade Performance Advantage
 
@@ -528,9 +529,12 @@ Graceful degradation starts with full experience and breaks it down:
 
 Each layer builds upon the previous, ensuring core functionality at all levels.
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Mobile-First Refactor Saves Flipkart-Clone 2.8s Load Time
+<details>
+<summary><strong>🐛 Real-World Scenario: Mobile-First Refactor Saves Flipkart-Clone 2.8s Load Time</strong></summary>
 
 ### The Problem
 
@@ -898,9 +902,12 @@ window.addEventListener('load', () => {
 4. **Critical CSS extraction** is 74% more efficient with mobile-first
 5. **Progressive enhancement** enables better code splitting and lazy loading
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Mobile-First vs Desktop-First vs Adaptive vs Fluid
+<details>
+<summary><strong>⚖️ Trade-offs: Mobile-First vs Desktop-First vs Adaptive vs Fluid</strong></summary>
 
 ### Mobile-First vs Desktop-First
 
@@ -1249,9 +1256,12 @@ But: Most complex (requires backend logic)
 /* Why: Reading experience scales smoothly */
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Mobile-First is Like Building a House
+<details>
+<summary><strong>💬 Explain to Junior: Mobile-First is Like Building a House</strong></summary>
 
 ### The House Building Analogy
 
@@ -1673,6 +1683,8 @@ However, modern best practice is content-driven breakpoints - break when your co
 2. All media queries use `min-width` (not `max-width`)
 3. Each breakpoint **adds** complexity (not removes)
 4. Code flows from simple → complex (easier to understand)
+
+</details>
 
 ---
 

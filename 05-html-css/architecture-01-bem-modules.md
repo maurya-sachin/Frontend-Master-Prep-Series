@@ -202,7 +202,8 @@ What is BEM? Explain Block, Element, Modifier naming convention.
 
 ---
 
-## 🔍 Deep Dive: BEM Methodology Internals & Architecture
+<details>
+<summary><strong>🔍 Deep Dive: BEM Methodology Internals & Architecture</strong></summary>
 
 ### The Philosophy Behind BEM
 
@@ -678,9 +679,12 @@ src/
 - **Accessibility improvements**: Refactoring forced review of HTML semantics
 - **Component documentation**: BEM's clarity made documentation easier to write/maintain
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: BEM vs Alternative Architectures
+<details>
+<summary><strong>⚖️ Trade-offs: BEM vs Alternative Architectures</strong></summary>
 
 ### BEM vs CSS Modules
 
@@ -1055,6 +1059,8 @@ When writing a class name, ask:
 2. `.image` → `.product-card__image` (element of product-card)
 3. `.title.featured` → `.product-card__title--featured` (modifier, not separate class)
 4. All selectors now have flat specificity (0,1,0)
+
+</details>
 
 ---
 
@@ -1747,7 +1753,8 @@ Found **412 unused CSS files** (38 KB each = 15.7 MB total CSS eliminated).
 
 ---
 
-## ⚖️ Trade-offs: CSS Modules vs CSS-in-JS vs Other Approaches
+<details>
+<summary><strong>⚖️ Trade-offs: CSS Modules vs CSS-in-JS vs Other Approaches</strong></summary>
 
 ### Bundle Size Deep Comparison
 
@@ -1910,6 +1917,8 @@ Browser sees: JavaScript creates <style>.css-a1b2c3{...}</style>
 - ✅ Provides concrete example
 - ✅ Acknowledges trade-offs (not just "one is better")
 - ✅ Demonstrates decision-making ability
+
+</details>
 
 ---
 
@@ -2595,7 +2604,8 @@ LibSass (C++ implementation) was deprecated in 2020. Bootstrap had to migrate:
 
 ---
 
-## ⚖️ Trade-offs: Sass vs Native CSS vs PostCSS
+<details>
+<summary><strong>⚖️ Trade-offs: Sass vs Native CSS vs PostCSS</strong></summary>
 
 ### Bundle Size & Complexity
 
@@ -2708,6 +2718,8 @@ LibSass (C++ implementation) was deprecated in 2020. Bootstrap had to migrate:
 - ✅ Provides concrete example (variables)
 - ✅ Acknowledges modern CSS evolution
 - ✅ Demonstrates decision-making (when to use vs not use)
+
+</details>
 
 ---
 
