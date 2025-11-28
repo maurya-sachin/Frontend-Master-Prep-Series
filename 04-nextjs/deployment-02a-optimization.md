@@ -28,7 +28,8 @@ Explain the deployment process for Next.js applications on Vercel and alternativ
 
 ---
 
-### 🔍 Deep Dive: Deployment Architecture & Platform Internals
+<details>
+<summary><strong>🔍 Deep Dive: Deployment Architecture & Platform Internals</strong></summary>
 
 **Vercel's Edge Network Architecture:**
 Vercel uses a globally distributed edge network built on top of AWS, Cloudflare, and custom infrastructure. When you deploy to Vercel, your Next.js application gets compiled into three distinct outputs: API lambdas for serverless routes, static assets for images/CSS/JS, and HTML pages for SSR. The build process uses intelligent bundling—your application is analyzed for dependencies, and common chunks are extracted to maximize cache hits across deployments.
@@ -54,9 +55,12 @@ Most deployment failures happen in CI/CD. The issue: your test environment and C
 **Caching Strategies Across Platforms:**
 Vercel aggressively caches `.next/static` files with 1-year cache headers (immutable content). However, your HTML files use 0-second cache to ensure users get fresh content. AWS Amplify uses different defaults (30-second cache on HTML), which can cause stale pages. Self-hosted solutions need manual cache configuration in nginx/Apache.
 
+</details>
+
 ---
 
-### 🐛 Real-World Scenario: Multi-Environment E-Commerce Deployment
+<details>
+<summary><strong>🐛 Real-World Scenario: Multi-Environment E-Commerce Deployment</strong></summary>
 
 **Context:** You're deploying an e-commerce platform to staging and production. Staging must use a test payment processor (Stripe test mode) and test database. Production uses live payment processing.
 
@@ -153,9 +157,12 @@ export const env = envSchema.parse(process.env);
 
 **Key Lesson:** The most dangerous deployments are the ones that appear to work but use wrong configuration. Validate early, fail hard at build time rather than runtime.
 
+</details>
+
 ---
 
-### ⚖️ Trade-offs: Deployment Platform Comparison
+<details>
+<summary><strong>⚖️ Trade-offs: Deployment Platform Comparison</strong></summary>
 
 **Vercel vs Docker Self-Hosting:**
 
@@ -212,9 +219,12 @@ Storing in platform UI:
 
 Solution: Store ALL non-secret values in .env files (committed), secrets in platform (not committed). Use git hooks to prevent committing secrets.
 
+</details>
+
 ---
 
-### 💬 Explain to Junior: Deployment Concepts & Interview Answers
+<details>
+<summary><strong>💬 Explain to Junior: Deployment Concepts & Interview Answers</strong></summary>
 
 **1. What is Vercel and why is it popular for Next.js?**
 
@@ -1511,5 +1521,7 @@ export default function Dashboard() {
 - [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - [Pino Logger](https://github.com/pinojs/pino)
 - [LogRocket](https://logrocket.com/)
+
+</details>
 
 ---

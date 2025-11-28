@@ -269,7 +269,8 @@ function Dashboard({ user }) {
 
 ---
 
-## 🔍 Deep Dive: SSR/SSG/ISR Architecture & Internals
+<details>
+<summary><strong>🔍 Deep Dive: SSR/SSG/ISR Architecture & Internals</strong></summary>
 
 ### V8/Browser Rendering Pipeline for Each Strategy
 
@@ -617,9 +618,12 @@ Decision: SSG > ISR > SSR > CSR (in priority order)
 Exception: Use what's needed, not what's fastest
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: YouTube-style Video Platform Performance Crisis
+<details>
+<summary><strong>🐛 Real-World Scenario: YouTube-style Video Platform Performance Crisis</strong></summary>
 
 ### The Problem: Rendering Strategy Mismatch at Scale
 
@@ -984,9 +988,12 @@ artillery quick --count 1000 --num 10 https://video.example.com/v/123
 6. **Graceful degradation** - Show stale data > show error > 500 timeout
 7. **Use CDN aggressively** - ISR + CDN = infinite scalability
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: SSR vs SSG vs ISR - Advanced Decision Making
+<details>
+<summary><strong>⚖️ Trade-offs: SSR vs SSG vs ISR - Advanced Decision Making</strong></summary>
 
 ### Performance-Freshness Spectrum
 
@@ -1170,9 +1177,12 @@ Load pattern:
 Result: Performance + freshness + SEO
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Rendering Strategies - Advanced Interview Perspective
+<details>
+<summary><strong>💬 Explain to Junior: Rendering Strategies - Advanced Interview Perspective</strong></summary>
 
 ### The Core Mental Model
 
@@ -1376,9 +1386,12 @@ Your answer:
 - [Next.js Rendering](https://nextjs.org/docs/basic-features/pages)
 - [ISR Guide](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration)
 
+</details>
+
 ---
 
-## 🔍 Deep Dive: Next.js Rendering Internals
+<details>
+<summary><strong>🔍 Deep Dive: Next.js Rendering Internals</strong></summary>
 
 ### SSG (Static Site Generation) Architecture
 
@@ -1689,9 +1702,12 @@ This hybrid approach delivers:
 - Real-time dynamic features (CSR)
 - Cost-effective (99% cache hit rate)
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Rendering Strategy Disaster
+<details>
+<summary><strong>🐛 Real-World Scenario: Rendering Strategy Disaster</strong></summary>
 
 ### The Problem: E-commerce Site Performance Collapse
 
@@ -2705,5 +2721,7 @@ function Dashboard() {
 - **CSR** = Browser time (slow initial, real-time updates)
 
 Choose based on your specific needs, and don't be afraid to mix strategies within the same app!
+
+</details>
 
 ---

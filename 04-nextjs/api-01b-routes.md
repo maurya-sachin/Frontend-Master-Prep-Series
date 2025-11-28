@@ -280,6 +280,9 @@ const databaseUrl = process.env.NODE_ENV === 'production'
 
 ---
 
+<details>
+<summary><strong>🔍 Deep Dive: Database Integration Architecture in Serverless</strong></summary>
+
 ## 🔍 Deep Dive: Database Integration Architecture in Serverless
 
 Integrating databases with Next.js API routes introduces unique challenges due to the serverless execution model. Understanding these architectural constraints is essential for building performant, scalable applications.
@@ -391,7 +394,10 @@ new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
 
 Use `prisma.$queryRaw` for complex analytics queries where Prisma's query builder is insufficient. This provides full SQL control while maintaining type safety through tagged templates.
 
----
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Database Connection Pool Exhaustion</strong></summary>
 
 ## 🐛 Real-World Scenario: Database Connection Pool Exhaustion
 
@@ -621,7 +627,10 @@ export const prisma = new PrismaClient({
 - [ ] Error handling for connection failures
 - [ ] Emergency procedures documented
 
----
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Database Integration Decisions</strong></summary>
 
 ## ⚖️ Trade-offs: Database Integration Decisions
 
@@ -979,7 +988,10 @@ Prisma Data Proxy:
 - **Choose Prisma Data Proxy if:** Edge runtime, Prisma user, zero DevOps
 - **Hybrid approach:** PgBouncer for main API + Prisma Data Proxy for edge functions
 
----
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: Database Integration in Next.js</strong></summary>
 
 ## 💬 Explain to Junior: Database Integration in Next.js
 
@@ -1244,6 +1256,8 @@ For complex queries beyond Prisma's capabilities, we can use `$queryRaw` for raw
 - **Raw SQL**: Complex analytics, reporting, performance-critical queries
 - **PgBouncer**: Serverless apps, prevent connection exhaustion
 - **Transactions**: Financial operations, multi-step workflows requiring atomicity
+
+</details>
 
 ---
 

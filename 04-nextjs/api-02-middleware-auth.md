@@ -355,6 +355,9 @@ export const config = {
 
 ---
 
+<details>
+<summary><strong>🔍 Deep Dive: Next.js Middleware Architecture and Edge Runtime</strong></summary>
+
 ## 🔍 Deep Dive: Next.js Middleware Architecture and Edge Runtime
 
 ### Edge Runtime vs Node.js Runtime
@@ -697,7 +700,10 @@ export async function middleware(request: NextRequest) {
 // - Order matters: Run cheapest checks first (geo: 0ms, auth: 5ms, rate limit: 20ms)
 ```
 
----
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Middleware Authentication Bug</strong></summary>
 
 ## 🐛 Real-World Scenario: Middleware Authentication Bug
 
@@ -1177,6 +1183,8 @@ export async function middleware(request: NextRequest) {
 4. **Monitor for redirect patterns** - Alert when same user redirects >3 times in 10 seconds
 5. **Have rollback strategy** - Should be able to rollback in <2 minutes
 6. **Token refresh in middleware improves UX** - Users stay logged in longer without re-authentication
+
+</details>
 
 ---
 
@@ -1659,6 +1667,9 @@ export async function POST(request: NextRequest) {
 
 ---
 
+<details>
+<summary><strong>⚖️ Trade-offs: JWT vs Session-Based vs NextAuth.js Authentication</strong></summary>
+
 ## ⚖️ Trade-offs: JWT vs Session-Based vs NextAuth.js Authentication
 
 ### 1. JWT Authentication (Stateless)
@@ -1891,7 +1902,10 @@ export async function middleware(request: NextRequest) {
 // - Best of both worlds: Performance + Security
 ```
 
----
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: Next.js Authentication Strategies</strong></summary>
 
 ## 💬 Explain to Junior: Next.js Authentication Strategies
 

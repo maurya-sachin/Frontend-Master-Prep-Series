@@ -157,6 +157,9 @@ export default async function Page() {
 
 ## 🔍 Deep Dive: App Router Architecture and Server Components
 
+<details>
+<summary><strong>🔍 Deep Dive: App Router Architecture and Server Components</strong></summary>
+
 ### The Fundamental Paradigm Shift
 
 The App Router represents a complete architectural reimagining of Next.js, fundamentally changing how we think about React applications. Unlike the Pages Router which was built on traditional React's client-side rendering model with server-side pre-rendering, the App Router is built from the ground up on React Server Components (RSC), creating a new hybrid rendering architecture.
@@ -219,9 +222,14 @@ However, there are tradeoffs. Server Components require a server runtime—you c
 
 The App Router represents Next.js evolving from a framework that wraps React to a framework that extends React with new rendering paradigms. It's not just a routing change—it's a fundamental architectural evolution that leverages React's latest capabilities to create faster, more efficient web applications.
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Debugging App Router Performance Issues
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging App Router Performance Issues</strong></summary>
 
 ### The Problem: Degraded Dashboard Performance After App Router Migration
 
@@ -493,9 +501,14 @@ async function RevenueMetricsAsync() {
 
 This scenario demonstrates that App Router migration requires architectural understanding, not just mechanical code translation. The framework provides better primitives, but you must use them correctly to realize performance benefits.
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: App Router vs Pages Router
+
+<details>
+<summary><strong>⚖️ Trade-offs: App Router vs Pages Router</strong></summary>
 
 ### The Fundamental Trade-off: Flexibility vs Optimization
 
@@ -719,9 +732,14 @@ Choose Pages Router when:
 
 For most production applications in 2024-2025, App Router is the right choice despite its complexity. The performance benefits are real, and the architectural patterns align with where React is heading. However, the migration requires careful planning, team training, and acceptance that the learning curve is steep. Pages Router remains viable for existing apps where migration costs exceed benefits, but new projects should default to App Router unless there's a specific reason not to.
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Understanding App Router Like a Restaurant
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding App Router Like a Restaurant</strong></summary>
 
 ### The Restaurant Analogy
 
@@ -991,5 +1009,7 @@ When asked "What is App Router and how is it different from Pages Router?":
 "App Router can coexist with Pages Router, enabling incremental migration route by route, which makes adoption practical for existing applications."
 
 This answer demonstrates deep understanding while remaining clear and concise—perfect for senior-level interviews.
+
+</details>
 
 ---

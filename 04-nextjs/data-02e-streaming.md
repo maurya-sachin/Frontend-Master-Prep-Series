@@ -335,7 +335,8 @@ function CardSkeleton() {
 
 ---
 
-## 🔍 Deep Dive: Streaming SSR Architecture & React Server Components
+<details>
+<summary><strong>🔍 Deep Dive: Streaming SSR Architecture & React Server Components</strong></summary>
 
 ### How Streaming Works Under the Hood
 
@@ -564,9 +565,12 @@ async function Likes() {
 // Improvement: 55% faster (200ms vs 450ms)
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Slow Dashboard Performance
+<details>
+<summary><strong>🐛 Real-World Scenario: Slow Dashboard Performance</strong></summary>
 
 ### The Problem: Blocking Dashboard Render
 
@@ -836,7 +840,10 @@ Revenue impact:
 
 ---
 
-## ⚖️ Trade-offs: Streaming vs Traditional SSR
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Streaming vs Traditional SSR</strong></summary>
 
 ### Complexity vs Performance
 
@@ -903,9 +910,12 @@ Streaming SSR:
 Verdict: Streaming worth the marginal cost increase
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Streaming SSR - Simple Mental Model
+<details>
+<summary><strong>💬 Explain to Junior: Streaming SSR - Simple Mental Model</strong></summary>
 
 ### The Restaurant Order Analogy
 
@@ -1020,5 +1030,9 @@ Customer experience:
 - [Streaming SSR](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming)
 - [React Suspense](https://react.dev/reference/react/Suspense)
 - [Progressive Hydration](https://www.patterns.dev/posts/progressive-hydration)
+
+</details>
+
+</details>
 
 ---

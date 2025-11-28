@@ -251,6 +251,9 @@ Client-side (SWR/React Query):
 
 ---
 
+<details>
+<summary><strong>🔍 Deep Dive: SSG vs SSR - The V8 Engine Perspective</strong></summary>
+
 ## Deep Dive: SSG vs SSR - The V8 Engine Perspective
 
 ### Build-Time Code Execution and Serialization
@@ -572,7 +575,10 @@ export async function POST(req: Request) {
 }
 ```
 
----
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: E-Commerce Product Page Performance Crisis</strong></summary>
 
 ## Real-World Scenario: E-Commerce Product Page Performance Crisis
 
@@ -940,7 +946,10 @@ Marketing: Positive PR instead of "FastCart is slow" trending topic
 4. **Connection pooling is essential**: Protects from connection exhaustion
 5. **Monitor cold start rates**: 68% cold starts signals over-provisioning
 
----
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: Choosing the Right Strategy</strong></summary>
 
 ## Trade-offs: Choosing the Right Strategy
 
@@ -1110,7 +1119,10 @@ function ArticlePage({ article }) {
 // UX: Perfect balance
 ```
 
----
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: Data Fetching Demystified</strong></summary>
 
 ## Explain to Junior: Data Fetching Demystified
 
@@ -1267,7 +1279,10 @@ For non-SEO content like admin panels, I'd use **client-side SWR** for real-time
 - Demonstrates real-world thinking
 - Explains the "why," not just "what"
 
+</details>
 
+<details>
+<summary><strong>🔍 Deep Dive: How Next.js Data Fetching Works Under the Hood</strong></summary>
 
 ## Deep Dive: How Next.js Data Fetching Works Under the Hood
 
@@ -1554,5 +1569,7 @@ export async function getStaticPaths() {
 // - Database load: ~20 queries/hour (revalidation only)
 // - Savings: 95% cost reduction, 20x faster
 ```
+
+</details>
 
 ---

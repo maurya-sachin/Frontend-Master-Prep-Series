@@ -250,7 +250,8 @@ Examples:
 
 ---
 
-## 🔍 Deep Dive: Edge Runtime Architecture & Global Distribution
+<details>
+<summary><strong>🔍 Deep Dive: Edge Runtime Architecture & Global Distribution</strong></summary>
 
 ### What is Edge Runtime?
 
@@ -494,9 +495,12 @@ Use Node.js Runtime:
 └─ High memory requirements (>128MB)
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Migrating API Routes to Edge Runtime
+<details>
+<summary><strong>🐛 Real-World Scenario: Migrating API Routes to Edge Runtime</strong></summary>
 
 ### The Problem: High Global Latency
 
@@ -704,7 +708,10 @@ Savings: $2,800/month ($33,600/year!)
 
 ---
 
-## ⚖️ Trade-offs: Edge Runtime vs Node.js Runtime
+---
+
+<details>
+<summary><strong>⚖️ Trade-offs: Edge Runtime vs Node.js Runtime</strong></summary>
 
 ### Performance vs Capabilities
 
@@ -766,9 +773,12 @@ Smart distribution:
 └─ Result: Fast globally + full capabilities where needed
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Runtime Environments - Simple Mental Model
+<details>
+<summary><strong>💬 Explain to Junior: Runtime Environments - Simple Mental Model</strong></summary>
 
 ### The Restaurant Analogy
 
@@ -876,5 +886,9 @@ Trade-offs:
 - [Edge Runtime](https://nextjs.org/docs/api-reference/edge-runtime)
 - [Runtime Configuration](https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes)
 - [Vercel Edge Functions](https://vercel.com/docs/functions/edge-functions)
+
+</details>
+
+</details>
 
 ---

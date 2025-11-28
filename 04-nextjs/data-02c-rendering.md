@@ -268,7 +268,8 @@ export function middleware(request) {
 
 ---
 
-## 🔍 Deep Dive: Next.js Performance Optimization Architecture
+<details>
+<summary><strong>🔍 Deep Dive: Next.js Performance Optimization Architecture</strong></summary>
 
 ### Image Optimization Pipeline
 
@@ -496,9 +497,12 @@ export default async function handler(req, res) {
 }
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Performance Optimization at Scale
+<details>
+<summary><strong>🐛 Real-World Scenario: Performance Optimization at Scale</strong></summary>
 
 ### The Problem: Slow SaaS Application
 
@@ -744,9 +748,12 @@ Annual savings: $135,600!
 5. **Browser cache headers for static assets** (repeat visitors fast)
 6. **Code splitting by route** (load only what's needed)
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Performance vs Feature Completeness
+<details>
+<summary><strong>⚖️ Trade-offs: Performance vs Feature Completeness</strong></summary>
 
 ### When Optimization Hurts
 
@@ -784,9 +791,12 @@ Bundle size vs developer experience:
 └─ Use package size checker: Best of both
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Performance Optimization Mindset
+<details>
+<summary><strong>💬 Explain to Junior: Performance Optimization Mindset</strong></summary>
 
 ### The Performance Checklist (Priority Order)
 
@@ -897,6 +907,10 @@ Impact: 90% cache hit rate = 99.5% fast requests
 - [Next.js Performance](https://nextjs.org/docs/advanced-features/measuring-performance)
 - [Image Optimization](https://nextjs.org/docs/basic-features/image-optimization)
 - [Font Optimization](https://nextjs.org/docs/basic-features/font-optimization)
+
+---
+
+</details>
 
 ---
 

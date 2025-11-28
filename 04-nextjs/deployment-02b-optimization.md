@@ -30,6 +30,9 @@ Explain Next.js image optimization using the `next/image` component. How does au
 
 ### 🔍 Deep Dive: Image Optimization Pipeline & Browser Rendering
 
+<details>
+<summary><strong>🔍 Deep Dive: Image Optimization Pipeline & Browser Rendering</strong></summary>
+
 **Next.js Image Optimization Architecture:**
 When you use `<Image src="/hero.jpg" width={800} height={600} />`, Next.js doesn't just serve the original file. Instead, it creates an optimization pipeline that runs entirely on-demand—no build-time processing. Here's the exact flow:
 
@@ -277,9 +280,14 @@ module.exports = {
 
 **Lesson Learned:** The combination of lazy loading + modern formats + proper sizing is exponentially more powerful than any single optimization. Each multiplies the previous savings.
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: Image Optimization Strategies
+
+<details>
+<summary><strong>⚖️ Trade-offs: Image Optimization Strategies</strong></summary>
 
 **next/image vs Plain <img> Tag:**
 
@@ -378,9 +386,14 @@ JPEG: Universal support, no encoding overhead
 
 **Decision:** Use on-demand for dynamic content, build-time for static marketing sites.
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: Image Optimization Interview Answers
+
+<details>
+<summary><strong>💬 Explain to Junior: Image Optimization Interview Answers</strong></summary>
 
 **1. Why can't you just use <img> tags in Next.js?**
 
@@ -428,6 +441,8 @@ JPEG: Universal support, no encoding overhead
 ✅ Understand responsive images (sizes, srcSet)
 ✅ Know LCP optimization (priority, proper sizing)
 ✅ Handle external images (domains whitelist)
+
+</details>
 
 ---
 
@@ -825,6 +840,9 @@ Explain Next.js font optimization using `next/font` and script optimization usin
 
 ### 🔍 Deep Dive: Font Loading Pipeline & Browser Rendering Internals
 
+<details>
+<summary><strong>🔍 Deep Dive: Font Loading Pipeline & Browser Rendering Internals</strong></summary>
+
 **next/font Architecture (Google Fonts Self-Hosting):**
 When you use `import { Inter } from 'next/font/google'`, Next.js doesn't just add a link to Google Fonts' CDN. Instead, at build time, it downloads the font files, hosts them locally, and generates optimized CSS. Here's the exact flow:
 
@@ -974,9 +992,14 @@ const inter = Inter({
 });
 ```
 
+</details>
+
 ---
 
 ### 🐛 Real-World Scenario: SaaS Dashboard Font/Script Performance Crisis
+
+<details>
+<summary><strong>🐛 Real-World Scenario: SaaS Dashboard Font/Script Performance Crisis</strong></summary>
 
 **Context:** Your SaaS dashboard uses custom fonts (Inter) and multiple third-party scripts (Google Analytics, Intercom chat, Stripe). Users complain the page feels slow and "janky."
 
@@ -1202,9 +1225,14 @@ export default function CheckoutPage() {
 
 **Key Lesson:** Third-party scripts are the #1 cause of slow sites. Audit aggressively, load lazily, and consider removing non-essential scripts.
 
+</details>
+
 ---
 
 ### ⚖️ Trade-offs: Font and Script Optimization Strategies
+
+<details>
+<summary><strong>⚖️ Trade-offs: Font and Script Optimization Strategies</strong></summary>
 
 **next/font vs Google Fonts CDN:**
 
@@ -1291,9 +1319,14 @@ Variable (100-900): 180KB
 
 **Decision:** Use variable font if you need 3+ weights.
 
+</details>
+
 ---
 
 ### 💬 Explain to Junior: Font and Script Optimization Interview Answers
+
+<details>
+<summary><strong>💬 Explain to Junior: Font and Script Optimization Interview Answers</strong></summary>
 
 **1. What's next/font and why should you use it?**
 
@@ -1334,6 +1367,8 @@ Variable (100-900): 180KB
 ✅ Understand size-adjust for zero layout shift
 ✅ Know how to defer third-party scripts
 ✅ Explain font subsetting and file size savings
+
+</details>
 
 ---
 

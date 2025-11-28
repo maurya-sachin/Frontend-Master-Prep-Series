@@ -270,6 +270,9 @@ export default function Loading() {
 
 ## 🔍 Deep Dive: Loading and Error States Architecture
 
+<details>
+<summary><strong>🔍 Deep Dive: Loading and Error States Architecture</strong></summary>
+
 ### React Suspense Integration with Next.js
 
 Next.js `loading.js` files are syntactic sugar over React Suspense boundaries. Understanding how Suspense works internally helps you optimize loading states:
@@ -552,9 +555,14 @@ export default async function DashboardPage() {
 // Total: 2000ms, but shell interactive at 50ms
 ```
 
+</details>
+
 ---
 
 ## 🐛 Real-World Scenario: Error Boundary Production Incident
+
+<details>
+<summary><strong>🐛 Real-World Scenario: Error Boundary Production Incident</strong></summary>
 
 ### Production Crisis: Infinite Error Loop
 
@@ -937,9 +945,14 @@ export function setupErrorMonitoring() {
 4. **Monitor errors actively** - Auto-alert on error spikes, don't wait for user reports
 5. **Test error states** - Simulate API failures in staging to verify error handling works
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Loading and Error State Strategies
+
+<details>
+<summary><strong>⚖️ Trade-offs: Loading and Error State Strategies</strong></summary>
 
 ### 1. loading.js vs Manual Suspense Boundaries
 
@@ -1163,9 +1176,14 @@ export function PremiumContent({ user }) {
 }
 ```
 
+</details>
+
 ---
 
 ## 💬 Explain to Junior: Loading and Error States in Next.js
+
+<details>
+<summary><strong>💬 Explain to Junior: Loading and Error States in Next.js</strong></summary>
 
 ### The Restaurant Order Analogy
 
@@ -1456,6 +1474,8 @@ export default function Error({ error, reset }) {
 - [ ] Test 404 pages (try invalid slugs/IDs)
 - [ ] Verify retry button doesn't cause infinite loops
 - [ ] Check HTTP status codes (404 for not-found, 500 for errors)
+
+</details>
 
 ---
 

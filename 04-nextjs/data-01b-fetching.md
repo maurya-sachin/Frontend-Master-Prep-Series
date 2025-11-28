@@ -248,7 +248,8 @@ function ClientChild({ initialData }) {
 
 ---
 
-## Deep Dive: Server Components and the New Data Fetching Model
+<details>
+<summary><strong>🔍 Deep Dive: Server Components and the New Data Fetching Model</strong></summary>
 
 ### The Mental Model: Server Components vs Client Components
 
@@ -694,9 +695,12 @@ export async function addComment(slug: string, text: string) {
 // - Other posts: Not revalidated (efficient!)
 ```
 
+</details>
+
 ---
 
-## Real-World Scenario: Migrating from Pages Router to App Router
+<details>
+<summary><strong>🐛 Real-World Scenario: Migrating from Pages Router to App Router</strong></summary>
 
 ### The Challenge
 
@@ -916,9 +920,12 @@ Costs:
 - Total: $0.62/1M (92% cheaper!)
 ```
 
+</details>
+
 ---
 
-## Trade-offs: Server Components vs Client Components
+<details>
+<summary><strong>⚖️ Trade-offs: Server Components vs Client Components</strong></summary>
 
 ### Decision Matrix
 
@@ -1081,9 +1088,12 @@ function CommentSection({ postId }) {
 // - Fast TTFB (content visible before comments load) ✅
 ```
 
+</details>
+
 ---
 
-## Explain to Junior: Server Components Demystified
+<details>
+<summary><strong>💬 Explain to Junior: Server Components Demystified</strong></summary>
 
 ### Think of It Like a Restaurant
 
@@ -1284,6 +1294,10 @@ For static or semi-static pages, I set `revalidate` on the page to use ISR."
 - References caching strategy
 
 
+
+</details>
+
+---
 
 ## Question 2: SWR and React Query for Client-Side Data Fetching
 
@@ -1533,7 +1547,8 @@ function UserPosts({ userId }) {
 
 ---
 
-## Deep Dive: Client-Side Data Fetching Architecture
+<details>
+<summary><strong>🔍 Deep Dive: Client-Side Data Fetching Architecture</strong></summary>
 
 ### The Caching Problem That SWR/React Query Solve
 
@@ -1897,9 +1912,12 @@ function TodoForm() {
 // For complex apps with mutations: React Query wins
 ```
 
+</details>
+
 ---
 
-## Real-World Scenario: Building a Real-Time Dashboard
+<details>
+<summary><strong>🐛 Real-World Scenario: Building a Real-Time Dashboard</strong></summary>
 
 ### The Challenge
 
@@ -2067,9 +2085,12 @@ function SalesDashboard() {
 // But for simple read-only dashboard: SWR is lighter
 ```
 
+</details>
+
 ---
 
-## Trade-offs: SWR vs React Query vs Plain Fetch
+<details>
+<summary><strong>⚖️ Trade-offs: SWR vs React Query vs Plain Fetch</strong></summary>
 
 ### Decision Matrix
 
@@ -2219,9 +2240,12 @@ function RealtimeActivity() {
 // - Performance: Optimal for both use cases
 ```
 
+</details>
+
 ---
 
-## Explain to Junior: Data Fetching Libraries Demystified
+<details>
+<summary><strong>💬 Explain to Junior: Data Fetching Libraries Demystified</strong></summary>
 
 ### The Manual Way vs Smart Way
 
@@ -2435,6 +2459,10 @@ I'd combine all three: Server-side rendering for critical content, SWR for real-
 - Explains when to use each approach
 - Demonstrates real-world thinking
 - Shows experience with both libraries
+
+---
+
+</details>
 
 ---
 

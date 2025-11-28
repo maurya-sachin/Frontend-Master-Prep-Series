@@ -259,7 +259,8 @@ async function Dashboard() {
 
 ---
 
-## 🔍 Deep Dive: App Router Architecture & Server Components
+<details>
+<summary><strong>🔍 Deep Dive: App Router Architecture & Server Components</strong></summary>
 
 ### Server Components vs Pages Router Architecture
 
@@ -453,9 +454,12 @@ async function ProductPage({ params }) {
 4. Fetch-level `cache: 'no-store'`
 5. Default: `cache: 'force-cache'`
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Migration from Pages to App Router
+<details>
+<summary><strong>🐛 Real-World Scenario: Migration from Pages to App Router</strong></summary>
 
 ### The Problem: Migration Complexity at Scale
 
@@ -635,9 +639,12 @@ After (App Router + Streaming):
 └─ User can interact at 450ms (75% faster!)
 ```
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Server Components vs Client Components
+<details>
+<summary><strong>⚖️ Trade-offs: Server Components vs Client Components</strong></summary>
 
 ### Performance Impact
 
@@ -684,9 +691,12 @@ Streaming: Send HTML → Data loads → Update → Display
 └─ 60% improvement in Time to Interactive
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: App Router Mental Model
+<details>
+<summary><strong>💬 Explain to Junior: App Router Mental Model</strong></summary>
 
 ### Key Concept: Shifting Complexity from Browser to Server
 
@@ -728,6 +738,8 @@ Example:
 ```
 
 ---
+
+</details>
 
 ### Common Mistakes
 

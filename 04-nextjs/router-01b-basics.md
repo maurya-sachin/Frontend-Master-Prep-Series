@@ -646,6 +646,9 @@ Complex routing features like route groups, parallel routes, and intercepting ro
 
 ## ⚖️ Trade-offs: Different Routing Patterns in App Router
 
+<details>
+<summary><strong>⚖️ Trade-offs: Different Routing Patterns in App Router</strong></summary>
+
 ### Dynamic Routes vs Static Routes
 
 **Dynamic Routes ([slug]):**
@@ -2269,9 +2272,14 @@ export function Providers({ children }) {
 
 Layouts are powerful for code organization and state persistence, but misused layouts can devastate performance. The refactoring team made classic mistakes: client-side layouts, heavy libraries at wrong hierarchy level, layout state updates from pages, and no streaming. The fixes returned to Server Components where possible, moved heavy dependencies to granular layouts, eliminated state coupling, and added progressive rendering. The result was better performance than the original Pages Router implementation.
 
+</details>
+
 ---
 
 ## ⚖️ Trade-offs: Layout Patterns and Architecture Decisions
+
+<details>
+<summary><strong>⚖️ Trade-offs: Layout Patterns and Architecture Decisions</strong></summary>
 
 ### Server Component Layouts vs Client Component Layouts
 
@@ -2889,6 +2897,8 @@ When asked "What are layouts in Next.js App Router?":
 
 **Contrast with templates:**
 "The alternative is templates, which re-render on every navigation. Templates are useful for page transition animations or when you explicitly want state to reset, but layouts are the default choice for 95% of cases."
+
+</details>
 
 **Provide example:**
 "For instance, a dashboard with a persistent sidebar would use a layout at `app/dashboard/layout.js`. As users navigate between `/dashboard/analytics` and `/dashboard/settings`, the sidebar state (which items are expanded, scroll position) persists because the layout doesn't re-render—only the page component changes."

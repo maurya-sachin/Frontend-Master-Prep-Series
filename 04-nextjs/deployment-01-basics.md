@@ -465,7 +465,8 @@ module.exports = {
 
 ---
 
-## 🔍 Deep Dive: Next.js Performance Optimization Internals
+<details>
+<summary><strong>🔍 Deep Dive: Next.js Performance Optimization Internals</strong></summary>
 
 ### Image Optimization Architecture
 
@@ -713,9 +714,12 @@ HTML parse → Hydration → Interactive → All resources loaded → Script dow
 // Use for: API routes, middleware, simple SSR
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Performance Optimization Debugging
+<details>
+<summary><strong>🐛 Real-World Scenario: Performance Optimization Debugging</strong></summary>
 
 ### Production Performance Crisis
 
@@ -1056,9 +1060,12 @@ export default function RootLayout({ children }) {
 5. **Monitor production metrics** - Set up alerts for performance degradation
 6. **Test on real devices** - Lighthouse on fast hardware doesn't reflect user experience
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Next.js Performance Optimization Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Next.js Performance Optimization Strategies</strong></summary>
 
 ### 1. Image Optimization: next/image vs Manual Optimization
 
@@ -1566,9 +1573,12 @@ import debounce from 'just-debounce-it'; // 1kb
 // - Compliance requirements (SOC 2, HIPAA)
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Next.js Performance Optimization
+<details>
+<summary><strong>💬 Explain to Junior: Next.js Performance Optimization</strong></summary>
 
 ### The Restaurant Kitchen Analogy
 
@@ -1798,6 +1808,8 @@ ANALYZE=true npm run build
 - Lighthouse score: +20-40 points
 
 These quick wins take 30 minutes but deliver massive performance improvements!
+
+</details>
 
 ---
 

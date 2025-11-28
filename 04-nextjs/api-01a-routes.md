@@ -282,6 +282,9 @@ export default async function handler(
 
 ---
 
+<details>
+<summary><strong>🔍 Deep Dive: How Next.js API Routes Work Under the Hood</strong></summary>
+
 ## 🔍 Deep Dive: How Next.js API Routes Work Under the Hood
 
 Next.js API routes are fundamentally serverless functions that execute on-demand within Node.js environments, but their implementation involves sophisticated mechanisms that differentiate them from traditional server architectures.
@@ -316,7 +319,10 @@ Dynamic routes like `[id]` use a priority system: static routes match first, the
 
 When deploying to Vercel, each API route becomes a separate lambda function. On other platforms, you might bundle all routes into a single Node.js server. Understanding your deployment target is crucial for optimizing cold start performance, managing memory limits, and handling concurrent request limits. Connection pooling becomes critical when integrating databases, as serverless environments can quickly exhaust database connection pools without proper management.
 
----
+</details>
+
+<details>
+<summary><strong>🐛 Real-World Scenario: API Route Performance Crisis</strong></summary>
 
 ## 🐛 Real-World Scenario: API Route Performance Crisis
 
@@ -498,7 +504,10 @@ res.json({
 5. Use pagination to limit response sizes
 6. Optimize database queries with joins instead of loops
 
----
+</details>
+
+<details>
+<summary><strong>⚖️ Trade-offs: API Routes Design Decisions</strong></summary>
 
 ## ⚖️ Trade-offs: API Routes Design Decisions
 
@@ -740,7 +749,10 @@ const stats = await prisma.$queryRaw`
 - **Choose GraphQL if:** Complex data needs, mobile apps, multiple clients
 - **Choose tRPC if:** TypeScript monorepo, internal API, rapid development
 
----
+</details>
+
+<details>
+<summary><strong>💬 Explain to Junior: Understanding Next.js API Routes</strong></summary>
 
 ## 💬 Explain to Junior: Understanding Next.js API Routes
 
@@ -926,6 +938,8 @@ A simple example would be fetching users from a database: check the HTTP method 
 - Simple page rendering (use Server Components in App Router)
 - Static data (use SSG instead)
 - Public data that doesn't need protection
+
+</details>
 
 ---
 
