@@ -190,8 +190,6 @@ function processItems<T>(items: T[]): void {
 <details>
 <summary><strong>🔍 Deep Dive: How TypeScript Generics Work Internally</strong></summary>
 
-## 🔍 Deep Dive: How TypeScript Generics Work Internally
-
 ### Type Variable Resolution and Inference
 
 TypeScript's generic system is purely compile-time. When you write a generic function, the compiler performs **type inference** to determine what `T` should be, or uses the explicitly provided type argument.
@@ -465,8 +463,6 @@ type GetReturnTypeFast<T> =
 <details>
 <summary><strong>🐛 Real-World Scenario: Generic Type Inference Fails in Production API Client</strong></summary>
 
-## 🐛 Real-World Scenario: Generic Type Inference Fails in Production API Client
-
 ### The Problem
 
 A fintech company building a type-safe API client ran into a critical bug where generic type inference failed for nested response types, causing runtime errors in production that weren't caught by TypeScript.
@@ -720,8 +716,6 @@ async function getWithValidation<T>(
 
 <details>
 <summary><strong>⚖️ Trade-offs: When to Use Generics vs Alternatives</strong></summary>
-
-## ⚖️ Trade-offs: When to Use Generics vs Alternatives
 
 ### Decision Matrix: Generics vs Other Approaches
 
@@ -1126,8 +1120,6 @@ console.log(cache.getStats());  // { total: 1, byType: { user: 1 } }
 
 <details>
 <summary><strong>💬 Explain to Junior: Understanding TypeScript Generics Like a Pro</strong></summary>
-
-## 💬 Explain to Junior: Understanding TypeScript Generics Like a Pro
 
 ### The Box Analogy
 
@@ -1645,8 +1637,6 @@ function lengthSafe<T extends { length: number }>(item: T): number {
 <details>
 <summary><strong>🔍 Deep Dive: Generic Constraint Mechanics and Advanced Patterns</strong></summary>
 
-## 🔍 Deep Dive: Generic Constraint Mechanics and Advanced Patterns
-
 ### How TypeScript Resolves Generic Constraints
 
 When you use `T extends SomeType`, TypeScript performs **structural subtype checking** at compile time. This is fundamentally different from nominal typing (like Java interfaces).
@@ -2002,8 +1992,6 @@ const userRepo: Repository<User> = { /* ... */ };
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Generic Constraint Bugs in E-Commerce Search</strong></summary>
-
-## 🐛 Real-World Scenario: Generic Constraint Bugs in E-Commerce Search
 
 ### The Problem
 
@@ -2363,8 +2351,6 @@ try {
 
 <details>
 <summary><strong>⚖️ Trade-offs: Generic Constraints vs Type Unions vs Overloads</strong></summary>
-
-## ⚖️ Trade-offs: Generic Constraints vs Type Unions vs Overloads
 
 ### Decision Matrix: When to Use Each Approach
 
@@ -2751,8 +2737,6 @@ const result = pipeline2
 
 <details>
 <summary><strong>💬 Explain to Junior: Generic Constraints Made Simple</strong></summary>
-
-## 💬 Explain to Junior: Generic Constraints Made Simple
 
 ### What Are Generic Constraints?
 

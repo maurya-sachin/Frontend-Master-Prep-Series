@@ -155,8 +155,6 @@ export default async function Page() {
 
 ---
 
-## 🔍 Deep Dive: App Router Architecture and Server Components
-
 <details>
 <summary><strong>🔍 Deep Dive: App Router Architecture and Server Components</strong></summary>
 
@@ -225,8 +223,6 @@ The App Router represents Next.js evolving from a framework that wraps React to 
 </details>
 
 ---
-
-## 🐛 Real-World Scenario: Debugging App Router Performance Issues
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Debugging App Router Performance Issues</strong></summary>
@@ -505,8 +501,6 @@ This scenario demonstrates that App Router migration requires architectural unde
 
 ---
 
-## ⚖️ Trade-offs: App Router vs Pages Router
-
 <details>
 <summary><strong>⚖️ Trade-offs: App Router vs Pages Router</strong></summary>
 
@@ -735,8 +729,6 @@ For most production applications in 2024-2025, App Router is the right choice de
 </details>
 
 ---
-
-## 💬 Explain to Junior: Understanding App Router Like a Restaurant
 
 <details>
 <summary><strong>💬 Explain to Junior: Understanding App Router Like a Restaurant</strong></summary>

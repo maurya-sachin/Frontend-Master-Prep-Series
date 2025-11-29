@@ -358,7 +358,9 @@ START: Need to layout elements?
 
 ---
 
-## 🔍 Deep Dive: Layout Algorithm Internals
+<details>
+<summary><strong>🔍 Deep Dive: Layout Algorithm Internals</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: Layout Algorithm Internals</strong></summary>
@@ -433,9 +435,13 @@ FLEXBOX:           GRID:
 
 </details>
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Performance Regression Bug
+<details>
+<summary><strong>🐛 Real-World Scenario: Performance Regression Bug</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Performance Regression Bug</strong></summary>
@@ -552,9 +558,13 @@ E-commerce site's product listing grid rendering dropped from **60fps** to **8fp
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Flexbox vs Grid Decision Matrix
+<details>
+<summary><strong>⚖️ Trade-offs: Flexbox vs Grid Decision Matrix</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: Flexbox vs Grid Decision Matrix</strong></summary>
@@ -628,9 +638,13 @@ Layout needed?
 
 </details>
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Interview Answer Template
+<details>
+<summary><strong>💬 Explain to Junior: Interview Answer Template</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: Interview Answer Template</strong></summary>
@@ -757,6 +771,8 @@ Practice explaining these scenarios:
 2. "Design a dashboard with Grid and Flexbox"
 3. "Explain a layout that uses both technologies"
 4. "Performance: why would you choose Flexbox for a 1000-item list?"
+
+</details>
 
 </details>
 
@@ -1089,7 +1105,9 @@ Explain the gap property, order property, and how flex-basis works. What's the d
 
 ---
 
-## 🔍 Deep Dive: Flexbox Sizing Algorithm Internals
+<details>
+<summary><strong>🔍 Deep Dive: Flexbox Sizing Algorithm Internals</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: Flexbox Sizing Algorithm Internals</strong></summary>
@@ -1189,9 +1207,13 @@ Screen Reader: Announces as A, then C, then B (DOM order)
 
 </details>
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Responsive Layout Bugs with flex Properties
+<details>
+<summary><strong>🐛 Real-World Scenario: Responsive Layout Bugs with flex Properties</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Responsive Layout Bugs with flex Properties</strong></summary>
@@ -1351,9 +1373,13 @@ Now: DOM order matches mobile (primary layout), order only adjusts desktop.
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Choosing Between Flex Properties
+<details>
+<summary><strong>⚖️ Trade-offs: Choosing Between Flex Properties</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: Choosing Between Flex Properties</strong></summary>
@@ -1420,9 +1446,13 @@ Now: DOM order matches mobile (primary layout), order only adjusts desktop.
 
 </details>
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: flex Properties Demystified
+<details>
+<summary><strong>💬 Explain to Junior: flex Properties Demystified</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: flex Properties Demystified</strong></summary>
@@ -1521,6 +1551,8 @@ A: "By default, flex items stretch to fill the cross axis (height in row directi
 
 **Q: Can I use order with accessibility in mind?**
 A: "Only use order for responsive adjustments at specific breakpoints. For major reordering, restructure the HTML instead to keep DOM and visual order in sync."
+
+</details>
 
 </details>
 
@@ -1819,7 +1851,9 @@ Without subgrid, each card's sections would be independent heights!
 
 ---
 
-## 🔍 Deep Dive: Grid Placement Algorithms in Depth
+<details>
+<summary><strong>🔍 Deep Dive: Grid Placement Algorithms in Depth</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: Grid Placement Algorithms in Depth</strong></summary>
@@ -1978,9 +2012,13 @@ Understanding when implicit tracks are sized:
 
 </details>
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Grid Auto-Flow Performance Disaster
+<details>
+<summary><strong>🐛 Real-World Scenario: Grid Auto-Flow Performance Disaster</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Grid Auto-Flow Performance Disaster</strong></summary>
@@ -2124,9 +2162,13 @@ Use only when:
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Grid Sizing Strategies
+<details>
+<summary><strong>⚖️ Trade-offs: Grid Sizing Strategies</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: Grid Sizing Strategies</strong></summary>
@@ -2170,9 +2212,13 @@ grid-auto-rows: minmax(100px, auto);
 
 </details>
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Implicit Grid Concepts
+<details>
+<summary><strong>💬 Explain to Junior: Implicit Grid Concepts</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: Implicit Grid Concepts</strong></summary>
@@ -2315,6 +2361,8 @@ Perfect alignment!
   grid-template-columns: subgrid;  /* Aligns with parent */
 }
 ```
+
+</details>
 
 </details>
 

@@ -358,8 +358,6 @@ export const config = {
 <details>
 <summary><strong>🔍 Deep Dive: Next.js Middleware Architecture and Edge Runtime</strong></summary>
 
-## 🔍 Deep Dive: Next.js Middleware Architecture and Edge Runtime
-
 ### Edge Runtime vs Node.js Runtime
 
 Next.js middleware runs on the **Edge Runtime**, a lightweight JavaScript runtime built on the V8 engine (same engine as Chrome and Node.js) but with significant differences from traditional Node.js:
@@ -704,8 +702,6 @@ export async function middleware(request: NextRequest) {
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Middleware Authentication Bug</strong></summary>
-
-## 🐛 Real-World Scenario: Middleware Authentication Bug
 
 ### Production Incident: Middleware Redirect Loop
 
@@ -1670,8 +1666,6 @@ export async function POST(request: NextRequest) {
 <details>
 <summary><strong>⚖️ Trade-offs: JWT vs Session-Based vs NextAuth.js Authentication</strong></summary>
 
-## ⚖️ Trade-offs: JWT vs Session-Based vs NextAuth.js Authentication
-
 ### 1. JWT Authentication (Stateless)
 
 **Architecture:**
@@ -1906,8 +1900,6 @@ export async function middleware(request: NextRequest) {
 
 <details>
 <summary><strong>💬 Explain to Junior: Next.js Authentication Strategies</strong></summary>
-
-## 💬 Explain to Junior: Next.js Authentication Strategies
 
 ### The Nightclub Analogy
 

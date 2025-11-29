@@ -285,8 +285,6 @@ export default async function handler(
 <details>
 <summary><strong>🔍 Deep Dive: How Next.js API Routes Work Under the Hood</strong></summary>
 
-## 🔍 Deep Dive: How Next.js API Routes Work Under the Hood
-
 Next.js API routes are fundamentally serverless functions that execute on-demand within Node.js environments, but their implementation involves sophisticated mechanisms that differentiate them from traditional server architectures.
 
 **Internal Architecture:**
@@ -323,8 +321,6 @@ When deploying to Vercel, each API route becomes a separate lambda function. On 
 
 <details>
 <summary><strong>🐛 Real-World Scenario: API Route Performance Crisis</strong></summary>
-
-## 🐛 Real-World Scenario: API Route Performance Crisis
 
 **Production Context:**
 A SaaS dashboard application with 50,000 daily active users experienced severe performance degradation after launching a new analytics feature. The `/api/analytics/dashboard` endpoint was taking 8-12 seconds to respond during peak hours (9-11 AM), causing user complaints and timeout errors.
@@ -508,8 +504,6 @@ res.json({
 
 <details>
 <summary><strong>⚖️ Trade-offs: API Routes Design Decisions</strong></summary>
-
-## ⚖️ Trade-offs: API Routes Design Decisions
 
 ### 1. Pages Router API Routes vs. App Router Route Handlers
 
@@ -753,8 +747,6 @@ const stats = await prisma.$queryRaw`
 
 <details>
 <summary><strong>💬 Explain to Junior: Understanding Next.js API Routes</strong></summary>
-
-## 💬 Explain to Junior: Understanding Next.js API Routes
 
 **Beginner-Friendly Explanation:**
 
@@ -1246,7 +1238,8 @@ export default withAuth(async (req: AuthenticatedRequest, res: NextApiResponse) 
 
 ---
 
-## 🔍 Deep Dive: Authentication Architecture and Middleware Patterns
+<details>
+<summary><strong>🔍 Deep Dive: Authentication Architecture and Middleware Patterns</strong></summary>
 
 Next.js provides multiple authentication approaches, each with different architectural implications. Understanding the internal mechanics helps you choose the right pattern for your security requirements.
 
@@ -1312,9 +1305,12 @@ NextAuth.js abstracts this complexity, handling the OAuth dance, session managem
 
 Always hash passwords with bcrypt (or Argon2) using a cost factor of 10+. Use HTTPS in production to prevent token interception. Implement CSRF protection for state-changing operations. Set appropriate CORS headers to prevent unauthorized cross-origin requests. Use rate limiting to prevent brute-force attacks. Never expose JWT secrets in client code or version control.
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Authentication Vulnerability Exploited
+<details>
+<summary><strong>🐛 Real-World Scenario: Authentication Vulnerability Exploited</strong></summary>
 
 **Production Context:**
 An e-commerce platform with 250,000 users discovered a critical security breach. Attackers gained admin access to 1,200 user accounts over 72 hours, modifying orders, accessing payment information, and creating fraudulent admin accounts. The breach was discovered when legitimate users reported unauthorized purchases.
@@ -1627,9 +1623,12 @@ export default withAuth(async (req: AuthenticatedRequest, res: NextApiResponse) 
 7. Use Content Security Policy (CSP) headers to mitigate XSS
 8. Implement token revocation capability for emergency response
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Authentication Strategy Decisions
+<details>
+<summary><strong>⚖️ Trade-offs: Authentication Strategy Decisions</strong></summary>
 
 ### 1. JWT vs. Sessions vs. OAuth - Comprehensive Comparison
 
@@ -2012,9 +2011,12 @@ const valid = storedHash === hash.toString('hex');
 - **Argon2**: memoryCost 65536 (64MB), timeCost 3, parallelism 4
 - **scrypt**: N=32768, r=8, p=1, keylen=64
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Authentication in Next.js
+<details>
+<summary><strong>💬 Explain to Junior: Authentication in Next.js</strong></summary>
 
 **Beginner-Friendly Explanation:**
 
@@ -2262,5 +2264,7 @@ For more complex scenarios, libraries like NextAuth.js provide OAuth support, se
 - **Sessions**: Traditional web apps, need instant token revocation, simpler mental model
 - **OAuth**: Need social login (Google, GitHub), enterprise SSO
 - **NextAuth.js**: Want all of the above with minimal setup
+
+</details>
 
 ---

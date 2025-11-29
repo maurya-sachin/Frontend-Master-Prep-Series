@@ -190,8 +190,6 @@ type ExtractStringSafe<T> = [T] extends [never]
 <details>
 <summary><strong>🔍 Deep Dive: Conditional Type Mechanics and Advanced Patterns</strong></summary>
 
-## 🔍 Deep Dive: Conditional Type Mechanics and Advanced Patterns
-
 ### How TypeScript Evaluates Conditional Types
 
 Conditional types are evaluated **lazily** at the point of use. TypeScript performs pattern matching to determine which branch to take:
@@ -561,8 +559,6 @@ type FastUnwrap<T> = T extends Promise<any>
 <details>
 <summary><strong>🐛 Real-World Scenario: Conditional Type Bug in Type-Safe Router</strong></summary>
 
-## 🐛 Real-World Scenario: Conditional Type Bug in Type-Safe Router
-
 ### The Problem
 
 A SaaS company building a type-safe routing library used conditional types incorrectly, causing a bug where route parameters weren't properly typed, leading to runtime errors in production that TypeScript didn't catch.
@@ -903,8 +899,6 @@ function validateRoute<Path extends string>(
 <details>
 <summary><strong>⚖️ Trade-offs: Conditional Types vs Alternatives</strong></summary>
 
-## ⚖️ Trade-offs: Conditional Types vs Alternatives
-
 ### Decision Matrix: When to Use Conditional Types
 
 | Scenario | Conditional Types | Function Overloads | Union Types | Type Guards |
@@ -1166,8 +1160,6 @@ const runtimeField: GenericFormField = {
 
 <details>
 <summary><strong>💬 Explain to Junior: Conditional Types Made Simple</strong></summary>
-
-## 💬 Explain to Junior: Conditional Types Made Simple
 
 ### What Are Conditional Types?
 

@@ -243,7 +243,8 @@ function diffChildren(oldChildren, newChildren) {
 
 ---
 
-## 🔍 Deep Dive: React's Reconciliation Algorithm & Virtual DOM Architecture
+<details>
+<summary><strong>🔍 Deep Dive: React's Reconciliation Algorithm & Virtual DOM Architecture</strong></summary>
 
 ### The O(n) Diffing Algorithm Breakthrough
 
@@ -490,7 +491,8 @@ This optimization is why React.memo, useMemo, and useCallback are valuable - the
 
 ---
 
-## 🐛 Real-World Scenario: Reconciliation Performance Issues
+<details>
+<summary><strong>🐛 Real-World Scenario: Reconciliation Performance Issues</strong></summary>
 
 ### Production Case Study: E-commerce Product Grid Performance Crisis
 
@@ -744,6 +746,8 @@ whyDidYouRender(React, {
 3. **Virtual scrolling for large lists** - massive performance win
 4. **Batch API requests** - reduces network overhead
 5. **Profile before optimizing** - data-driven decisions
+
+</details>
 
 ---
 
@@ -1049,9 +1053,13 @@ Bundle size            | 170KB  | 20KB   | 5KB
 - **Embedded/Mobile-first**: Svelte (bundle size)
 - **Data dashboards**: Solid.js (fine-grained reactivity)
 
+
+</details>
+
 ---
 
-## 💬 Explain to Junior: Reconciliation & Virtual DOM Like You're Five
+<details>
+<summary><strong>💬 Explain to Junior: Reconciliation & Virtual DOM Like You're Five</strong></summary>
 
 ### The Library Book Analogy
 
@@ -1214,6 +1222,8 @@ Total time: 3 seconds (stopping/starting 1 time)
 >
 > **Safe to use index**: Static lists that never change
 > **Use unique IDs**: Dynamic lists (filters, sorts, CRUD operations)"
+
+</details>
 
 ---
 
@@ -1462,7 +1472,8 @@ function SearchTransition() {
 
 ---
 
-## 🔍 Deep Dive: React 18 Concurrent Rendering Architecture
+<details>
+<summary><strong>🔍 Deep Dive: React 18 Concurrent Rendering Architecture</strong></summary>
 
 ### The Fundamental Shift: Cooperative Scheduling
 
@@ -1974,9 +1985,12 @@ function OptimizedApp() {
 // - Data loading: Progressive with skeletons (Suspense)
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Concurrent Features Migration
+<details>
+<summary><strong>🐛 Real-World Scenario: Concurrent Features Migration</strong></summary>
 
 ### Production Case Study: Dashboard Performance Overhaul
 
@@ -2678,9 +2692,13 @@ function OptimalDashboard() {
 // - Coordinated loading states
 ```
 
+
+</details>
+
 ---
 
-## 💬 Explain to Junior: React 18 Concurrent Features Like You're Five
+<details>
+<summary><strong>💬 Explain to Junior: React 18 Concurrent Features Like You're Five</strong></summary>
 
 ### The Restaurant Analogy
 
@@ -2933,6 +2951,11 @@ function Museum() {
 > ```
 >
 > This makes apps faster automatically without code changes. The benefits are fewer renders, better performance, less layout thrashing."
+
+</details>
+
+---
+
 
 </details>
 

@@ -49,8 +49,6 @@ function List() {
 
 ---
 
-## 🔍 Deep Dive
-
 <details>
 <summary><strong>🔍 Deep Dive: Fragment Implementation and Key Reconciliation</strong></summary>
 
@@ -141,9 +139,13 @@ Fragments don't support:
 
 This is by design - if you need these features, use a `<div>` instead.
 
+
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Fragment Debugging in Production
+<details>
+<summary><strong>🐛 Real-World Scenario: Fragment Debugging in Production</strong></summary>
 
 **Scenario**: A financial dashboard showing user accounts. Each account has a header row and detail rows in a table.
 
@@ -254,8 +256,6 @@ function GridWithFragment() {
 
 ---
 
-## ⚖️ Trade-offs: When to Use What
-
 <details>
 <summary><strong>⚖️ Trade-offs: Fragment vs Div Wrapper and Key Strategies</strong></summary>
 
@@ -352,9 +352,12 @@ List with dynamic ordering?
 └─ No → Either works, prefer <> for brevity
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Fragments Simplified
+<details>
+<summary><strong>💬 Explain to Junior: Fragments Simplified</strong></summary>
 
 ### Simple Analogy
 
@@ -523,7 +526,7 @@ function TableRows({ data }) {
 }
 ```
 
----
+</details>
 
 ---
 
@@ -593,7 +596,8 @@ items.map((item, index) => (
 
 ---
 
-## 🔍 Deep Dive: React's Key Reconciliation Algorithm
+<details>
+<summary><strong>🔍 Deep Dive: React's Key Reconciliation Algorithm</strong></summary>
 
 ### How React Compares Lists (Detailed)
 
@@ -838,9 +842,12 @@ function TodoList({ todos }) {
 // USER SEES: Correct checked state matching the item
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Missing Keys Production Bug
+<details>
+<summary><strong>🐛 Real-World Scenario: Missing Keys Production Bug</strong></summary>
 
 **Scenario: E-commerce Cart with Quantity Inputs**
 
@@ -970,11 +977,10 @@ The team added these checks to their code review process:
 3. Added ESLint rule: `react/no-array-index-key`
 4. Added test case: Verify component state after list reordering
 
+
 </details>
 
 ---
-
-## ⚖️ Trade-offs: Keys vs Performance Patterns
 
 <details>
 <summary><strong>⚖️ Trade-offs: Index vs ID Keys and Performance Optimization</strong></summary>
@@ -1135,9 +1141,12 @@ const ExpensiveItem = React.memo(({ item, onUpdate }) => {
 // Result: Now keys + memo = only changed items render
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Keys Simplified
+<details>
+<summary><strong>💬 Explain to Junior: Keys Simplified</strong></summary>
 
 ### The List Matching Problem
 

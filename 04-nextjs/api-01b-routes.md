@@ -283,8 +283,6 @@ const databaseUrl = process.env.NODE_ENV === 'production'
 <details>
 <summary><strong>🔍 Deep Dive: Database Integration Architecture in Serverless</strong></summary>
 
-## 🔍 Deep Dive: Database Integration Architecture in Serverless
-
 Integrating databases with Next.js API routes introduces unique challenges due to the serverless execution model. Understanding these architectural constraints is essential for building performant, scalable applications.
 
 **Connection Pooling in Serverless Environments:**
@@ -398,8 +396,6 @@ Use `prisma.$queryRaw` for complex analytics queries where Prisma's query builde
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Database Connection Pool Exhaustion</strong></summary>
-
-## 🐛 Real-World Scenario: Database Connection Pool Exhaustion
 
 **Production Context:**
 A real-time collaboration SaaS platform with 80,000 daily active users deployed on Vercel (serverless). During a product launch event, the platform experienced complete downtime for 35 minutes. All API routes returned 500 errors, and users were unable to access the application.
@@ -631,8 +627,6 @@ export const prisma = new PrismaClient({
 
 <details>
 <summary><strong>⚖️ Trade-offs: Database Integration Decisions</strong></summary>
-
-## ⚖️ Trade-offs: Database Integration Decisions
 
 ### 1. Prisma vs. Drizzle vs. Kysely - ORM Comparison
 
@@ -992,8 +986,6 @@ Prisma Data Proxy:
 
 <details>
 <summary><strong>💬 Explain to Junior: Database Integration in Next.js</strong></summary>
-
-## 💬 Explain to Junior: Database Integration in Next.js
 
 **Beginner-Friendly Explanation:**
 

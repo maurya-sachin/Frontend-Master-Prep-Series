@@ -303,8 +303,6 @@ type DeepPartial<T> = {
 <details>
 <summary><strong>🔍 Deep Dive: Interface vs Type - Compiler Internals and Structural Typing</strong></summary>
 
-## 🔍 Deep Dive: Interface vs Type - Compiler Internals and Structural Typing
-
 ### TypeScript Compiler's Representation
 
 TypeScript treats `interface` and `type` differently at the compiler level, which explains their behavioral differences:
@@ -610,8 +608,6 @@ type NonNullable<T> = T extends null | undefined ? never : T;
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Interface Declaration Conflict in Multi-Team Codebase</strong></summary>
-
-## 🐛 Real-World Scenario: Interface Declaration Conflict in Multi-Team Codebase
 
 ### The Problem
 
@@ -1007,8 +1003,6 @@ function isAllowedMerge(typeName: string): boolean {
 
 <details>
 <summary><strong>⚖️ Trade-offs: Interface vs Type Alias - Decision Framework</strong></summary>
-
-## ⚖️ Trade-offs: Interface vs Type Alias - Decision Framework
 
 ### Decision Matrix
 
@@ -1504,8 +1498,6 @@ type ModernConfig = {
 
 <details>
 <summary><strong>💬 Explain to Junior: Understanding Interface vs Type in TypeScript</strong></summary>
-
-## 💬 Explain to Junior: Understanding Interface vs Type in TypeScript
 
 ### The Simple Analogy
 
@@ -2093,8 +2085,6 @@ const status: 'pending' = 'pending';
 <details>
 <summary><strong>🔍 Deep Dive: TypeScript's Type Inference Algorithm</strong></summary>
 
-## 🔍 Deep Dive: TypeScript's Type Inference Algorithm
-
 ### How the Compiler Infers Types
 
 TypeScript's type inference system is one of its most powerful features, reducing boilerplate while maintaining safety. Understanding how it works requires diving into the compiler's type-checking algorithms.
@@ -2387,8 +2377,6 @@ For library code and public APIs, explicit types are recommended both for perfor
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Type Inference Bug in Production</strong></summary>
-
-## 🐛 Real-World Scenario: Type Inference Bug in Production
 
 ### Case Study: Overly Permissive Inference Causing Runtime Crashes
 
@@ -2769,8 +2757,6 @@ This scenario demonstrates why understanding type inference deeply matters—ove
 
 <details>
 <summary><strong>⚖️ Trade-offs: Type Inference vs. Explicit Annotations</strong></summary>
-
-## ⚖️ Trade-offs: Type Inference vs. Explicit Annotations
 
 ### When to Infer, When to Annotate
 
@@ -3188,8 +3174,6 @@ const result: Promise<ApiResponse> = fetch('/api/data').then(res => res.json());
 
 <details>
 <summary><strong>💬 Explain to Junior: Type Inference Made Simple</strong></summary>
-
-## 💬 Explain to Junior: Type Inference Made Simple
 
 ### The Auto-Complete Analogy
 

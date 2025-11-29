@@ -298,7 +298,6 @@ const viewCount = history.filter(a => a === 'view').length; // 2
 <details>
 <summary><strong>🔍 Deep Dive: V8 Implementation and Performance</strong></summary>
 
-## 🔍 Deep Dive: V8 Implementation and Performance
 
 ### Hash Table Implementation
 
@@ -564,7 +563,6 @@ console.timeEnd('set.delete');
 <details>
 <summary><strong>🐛 Real-World Scenario: Memory Leak in Cache System</strong></summary>
 
-## 🐛 Real-World Scenario: Memory Leak in Cache System
 
 ### The Problem
 
@@ -814,7 +812,6 @@ process.on('SIGTERM', () => {
 <details>
 <summary><strong>⚖️ Trade-offs: Choosing the Right Data Structure</strong></summary>
 
-## ⚖️ Trade-offs: Choosing the Right Data Structure
 
 ### Performance Comparison Table
 
@@ -1026,7 +1023,6 @@ map.forEach((value, key) => console.log(key, value));
 <details>
 <summary><strong>💬 Explain to Junior: Collections Made Simple</strong></summary>
 
-## 💬 Explain to Junior: Collections Made Simple
 
 ### The Analogy
 
@@ -1897,7 +1893,6 @@ emitter.emit('logout', 'John'); // (nothing - removed after once)
 <details>
 <summary><strong>🔍 Deep Dive: Method Optimization and Iterators</strong></summary>
 
-## 🔍 Deep Dive: Method Optimization and Iterators
 
 ### Internal Method Implementation
 
@@ -2137,7 +2132,6 @@ Array.from(map.entries()).forEach(([key, value]) => {
 <details>
 <summary><strong>🐛 Real-World Scenario: Performance Bug in Search Autocomplete</strong></summary>
 
-## 🐛 Real-World Scenario: Performance Bug in Search Autocomplete
 
 ### The Problem
 
@@ -2482,7 +2476,6 @@ async function buildTrieIncrementally(products) {
 <details>
 <summary><strong>⚖️ Trade-offs: Method Performance Comparison</strong></summary>
 
-## ⚖️ Trade-offs: Method Performance Comparison
 
 ### Map Method Performance
 
@@ -2717,7 +2710,6 @@ for (const [key, value] of map) {
 <details>
 <summary><strong>💬 Explain to Junior: Methods and Use Cases Simplified</strong></summary>
 
-## 💬 Explain to Junior: Methods and Use Cases Simplified
 
 ### The Analogy
 

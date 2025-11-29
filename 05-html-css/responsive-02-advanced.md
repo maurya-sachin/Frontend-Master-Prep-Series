@@ -178,7 +178,9 @@ small { font-size: var(--font-size-sm); }
 
 ---
 
-## 🔍 Deep Dive: Viewport Units, Browser Rendering, and Modern Viewport Solutions
+<details>
+<summary><strong>🔍 Deep Dive: Viewport Units, Browser Rendering, and Modern Viewport Solutions</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: Viewport Units, Browser Rendering, and Modern Viewport Solutions</strong></summary>
@@ -471,9 +473,13 @@ document.documentElement.style.fontSize = '20px'; // User set 125%
 
 </details>
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Viewport Units Break iOS Safari Full-Height Layout
+<details>
+<summary><strong>🐛 Real-World Scenario: Viewport Units Break iOS Safari Full-Height Layout</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Viewport Units Break iOS Safari Full-Height Layout</strong></summary>
@@ -743,9 +749,13 @@ window.addEventListener('load', () => {
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Viewport Units vs Fixed Units vs Container Units
+<details>
+<summary><strong>⚖️ Trade-offs: Viewport Units vs Fixed Units vs Container Units</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: Viewport Units vs Fixed Units vs Container Units</strong></summary>
@@ -808,6 +818,8 @@ window.addEventListener('load', () => {
 - Component libraries (use container queries instead)
 - Accessibility-critical text (use `rem` with `clamp()`)
 - Horizontal layouts (use `%` or container units)
+
+</details>
 
 ---
 
@@ -1015,7 +1027,9 @@ window.addEventListener('load', () => {
 
 ---
 
-## 💬 Explain to Junior: Viewport Units are Like Percentages of Your Window
+<details>
+<summary><strong>💬 Explain to Junior: Viewport Units are Like Percentages of Your Window</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: Viewport Units are Like Percentages of Your Window</strong></summary>
@@ -1051,6 +1065,8 @@ window.addEventListener('load', () => {
    The box shrinks automatically!
 */
 ```
+
+</details>
 
 ---
 
@@ -1535,7 +1551,9 @@ works in sidebar, main, modals, etc!
 
 ---
 
-## 🔍 Deep Dive: Container Queries, Component Isolation, and Browser Implementation
+<details>
+<summary><strong>🔍 Deep Dive: Container Queries, Component Isolation, and Browser Implementation</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: Container Queries, Component Isolation, and Browser Implementation</strong></summary>
@@ -1872,9 +1890,13 @@ Container query units (`cqw`, `cqh`, `cqi`, `cqb`, `cqmin`, `cqmax`) enable flui
 
 </details>
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Media Queries Break Design System Card Component
+<details>
+<summary><strong>🐛 Real-World Scenario: Media Queries Break Design System Card Component</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Media Queries Break Design System Card Component</strong></summary>
@@ -2198,9 +2220,13 @@ document.querySelectorAll('.product-card').forEach(card => {
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Container Queries vs Media Queries vs JavaScript Resize
+<details>
+<summary><strong>⚖️ Trade-offs: Container Queries vs Media Queries vs JavaScript Resize</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: Container Queries vs Media Queries vs JavaScript Resize</strong></summary>
@@ -2275,6 +2301,8 @@ document.querySelectorAll('.product-card').forEach(card => {
 - Need IE11 support
 - Full-page layouts (use media queries)
 - Simple single-use components
+
+</details>
 
 ---
 
@@ -2471,7 +2499,9 @@ resizeObserver.observe(chart);
 
 ---
 
-## 💬 Explain to Junior: Container Queries are Like Room Sizes in a House
+<details>
+<summary><strong>💬 Explain to Junior: Container Queries are Like Room Sizes in a House</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: Container Queries are Like Room Sizes in a House</strong></summary>
@@ -2596,6 +2626,8 @@ Media queries can't tell the difference, container queries can!
 ```
 
 **Browser support:** Chrome 105+, Safari 16+, Firefox 110+ (~85% of users as of 2024). Use feature detection or progressive enhancement for older browsers."
+
+</details>
 
 ---
 

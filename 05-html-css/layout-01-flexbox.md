@@ -1326,7 +1326,9 @@ Error 5: "Flexbox is responsive by default"
 
 ---
 
-## 🔍 Deep Dive: Flexbox Algorithm Internals
+<details>
+<summary><strong>🔍 Deep Dive: Flexbox Algorithm Internals</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: Flexbox Algorithm Internals</strong></summary>
@@ -1729,9 +1731,13 @@ flex: 0 0 auto;
 
 </details>
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Debugging Flexbox Layout Issues in Production
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging Flexbox Layout Issues in Production</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Debugging Flexbox Layout Issues in Production</strong></summary>
@@ -2104,9 +2110,13 @@ Business Impact:
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Flexbox vs Grid vs Other Layout Methods
+<details>
+<summary><strong>⚖️ Trade-offs: Flexbox vs Grid vs Other Layout Methods</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: Flexbox vs Grid vs Other Layout Methods</strong></summary>
@@ -2615,9 +2625,13 @@ RECOMMENDATION:
 
 </details>
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Flexbox Made Simple
+<details>
+<summary><strong>💬 Explain to Junior: Flexbox Made Simple</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: Flexbox Made Simple</strong></summary>
@@ -2986,6 +3000,8 @@ flex-wrap: wrap; /* Items wrap to next line if needed */
 
 **Key Lesson:**
 > "See how simple Flexbox is? You got equal-width, equal-height cards with just `display: flex` and `flex: 1`. Before Flexbox, this would've required JavaScript or complex CSS hacks!"
+
+</details>
 
 </details>
 

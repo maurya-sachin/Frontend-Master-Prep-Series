@@ -312,8 +312,6 @@ type OneOrOther = TypeA | TypeB; // Can be either type
 <details>
 <summary><strong>🔍 Deep Dive: Union and Intersection Type System Internals</strong></summary>
 
-## 🔍 Deep Dive: Union and Intersection Type System Internals
-
 ### How TypeScript's Type System Handles Set Theory
 
 Union and intersection types are TypeScript's implementation of **set theory** in the type system. Understanding how the compiler represents and manipulates these types reveals powerful patterns.
@@ -696,8 +694,6 @@ type PartialUser = OptionalFields<User, 'age' | 'email'>;
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Union Type Mismanagement</strong></summary>
-
-## 🐛 Real-World Scenario: Union Type Mismanagement
 
 ### Case Study: Discriminated Union Bug in State Management
 
@@ -1119,8 +1115,6 @@ This scenario demonstrates why discriminated unions are essential for complex st
 <details>
 <summary><strong>⚖️ Trade-offs: Union vs Intersection Types</strong></summary>
 
-## ⚖️ Trade-offs: Union vs Intersection Types
-
 ### Decision Framework for Type Composition
 
 Choosing between unions (`|`) and intersections (`&`) has significant implications for API design, type safety, and maintainability.
@@ -1515,8 +1509,6 @@ fn(42);      // OK - matches F2
 
 <details>
 <summary><strong>💬 Explain to Junior: Unions and Intersections Made Simple</strong></summary>
-
-## 💬 Explain to Junior: Unions and Intersections Made Simple
 
 ### The Restaurant Menu Analogy
 

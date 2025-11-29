@@ -456,7 +456,9 @@ function outer() {
 
 ---
 
-## 🔍 Deep Dive: How Browsers Build the Accessibility Tree from Semantic HTML
+<details>
+<summary><strong>🔍 Deep Dive: How Browsers Build the Accessibility Tree from Semantic HTML</strong></summary>
+
 
 <details>
 <summary><strong>🔍 Deep Dive: How Browsers Build the Accessibility Tree from Semantic HTML</strong></summary>
@@ -725,6 +727,8 @@ generic (role="generic")
 - No heading hierarchy (can't jump between sections)
 - "generic" roles provide no semantic context
 - Screen reader announces: "Generic container, Generic container, Link Home, Generic container..."
+
+</details>
 
 ---
 
@@ -1024,7 +1028,9 @@ console.log(analyzer.analyzeDocument(semanticPage));
 
 ---
 
-## 🐛 Real-World Scenario: E-commerce Site Losing 40% Organic Traffic Due to Non-Semantic HTML
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Site Losing 40% Organic Traffic Due to Non-Semantic HTML</strong></summary>
+
 
 <details>
 <summary><strong>🐛 Real-World Scenario: E-commerce Site Losing 40% Organic Traffic Due to Non-Semantic HTML</strong></summary>
@@ -1573,9 +1579,13 @@ function calculateSemanticRatio() {
 
 </details>
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: When to Use Semantic HTML vs When Generic Elements Are Acceptable
+<details>
+<summary><strong>⚖️ Trade-offs: When to Use Semantic HTML vs When Generic Elements Are Acceptable</strong></summary>
+
 
 <details>
 <summary><strong>⚖️ Trade-offs: When to Use Semantic HTML vs When Generic Elements Are Acceptable</strong></summary>
@@ -2078,9 +2088,13 @@ function BlogPost({ post }) {
 
 </details>
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Understanding Semantic HTML Like Organizing a Library
+<details>
+<summary><strong>💬 Explain to Junior: Understanding Semantic HTML Like Organizing a Library</strong></summary>
+
 
 <details>
 <summary><strong>💬 Explain to Junior: Understanding Semantic HTML Like Organizing a Library</strong></summary>
@@ -2143,6 +2157,8 @@ Imagine you're organizing a library. You have two choices:
 - Can't jump to main content (doesn't know what's main)
 - Can't navigate by headings (doesn't know "How to Learn JavaScript" is a heading)
 - Google can't tell what's important content vs decoration
+
+</details>
 
 ---
 

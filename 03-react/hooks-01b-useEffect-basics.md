@@ -837,7 +837,8 @@ useLayoutEffect(() => {
 
 ---
 
-## 🐛 Real-World Scenario: Memory Leak in Chat Application
+<details>
+<summary><strong>🐛 Real-World Scenario: Memory Leak in Chat Application</strong></summary>
 
 ### Problem: Event Listeners Not Cleaned Up
 
@@ -1313,5 +1314,7 @@ function ChatRoom({ roomId, userId }) {
 4. **Monitor memory** - Use Chrome DevTools to catch leaks before production
 5. **Track metrics** - Log connection lifecycles to detect issues in production
 6. **Handle edge cases** - Reconnection logic must respect component lifecycle
+
+</details>
 
 ---

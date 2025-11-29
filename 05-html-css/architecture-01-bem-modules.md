@@ -461,7 +461,9 @@ Typical migration timeline for a mid-sized app: 3-6 months with 2-3 engineers.
 
 ---
 
-## 🐛 Real-World Scenario: BEM in Production
+<details>
+<summary><strong>🐛 Real-World Scenario: BEM in Production</strong></summary>
+
 
 ### The Problem: E-commerce Platform Specificity Crisis
 
@@ -627,6 +629,8 @@ src/
 **Documentation template** for each component:
 ```markdown
 # Button Component
+
+</details>
 
 ## Block
 `.button` - Base button styles
@@ -851,7 +855,9 @@ Choose based on your team's priorities: **readability/maintainability (BEM) vs. 
 
 ---
 
-## 💬 Explain to Junior: BEM in Simple Terms
+<details>
+<summary><strong>💬 Explain to Junior: BEM in Simple Terms</strong></summary>
+
 
 ### The "Office Building" Analogy
 
@@ -1062,6 +1068,8 @@ When writing a class name, ask:
 
 </details>
 
+</details>
+
 ---
 
 ## Question 2: CSS Modules vs CSS-in-JS
@@ -1214,7 +1222,9 @@ button { /* ❌ Not scoped! */
 
 ---
 
-## 🔍 Deep Dive: CSS Modules & CSS-in-JS Architecture
+<details>
+<summary><strong>🔍 Deep Dive: CSS Modules & CSS-in-JS Architecture</strong></summary>
+
 
 ### CSS Modules: Build-Time Scoping Mechanism
 
@@ -1562,9 +1572,13 @@ node scripts/migrate-to-modules.js
 
 Tools like `jscodeshift` automate the mechanical transformation, reducing human error.
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: CSS Modules at Airbnb Scale
+<details>
+<summary><strong>🐛 Real-World Scenario: CSS Modules at Airbnb Scale</strong></summary>
+
 
 ### The Problem: Scaling CSS in a Monorepo
 
@@ -1751,6 +1765,8 @@ Found **412 unused CSS files** (38 KB each = 15.7 MB total CSS eliminated).
 - **Zero regression** to global CSS (ESLint prevented)
 - **Framework for future**: Enabled migration to React Server Components (CSS imported in server components)
 
+</details>
+
 ---
 
 <details>
@@ -1851,7 +1867,9 @@ Found **412 unused CSS files** (38 KB each = 15.7 MB total CSS eliminated).
 
 ---
 
-## 💬 Explain to Junior: CSS Modules vs CSS-in-JS Simplified
+<details>
+<summary><strong>💬 Explain to Junior: CSS Modules vs CSS-in-JS Simplified</strong></summary>
+
 
 ### The "Name Tags at Conference" Analogy
 
@@ -1917,6 +1935,8 @@ Browser sees: JavaScript creates <style>.css-a1b2c3{...}</style>
 - ✅ Provides concrete example
 - ✅ Acknowledges trade-offs (not just "one is better")
 - ✅ Demonstrates decision-making ability
+
+</details>
 
 </details>
 
@@ -2113,7 +2133,9 @@ $primary: #007bff;
 
 ---
 
-## 🔍 Deep Dive: Sass/SCSS Compilation & Modern Relevance
+<details>
+<summary><strong>🔍 Deep Dive: Sass/SCSS Compilation & Modern Relevance</strong></summary>
+
 
 ### Compilation Pipeline: How Sass Becomes CSS
 
@@ -2412,9 +2434,13 @@ $spacing: 1rem;
 
 **Timeline**: 3-6 months for medium-sized projects.
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Sass at Bootstrap Scale
+<details>
+<summary><strong>🐛 Real-World Scenario: Sass at Bootstrap Scale</strong></summary>
+
 
 ### The Problem: Bootstrap's Sass Architecture Evolution
 
@@ -2602,6 +2628,8 @@ LibSass (C++ implementation) was deprecated in 2020. Bootstrap had to migrate:
 - **Dark mode**: CSS custom properties made dark mode trivial (`[data-bs-theme="dark"] { --bs-body-bg: #000; }`)
 - **Component portability**: Variables work in non-Sass environments (React, Vue, etc.)
 
+</details>
+
 ---
 
 <details>
@@ -2682,7 +2710,9 @@ LibSass (C++ implementation) was deprecated in 2020. Bootstrap had to migrate:
 
 ---
 
-## 💬 Explain to Junior: Sass Simplified
+<details>
+<summary><strong>💬 Explain to Junior: Sass Simplified</strong></summary>
+
 
 ### The "Recipe Book" Analogy
 
@@ -2718,6 +2748,8 @@ LibSass (C++ implementation) was deprecated in 2020. Bootstrap had to migrate:
 - ✅ Provides concrete example (variables)
 - ✅ Acknowledges modern CSS evolution
 - ✅ Demonstrates decision-making (when to use vs not use)
+
+</details>
 
 </details>
 

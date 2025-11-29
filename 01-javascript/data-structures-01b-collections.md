@@ -1059,7 +1059,6 @@ benchmarkShortLived();
 <details>
 <summary><strong>🔍 Deep Dive: V8 Implementation of Weak References</strong></summary>
 
-## 🔍 Deep Dive
 
 ### V8 Implementation of Weak References
 
@@ -1525,7 +1524,6 @@ invoke(calculator, 'add', 2, 3);
 <details>
 <summary><strong>🐛 Real-World Scenario: Memory Leak in Single Page Application</strong></summary>
 
-## 🐛 Real-World Scenario
 
 ### Problem: Memory Leak in Single Page Application
 
@@ -1849,7 +1847,6 @@ function clearOldProductsOptimized() {
 <details>
 <summary><strong>⚖️ Trade-offs: WeakMap vs Map, WeakSet vs Set</strong></summary>
 
-## ⚖️ Trade-offs
 
 ### WeakMap vs Map
 
@@ -2162,7 +2159,6 @@ console.timeEnd('WeakMap access'); // ~15ms
 <details>
 <summary><strong>💬 Explain to Junior: WeakMap and WeakSet Simplified</strong></summary>
 
-## 💬 Explain to Junior
 
 ### Simple Analogy
 

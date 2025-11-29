@@ -327,7 +327,8 @@ function MyApp({ Component, pageProps }) {
 
 ---
 
-## 🔍 Deep Dive: Core Web Vitals Measurement Internals
+<details>
+<summary><strong>🔍 Deep Dive: Core Web Vitals Measurement Internals</strong></summary>
 
 ### How LCP is Measured
 
@@ -646,9 +647,12 @@ document.addEventListener('visibilitychange', () => {
 // Chrome DevTools → Performance → CPU 6x slowdown
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: E-commerce Site Core Web Vitals Crisis
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Site Core Web Vitals Crisis</strong></summary>
 
 ### The Problem
 
@@ -1018,9 +1022,9 @@ Conversion:   2.1%      2.8%       +33%
 - Revenue increase: +$3.1M/month
 - ROI: 6,778% (payback in 2 weeks!)
 
----
+</details>
 
-## ⚖️ Trade-offs: Core Web Vitals Optimization Decisions
+---
 
 <details>
 <summary><strong>⚖️ Trade-offs: Core Web Vitals Optimization Decisions</strong></summary>
@@ -1387,9 +1391,12 @@ links.forEach(link => {
 });
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Core Web Vitals in Simple Terms
+<details>
+<summary><strong>💬 Explain to Junior: Core Web Vitals in Simple Terms</strong></summary>
 
 ### The Restaurant Analogy
 
@@ -1690,6 +1697,8 @@ Before adding ANYTHING to your page, ask:
 3. **"Could this cause CLS?"** (Does it have unknown dimensions? Will it load after content?)
 
 If answer is YES to any → Find alternative approach!
+
+</details>
 
 ---
 
@@ -2047,7 +2056,8 @@ import pipe from 'ramda/src/pipe';  // 1KB
 
 ---
 
-## 🔍 Deep Dive: JavaScript Bundle Internals and Optimization Mechanics
+<details>
+<summary><strong>🔍 Deep Dive: JavaScript Bundle Internals and Optimization Mechanics</strong></summary>
 
 ### How Webpack Creates Bundles
 
@@ -2258,9 +2268,12 @@ This reveals the real problems:
 // - Turbopack HMR: 200-500ms
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: SaaS App Bundle Bloat Crisis
+<details>
+<summary><strong>🐛 Real-World Scenario: SaaS App Bundle Bloat Crisis</strong></summary>
 
 ### The Problem
 
@@ -2543,8 +2556,6 @@ Revenue increase:       $2.1M/mo    $2.9M/mo    +$800k/mo
 </details>
 
 ---
-
-## ⚖️ Trade-offs: Bundle Optimization Decisions
 
 <details>
 <summary><strong>⚖️ Trade-offs: Bundle Optimization Decisions</strong></summary>
@@ -2847,9 +2858,12 @@ Decision:
 - Legacy maintenance: Keep CommonJS (Option A, accept larger bundles)
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Bundle Size in Simple Terms
+<details>
+<summary><strong>💬 Explain to Junior: Bundle Size in Simple Terms</strong></summary>
 
 ### The Jar Analogy
 
@@ -3018,6 +3032,8 @@ Questions to ask:
 - Are charts/maps loaded for every page? (Code split!)
 - What's the largest single library? (Can it be replaced?)
 ```
+
+</details>
 
 ---
 
@@ -3362,7 +3378,8 @@ const Component = () => {
 
 ---
 
-## 🔍 Deep Dive: React Rendering Mechanics and Optimization Internals
+<details>
+<summary><strong>🔍 Deep Dive: React Rendering Mechanics and Optimization Internals</strong></summary>
 
 ### Understanding React's Reconciliation Algorithm
 
@@ -3667,9 +3684,12 @@ function VirtualList({ items }) {
 // 5. Reuse DOM nodes for new items
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: E-commerce Product List Performance Collapse
+<details>
+<summary><strong>🐛 Real-World Scenario: E-commerce Product List Performance Collapse</strong></summary>
 
 ### The Problem
 
@@ -3972,8 +3992,6 @@ Mobile revenue/month          $20k        $410k       +$390k/mo ✅
 
 ---
 
-## ⚖️ Trade-offs: React Optimization Decisions
-
 <details>
 <summary><strong>⚖️ Trade-offs: React Optimization Decisions</strong></summary>
 
@@ -4163,9 +4181,12 @@ function HybridProductList() {
 }
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: React Rendering in Simple Terms
+<details>
+<summary><strong>💬 Explain to Junior: React Rendering in Simple Terms</strong></summary>
 
 ### The Cook in a Kitchen Analogy
 

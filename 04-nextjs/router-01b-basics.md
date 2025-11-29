@@ -230,7 +230,8 @@ app/
 
 ---
 
-## 🔍 Deep Dive: File-Based Routing Engine Architecture
+<details>
+<summary><strong>🔍 Deep Dive: File-Based Routing Engine Architecture</strong></summary>
 
 ### The Internal Routing Metadata System
 
@@ -334,9 +335,12 @@ Understanding this priority is crucial for complex route hierarchies. A layout w
 
 The file-based routing system is more than syntactic sugar—it's a carefully designed abstraction that enables Next.js to optimize rendering, splitting, prefetching, and data fetching automatically. Understanding its internals helps you leverage these optimizations effectively in production applications.
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Debugging Complex Routing Issues in E-Commerce Platform
+<details>
+<summary><strong>🐛 Real-World Scenario: Debugging Complex Routing Issues in E-Commerce Platform</strong></summary>
 
 ### The Problem: Broken Navigation and 404s After Route Refactoring
 
@@ -642,9 +646,9 @@ describe('Product Routing', () => {
 
 Complex routing features like route groups, parallel routes, and intercepting routes provide powerful capabilities but require deep understanding of Next.js's routing engine. Always validate route structure with tests, pay attention to build warnings, and ensure proper fallbacks for dynamic features. The routing system's sophistication is a strength, but misconfigurations can cascade into production disasters.
 
----
+</details>
 
-## ⚖️ Trade-offs: Different Routing Patterns in App Router
+---
 
 <details>
 <summary><strong>⚖️ Trade-offs: Different Routing Patterns in App Router</strong></summary>
@@ -1024,9 +1028,12 @@ export default function Photos() {
 
 The advanced routing features are powerful but add complexity. Evaluate whether the benefits (performance, UX, organization) justify the learning curve and maintenance cost. Start simple, add complexity only when genuinely needed.
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: File-Based Routing Like a Library
+<details>
+<summary><strong>💬 Explain to Junior: File-Based Routing Like a Library</strong></summary>
 
 ### The Library Building Analogy
 
@@ -1540,9 +1547,12 @@ export default function BlogPost({ params }) {
 - [Next.js Docs: Layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts)
 - [Templates](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#templates)
 
+</details>
+
 ---
 
-## 🔍 Deep Dive: Layout Architecture and State Preservation
+<details>
+<summary><strong>🔍 Deep Dive: Layout Architecture and State Preservation</strong></summary>
 
 ### The Layout Component Tree Model
 
@@ -1904,9 +1914,12 @@ This streams the layout sidebar while the page content loads in parallel, improv
 
 The layout architecture in Next.js App Router is a powerful abstraction that enables sophisticated UI composition, state preservation, and performance optimization. Understanding its nuances—server vs client boundaries, data fetching strategies, nesting patterns, and the layout-template distinction—is essential for building production-quality Next.js applications.
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Layout Performance Degradation in Multi-Tenant SaaS
+<details>
+<summary><strong>🐛 Real-World Scenario: Layout Performance Degradation in Multi-Tenant SaaS</strong></summary>
 
 ### The Problem: Dashboard Slowdown After Layout Refactoring
 
@@ -2276,8 +2289,6 @@ Layouts are powerful for code organization and state persistence, but misused la
 
 ---
 
-## ⚖️ Trade-offs: Layout Patterns and Architecture Decisions
-
 <details>
 <summary><strong>⚖️ Trade-offs: Layout Patterns and Architecture Decisions</strong></summary>
 
@@ -2611,9 +2622,12 @@ app/(admin)/layout.js
 
 The layout system is powerful but can be over-engineered. Start simple (server layouts, minimal nesting), add complexity only when performance metrics or UX requirements demand it.
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Layouts Like Building Floors
+<details>
+<summary><strong>💬 Explain to Junior: Layouts Like Building Floors</strong></summary>
 
 ### The Apartment Building Analogy
 

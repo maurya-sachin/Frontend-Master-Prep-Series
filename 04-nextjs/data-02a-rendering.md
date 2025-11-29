@@ -2057,7 +2057,8 @@ LIMIT 10;
 
 ---
 
-## ⚖️ Trade-offs: Rendering Strategy Decision Framework
+<details>
+<summary><strong>⚖️ Trade-offs: Rendering Strategy Decision Framework</strong></summary>
 
 ### SSR vs SSG vs ISR: The Fundamental Trade-offs
 
@@ -2461,9 +2462,12 @@ function Layout({ children }) {
 
 **Key Insight:** Modern Next.js apps rarely use one strategy. The best approach is **strategic hybridization** - combining multiple strategies within the same application, or even the same page, to optimize for each specific use case.
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Rendering Strategies Simplified
+<details>
+<summary><strong>💬 Explain to Junior: Rendering Strategies Simplified</strong></summary>
 
 ### The Restaurant Analogy
 

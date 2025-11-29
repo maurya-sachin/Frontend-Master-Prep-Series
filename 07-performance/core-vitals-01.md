@@ -68,8 +68,6 @@ onLCP(metric => {
 
 ---
 
-## 🔍 Deep Dive: Browser Internals and Metric Calculation
-
 <details>
 <summary><strong>🔍 Deep Dive: Browser Internals and Metric Calculation</strong></summary>
 
@@ -215,8 +213,6 @@ const layout_shift_score = (
 </details>
 
 ---
-
-## 🐛 Real-World Scenario: E-commerce Site Performance Crisis
 
 <details>
 <summary><strong>🐛 Real-World Scenario: E-commerce Site Performance Crisis</strong></summary>
@@ -388,8 +384,6 @@ Method: Reserved space prevents all shifts
 
 ---
 
-## ⚖️ Trade-offs: Performance vs Functionality
-
 <details>
 <summary><strong>⚖️ Trade-offs: Performance vs Functionality</strong></summary>
 
@@ -536,8 +530,6 @@ Best practice: Both
 </details>
 
 ---
-
-## 💬 Explain to Junior: Core Web Vitals Simplified
 
 <details>
 <summary><strong>💬 Explain to Junior: Core Web Vitals Simplified</strong></summary>
@@ -1049,7 +1041,8 @@ CLS Optimization Checklist:
 
 ---
 
-## 🔍 Deep Dive: LCP Image Optimization Deep Technical Details
+<details>
+<summary><strong>🔍 Deep Dive: LCP Image Optimization Deep Technical Details</strong></summary>
 
 ### Image Format Comparison
 
@@ -1158,9 +1151,12 @@ Result: LCP measured at hero time (100ms baseline + fetch time)
 -->
 ```
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario 2: Mobile-First Website
+<details>
+<summary><strong>🐛 Real-World Scenario 2: Mobile-First Website</strong></summary>
 
 ### Problem Setup
 Mobile-first news site with:
@@ -1380,9 +1376,12 @@ Result: Reduced render-blocking time by 340ms
 - Time to Interactive: 5.2s → 2.8s
 - Mobile conversion rate: +18% increase
 
+</details>
+
 ---
 
-## ⚖️ Trade-offs: Mobile vs Desktop Optimization
+<details>
+<summary><strong>⚖️ Trade-offs: Mobile vs Desktop Optimization</strong></summary>
 
 **Trade-off 1: Image Format Compatibility**
 ```
@@ -1439,9 +1438,12 @@ Decision: Preload only critical resources (hero, critical fonts)
 Cost-benefit: 400ms LCP improvement vs small bandwidth waste = worth it
 ```
 
+</details>
+
 ---
 
-## 💬 Explain to Junior: Optimization Strategies
+<details>
+<summary><strong>💬 Explain to Junior: Optimization Strategies</strong></summary>
 
 ### "Why should we care about these metrics?"
 
@@ -1575,6 +1577,8 @@ observer.observe({ type: 'largest-contentful-paint', buffered: true });
 <!-- Impact: 200-300ms LCP improvement -->
 <!-- Tools: critical-css npm package automates this -->
 ```
+
+</details>
 
 ---
 

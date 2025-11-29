@@ -182,7 +182,8 @@ function FilteredList() {
 
 ---
 
-## 🔍 Deep Dive: Fiber Architecture Internals
+<details>
+<summary><strong>🔍 Deep Dive: Fiber Architecture Internals</strong></summary>
 
 ### The Problem Fiber Solves
 
@@ -493,9 +494,12 @@ function schedulePerformWorkUntilDeadline() {
 - `MessageChannel` fires immediately after current task
 - `requestIdleCallback` not widely supported + only fires when truly idle
 
+</details>
+
 ---
 
-## 🐛 Real-World Scenario: Fixing Dropped Frames in Large Data Tables
+<details>
+<summary><strong>🐛 Real-World Scenario: Fixing Dropped Frames in Large Data Tables</strong></summary>
 
 ### The Problem
 
@@ -784,6 +788,8 @@ function App() {
   );
 }
 ```
+
+</details>
 
 ---
 
@@ -1084,9 +1090,13 @@ function App() {
 - Add concurrent features when users report lag (measured, not premature)
 - Profile first: Ensure the problem is render time, not data fetching
 
+
+</details>
+
 ---
 
-## 💬 Explain to Junior: Fiber in Simple Terms
+<details>
+<summary><strong>💬 Explain to Junior: Fiber in Simple Terms</strong></summary>
 
 ### The Restaurant Analogy
 

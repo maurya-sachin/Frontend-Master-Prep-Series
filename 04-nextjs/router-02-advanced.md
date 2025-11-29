@@ -268,8 +268,6 @@ export default function Loading() {
 
 ---
 
-## 🔍 Deep Dive: Loading and Error States Architecture
-
 <details>
 <summary><strong>🔍 Deep Dive: Loading and Error States Architecture</strong></summary>
 
@@ -558,8 +556,6 @@ export default async function DashboardPage() {
 </details>
 
 ---
-
-## 🐛 Real-World Scenario: Error Boundary Production Incident
 
 <details>
 <summary><strong>🐛 Real-World Scenario: Error Boundary Production Incident</strong></summary>
@@ -949,8 +945,6 @@ export function setupErrorMonitoring() {
 
 ---
 
-## ⚖️ Trade-offs: Loading and Error State Strategies
-
 <details>
 <summary><strong>⚖️ Trade-offs: Loading and Error State Strategies</strong></summary>
 
@@ -1179,8 +1173,6 @@ export function PremiumContent({ user }) {
 </details>
 
 ---
-
-## 💬 Explain to Junior: Loading and Error States in Next.js
 
 <details>
 <summary><strong>💬 Explain to Junior: Loading and Error States in Next.js</strong></summary>
