@@ -16,6 +16,8 @@
 **Tags:** #react #hooks #useState
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Fundamental hook question. Emphasize functional updates: "When updating based on previous state, always use `setState(prev => prev + 1)` not `setState(count + 1)` - prevents stale closures." Common follow-up: "Why batching matters?" Shows performance awareness.
+
 ---
 
 ## Card 2: useEffect Cleanup
@@ -26,6 +28,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #hooks #useEffect
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Critical for production code. Example: "Used cleanup to cancel fetch requests with AbortController - prevented state updates on unmounted components." Red flag: Forgetting cleanup causes memory leaks. Always mention: "Cleanup runs before re-running effect AND on unmount."
 
 ---
 
@@ -38,6 +42,8 @@
 **Tags:** #react #hooks #optimization
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Often confused! Clear explanation: "useMemo for expensive calculations (results), useCallback for passing stable function refs to child components (prevents re-renders)." Practical: "I use useCallback for event handlers passed as props - child wrapped in React.memo won't re-render unnecessarily."
+
 ---
 
 ## Card 4: React Reconciliation
@@ -48,6 +54,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #virtual-dom #performance
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Deep React knowledge. Explain diffing algorithm: "React uses heuristics - different types = full subtree rebuild, same type = update props. Keys identify list items for efficient reordering." Advanced: Mention Fiber's incremental rendering - shows you understand modern React internals.
 
 ---
 
@@ -60,6 +68,8 @@
 **Tags:** #react #lists #keys
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Universal React question. Common mistake to address: "Never use array index as key - breaks when reordering/filtering lists." Real example: "Debugged bug where form inputs lost values on sort - cause: index keys." Use unique IDs or generate with uuid if needed.
+
 ---
 
 ## Card 6: Controlled vs Uncontrolled
@@ -70,6 +80,8 @@
 **Difficulty:** 🟢 Easy
 **Tags:** #react #forms #components
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Forms are common in interviews. Best practice: "Use controlled for complex validation, uncontrolled for simple forms/file inputs." When asked trade-offs: "Controlled = more code but full control. Uncontrolled = simpler but harder to validate." Libraries like React Hook Form optimize this.
 
 ---
 
@@ -82,6 +94,8 @@
 **Tags:** #react #hooks #useRef
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Versatile hook! Example: "Used useRef to store previous value for comparison, focus input on mount, keep WebSocket connection reference." Key insight: "Unlike state, changing ref.current doesn't trigger re-render - perfect for mutable values you don't want to display."
+
 ---
 
 ## Card 8: React Fiber
@@ -92,6 +106,8 @@
 **Difficulty:** 🔴 Hard
 **Tags:** #react #fiber #internals
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Advanced topic - shows seniority. Explain benefits: "Fiber enables time-slicing - breaking rendering into chunks, prioritizing urgent updates (user input) over less urgent (data fetching)." Connect to Concurrent Mode/React 18. Shows you're current with React evolution.
 
 ---
 
@@ -104,6 +120,8 @@
 **Tags:** #react #error-handling
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Production-ready knowledge. "Implemented ErrorBoundary wrapper around route components - graceful degradation instead of blank screen." Limitation insight: "For event handlers, use try/catch - Error Boundaries only catch render errors." Shows you understand boundaries.
+
 ---
 
 ## Card 10: Context Performance
@@ -114,6 +132,8 @@
 **Difficulty:** 🔴 Hard
 **Tags:** #react #context #performance
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Performance optimization expertise. "Split authentication context from theme context - theme changes don't re-render all auth consumers." Advanced: "Used useMemo to wrap context value object - prevents recreating on every render." Shows you optimize beyond basics.
 
 ---
 
