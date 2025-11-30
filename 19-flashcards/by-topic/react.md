@@ -146,6 +146,8 @@
 **Tags:** #react #optimization #memo
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Optimization pattern. When to use: "Wrap pure components that render often with same props. Don't memo everything - profiling first!" Custom comparison: "Can pass second argument for deep prop comparison: `memo(Component, (prev, next) => prev.id === next.id)`."
+
 ---
 
 ## Card 12: Lifting State Up
@@ -156,6 +158,8 @@
 **Difficulty:** 🟢 Easy
 **Tags:** #react #state #patterns
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Fundamental React pattern. Example: "Two sibling components need same data - lift state to parent, pass down via props." Prevents: prop drilling (use Context for deep nesting). Shows understanding of unidirectional data flow principle.
 
 ---
 
@@ -168,6 +172,8 @@
 **Tags:** #react #patterns #composition
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** React philosophy question. "React recommends composition - use children prop, slots pattern, or HOCs. Inheritance creates tight coupling." Real example: "Built Modal component with props.children for flexible content instead of extending base Modal class."
+
 ---
 
 ## Card 14: HOC Pattern
@@ -178,6 +184,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #patterns #hoc
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Legacy but still tested pattern. Modern alternative: "Custom hooks replaced most HOCs - cleaner, less nesting." When HOCs still useful: "Cross-cutting concerns like authentication, error boundaries." Show evolution: "React.memo, Redux connect are HOCs you use daily."
 
 ---
 
@@ -190,6 +198,8 @@
 **Tags:** #react #patterns #render-props
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Less common now (hooks replaced it), but know the concept. "Render props enable sharing stateful logic. Example: React Router's Route component." Mention: "Custom hooks are cleaner alternative - same logic sharing without extra nesting."
+
 ---
 
 ## Card 16: Custom Hooks Rules
@@ -200,6 +210,8 @@
 **Difficulty:** 🟢 Easy
 **Tags:** #react #hooks #custom-hooks
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Show you create reusable logic. Example: "Created useDebounce hook to share debouncing across search inputs." Naming important: "Must start with 'use' - lets React check hooks rules. Can compose other hooks inside - that's the power!"
 
 ---
 
@@ -212,6 +224,8 @@
 **Tags:** #react #strictmode #debugging
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Development tool. "StrictMode helped me find unsafe lifecycle methods when upgrading legacy code." Key point: "Double-rendering in dev catches side effects - if component breaks with double render, it's not pure." Shows debugging experience.
+
 ---
 
 ## Card 18: Lazy Loading
@@ -222,6 +236,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #lazy-loading #performance
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Performance optimization. Real impact: "Lazy loaded admin routes - reduced initial bundle by 40%." Best practice: "Route-based code splitting first, then component-level for heavy components (charts, editors)." Error handling: Suspense fallback covers loading state.
 
 ---
 
