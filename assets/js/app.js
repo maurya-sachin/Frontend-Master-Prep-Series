@@ -139,7 +139,7 @@ class FlashcardApp {
       // By Topic
       {
         name: 'JavaScript Master',
-        file: '14-flashcards/by-topic/javascript.md',
+        file: '19-flashcards/by-topic/javascript.md',
         description: '100 essential JavaScript concepts',
         category: 'by-topic',
         icon: '📜',
@@ -147,7 +147,7 @@ class FlashcardApp {
       },
       {
         name: 'React Deep Dive',
-        file: '14-flashcards/by-topic/react.md',
+        file: '19-flashcards/by-topic/react.md',
         description: '100 React patterns and best practices',
         category: 'by-topic',
         icon: '⚛️',
@@ -155,7 +155,7 @@ class FlashcardApp {
       },
       {
         name: 'TypeScript Essentials',
-        file: '14-flashcards/by-topic/typescript.md',
+        file: '19-flashcards/by-topic/typescript.md',
         description: '50 TypeScript type system concepts',
         category: 'by-topic',
         icon: '📘',
@@ -163,7 +163,7 @@ class FlashcardApp {
       },
       {
         name: 'HTML & CSS',
-        file: '14-flashcards/by-topic/html-css.md',
+        file: '19-flashcards/by-topic/html-css.md',
         description: '50 modern HTML and CSS techniques',
         category: 'by-topic',
         icon: '🎨',
@@ -171,7 +171,7 @@ class FlashcardApp {
       },
       {
         name: 'Next.js Patterns',
-        file: '14-flashcards/by-topic/nextjs.md',
+        file: '19-flashcards/by-topic/nextjs.md',
         description: '40 Next.js App Router concepts',
         category: 'by-topic',
         icon: '▲',
@@ -179,7 +179,7 @@ class FlashcardApp {
       },
       {
         name: 'Performance Optimization',
-        file: '14-flashcards/by-topic/performance.md',
+        file: '19-flashcards/by-topic/performance.md',
         description: '40 performance optimization techniques',
         category: 'by-topic',
         icon: '⚡',
@@ -187,7 +187,7 @@ class FlashcardApp {
       },
       {
         name: 'Security Best Practices',
-        file: '14-flashcards/by-topic/security.md',
+        file: '19-flashcards/by-topic/security.md',
         description: '30 security concepts for frontend',
         category: 'by-topic',
         icon: '🔒',
@@ -195,7 +195,7 @@ class FlashcardApp {
       },
       {
         name: 'Testing Mastery',
-        file: '14-flashcards/by-topic/testing.md',
+        file: '19-flashcards/by-topic/testing.md',
         description: '50 testing concepts and patterns',
         category: 'by-topic',
         icon: '🧪',
@@ -203,7 +203,7 @@ class FlashcardApp {
       },
       {
         name: 'Code Output Prediction',
-        file: '14-flashcards/by-topic/code-output.md',
+        file: '19-flashcards/by-topic/code-output.md',
         description: '50 tricky code output questions',
         category: 'by-topic',
         icon: '🔍',
@@ -212,7 +212,7 @@ class FlashcardApp {
       // Curated Decks
       {
         name: 'Daily 20',
-        file: '14-flashcards/curated-decks/daily-20.md',
+        file: '19-flashcards/curated-decks/daily-20.md',
         description: 'Quick 20-card daily review',
         category: 'curated',
         icon: '☀️',
@@ -220,7 +220,7 @@ class FlashcardApp {
       },
       {
         name: 'Pre-Interview 30',
-        file: '14-flashcards/curated-decks/pre-interview-30.md',
+        file: '19-flashcards/curated-decks/pre-interview-30.md',
         description: 'Essential concepts before interviews',
         category: 'curated',
         icon: '💼',

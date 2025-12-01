@@ -52,24 +52,24 @@ If you have an interview tomorrow, focus on these:
 
 Practice these in order of importance:
 
-1. **[Debounce](./13-coding-problems/01-javascript-fundamentals/debounce.md)** (15 min)
+1. **[Debounce](./18-coding-challenges/01-javascript-fundamentals/debounce.md)** (15 min)
    - 95% frequency
    - Tests async understanding
    - Multiple difficulty levels
 
-2. **[Deep Clone](./13-coding-problems/01-javascript-fundamentals/deep-clone.md)** (10 min)
+2. **[Deep Clone](./18-coding-challenges/01-javascript-fundamentals/deep-clone.md)** (10 min)
    - Common in Google, Meta interviews
    - Tests recursion and edge cases
 
-3. **[Promise.all](./13-coding-problems/01-javascript-fundamentals/promise-all.md)** (15 min)
+3. **[Promise.all](./18-coding-challenges/01-javascript-fundamentals/promise-all.md)** (15 min)
    - Tests async/await knowledge
    - Common in senior roles
 
-4. **[useLocalStorage Hook](./13-coding-problems/03-react-problems/use-local-storage.md)** (15 min)
+4. **[useLocalStorage Hook](./18-coding-challenges/03-react-problems/use-local-storage.md)** (15 min)
    - Most common React custom hook question
    - Tests hooks + browser APIs
 
-5. **[Autocomplete Component](./13-coding-problems/02-dom-manipulation/autocomplete.md)** (20 min)
+5. **[Autocomplete Component](./18-coding-challenges/02-dom-manipulation/autocomplete.md)** (20 min)
    - Real-world problem
    - Tests debouncing, keyboard nav, accessibility
 
@@ -83,7 +83,7 @@ Practice these in order of importance:
 - [ ] [Core Concepts](./01-javascript/01-core-concepts.md) (3 hours)
 - [ ] [Async JavaScript](./01-javascript/02-async-javascript.md) (3 hours)
 - [ ] Practice: Debounce, Throttle, Deep Clone (2 hours)
-- [ ] [Essential 100 Flashcards](./14-flashcards/curated-decks/essential-50.md) - First 30 cards
+- [ ] [Essential 100 Flashcards](./19-flashcards/curated-decks/essential-50.md) - First 30 cards
 
 **Days 3-4: React Fundamentals**
 - [ ] [React Hooks](./03-react/01-hooks-fundamentals.md) (4 hours)
@@ -220,7 +220,7 @@ Practice these in order of importance:
 - Infinite scroll with virtual scrolling
 
 **Resources:**
-- [Company Questions](./13-coding-problems/07-company-questions/)
+- [Company Questions](./18-coding-challenges/07-company-questions/)
 - All advanced problems
 - System design section
 
@@ -354,7 +354,7 @@ Practice these in order of importance:
 - ❌ Stay up all night
 
 **Do:**
-- ✅ Review [Pre-Interview 30 Flashcards](./14-flashcards/curated-decks/) (20 min)
+- ✅ Review [Pre-Interview 30 Flashcards](./19-flashcards/curated-decks/) (20 min)
 - ✅ Practice 1 easy problem (10 min)
 - ✅ Review your previous projects (20 min)
 - ✅ Prepare questions to ask interviewer (10 min)
@@ -413,10 +413,10 @@ Practice these in order of importance:
 
 ### Most Popular
 
-- [Essential 100 Flashcards](./14-flashcards/curated-decks/essential-50.md)
+- [Essential 100 Flashcards](./19-flashcards/curated-decks/essential-50.md)
 - [JavaScript Async Deep Dive](./01-javascript/02-async-javascript.md)
 - [React Hooks Complete Guide](./03-react/01-hooks-fundamentals.md)
-- [Top 15 Coding Problems](./13-coding-problems/README.md)
+- [Top 15 Coding Problems](./18-coding-challenges/README.md)
 
 ### By Topic
 
@@ -426,11 +426,11 @@ Practice these in order of importance:
 - [Next.js](./04-nextjs/README.md) - 80+ Q&A
 - [Performance](./07-performance/README.md) - 50+ Q&A
 - [Security](./10-security/README.md) - 50+ Q&A
-- [Coding Problems](./13-coding-problems/README.md) - 150+ problems
+- [Coding Problems](./18-coding-challenges/README.md) - 65+ problems
 
 ### Tools
 
-- [Flashcards System](./14-flashcards/README.md)
+- [Flashcards System](./19-flashcards/README.md)
 - [Learning Paths](./resources/learning-paths.md)
 - [Interview Checklist](./resources/interview-checklist.md)
 

@@ -22,8 +22,8 @@ Structured Q&A, coding problems, and interactive flashcards covering the complet
 
 **New to this repo?** Choose your path:
 - **4-Week Sprint** → [Complete Study Plan](./resources/study-plan-4-weeks.md)
-- **Interview Tomorrow?** → [Pre-Interview 30 Flashcards](./14-flashcards/curated-decks/pre-interview-30.md)
-- **Daily Practice** → [Essential 50 Flashcards](./14-flashcards/curated-decks/essential-50.md)
+- **Interview Tomorrow?** → [Pre-Interview 30 Flashcards](./19-flashcards/curated-decks/pre-interview-30.md)
+- **Daily Practice** → [Essential 50 Flashcards](./19-flashcards/curated-decks/essential-50.md)
 - **Interactive Study** → [Flashcard Web App](https://maurya-sachin.github.io/Frontend-Master-Prep-Series/)
 
 ---
@@ -42,26 +42,31 @@ Structured Q&A, coding problems, and interactive flashcards covering the complet
 | [Testing](./06-testing/) | 5 topics | 🟡 🔴 | ✅ Complete |
 | [Performance](./07-performance/) | 5 topics | 🟡 🔴 | ✅ Complete |
 | [Accessibility](./08-accessibility/) | 4 topics | 🟢 🟡 | ✅ Complete |
-| [Architecture](./09-architecture/) | 5 topics | 🔴 | ✅ Complete |
-| [Security](./10-security/) | 4 topics | 🟡 🔴 | ✅ Complete |
-| [Tooling](./11-tooling/) | 5 topics | 🟡 | ✅ Complete |
-| [SEO](./12-seo/) | 4 topics | 🟢 🟡 | ✅ Complete |
+| [Security](./09-security/) | 3 Q&A | 🟡 🔴 | 🔵 Expanding |
+| [System Design](./10-system-design/) | 3 Q&A | 🔴 | 🔵 Expanding |
+| [Browser/Web](./11-browser/) | 3 Q&A | 🟡 🔴 | 🔵 Expanding |
+| [Networking](./12-networking/) | 3 Q&A | 🟡 🔴 | 🔵 Expanding |
+| [PWA](./13-pwa/) | 3 Q&A | 🟡 | 🔵 Expanding |
+| [Tooling](./14-tooling/) | 3 Q&A | 🟡 | 🔵 Expanding |
+| [i18n](./15-i18n/) | 3 Q&A | 🟢 🟡 | 🔵 Expanding |
+| [Architecture](./16-architecture/) | Coming Soon | 🔴 | 🔜 Planned |
+| [SEO](./17-seo/) | Coming Soon | 🟢 🟡 | 🔜 Planned |
 
-**68 comprehensive topic guides** covering fundamentals to advanced concepts
+**411 Q&A across 15 topics** with 2 more in development
 
 ### Coding Problems (Growing Library)
 
 | Category | Current | Target | Companies |
 |----------|---------|--------|-----------|
-| [JavaScript Fundamentals](./13-coding-problems/01-javascript-fundamentals/) | 15 | 30+ | All |
-| [DOM Manipulation](./13-coding-problems/02-dom-manipulation/) | 3 | 20+ | Google, Meta |
-| [React Problems](./13-coding-problems/03-react-problems/) | 2 | 25+ | All |
-| [Algorithms](./13-coding-problems/04-algorithms/) | 1 | 30+ | FAANG |
-| [UI Components](./13-coding-problems/05-ui-components/) | 2 | 25+ | All |
-| [System Implementations](./13-coding-problems/06-system-implementations/) | - | 20+ | Senior |
-| [Company Questions](./13-coding-problems/07-company-questions/) | - | 35+ | FAANG |
+| [JavaScript Fundamentals](./18-coding-challenges/01-javascript-fundamentals/) | 30+ | 30+ | All |
+| [DOM Manipulation](./18-coding-challenges/02-dom-manipulation/) | 10+ | 20+ | Google, Meta |
+| [React Problems](./18-coding-challenges/03-react-problems/) | 8+ | 25+ | All |
+| [Algorithms](./18-coding-challenges/04-algorithms/) | 5+ | 30+ | FAANG |
+| [UI Components](./18-coding-challenges/05-ui-components/) | 8+ | 25+ | All |
+| [System Implementations](./18-coding-challenges/06-system-implementations/) | 2+ | 20+ | Senior |
+| [Company Questions](./18-coding-challenges/07-company-questions/) | 2+ | 35+ | FAANG |
 
-**23 problems currently** (actively adding more daily)
+**65 problems currently** (growing to 185+ target)
 
 Each problem includes:
 - Multiple solution approaches (basic → optimized → production)
@@ -69,19 +74,19 @@ Each problem includes:
 - Time/Space complexity analysis
 - Real-world use cases
 
-### Flashcards (340+ Cards, Growing to 600+)
+### Flashcards (526 Cards - Target Exceeded! ✅)
 
 | Deck | Cards | Purpose | Time |
 |------|-------|---------|------|
-| [Essential 50](./14-flashcards/curated-decks/essential-50.md) | 100 | Top concepts | 50 min |
-| [Pre-Interview 30](./14-flashcards/curated-decks/pre-interview-30.md) | 30 | Last-minute review | 15 min |
-| [Daily Review 20](./14-flashcards/curated-decks/daily-20.md) | 20 | Daily practice | 10 min |
-| [JavaScript](./14-flashcards/by-topic/javascript.md) | 20 | JS fundamentals | 10 min |
-| [React](./14-flashcards/by-topic/react.md) | 25 | React patterns | 15 min |
-| [TypeScript](./14-flashcards/by-topic/typescript.md) | 25 | Type system | 15 min |
-| [Next.js](./14-flashcards/by-topic/nextjs.md) | 40 | SSR, App Router | 20 min |
-| [HTML/CSS](./14-flashcards/by-topic/html-css.md) | 40 | Layouts, semantics | 20 min |
-| [Performance](./14-flashcards/by-topic/performance.md) | 40 | Web Vitals | 20 min |
+| [Essential 50](./19-flashcards/curated-decks/essential-50.md) | 100+ | Top concepts | 50 min |
+| [Pre-Interview 30](./19-flashcards/curated-decks/pre-interview-30.md) | 30+ | Last-minute review | 15 min |
+| [Daily Review 20](./19-flashcards/curated-decks/daily-20.md) | 20+ | Daily practice | 10 min |
+| [JavaScript](./19-flashcards/by-topic/javascript.md) | 60+ | JS fundamentals | 30 min |
+| [React](./19-flashcards/by-topic/react.md) | 100+ | React patterns | 50 min |
+| [TypeScript](./19-flashcards/by-topic/typescript.md) | 48+ | Type system | 24 min |
+| [Next.js](./19-flashcards/by-topic/nextjs.md) | 25+ | SSR, App Router | 12 min |
+| [HTML/CSS](./19-flashcards/by-topic/html-css.md) | 39+ | Layouts, semantics | 20 min |
+| [Performance](./19-flashcards/by-topic/performance.md) | 12+ | Web Vitals | 6 min |
 
 **Two Formats:**
 - 📝 **Markdown** - Read/edit easily in GitHub
@@ -93,19 +98,24 @@ Each problem includes:
 
 ```
 Frontend-Master-Prep-Series/
-├── 01-javascript/          # Core JS concepts, async, engine internals
-├── 02-typescript/          # Type system, generics, advanced patterns
-├── 03-react/               # Hooks, patterns, performance, internals
-├── 04-nextjs/              # App Router, SSR, ISR, Server Components
-├── 05-html-css/            # Semantics, layouts, modern CSS
-├── 06-testing/             # Jest, RTL, E2E, testing patterns
-├── 07-performance/         # Core Web Vitals, optimization
-├── 08-accessibility/       # WCAG, ARIA, keyboard navigation
-├── 09-architecture/        # System design, patterns, scalability
-├── 10-security/            # XSS, CSRF, authentication, headers
-├── 11-tooling/             # Webpack, Vite, Babel, DevTools
-├── 12-seo/                 # Technical SEO, meta tags, structured data
-├── 13-coding-problems/     # LeetCode-style problems
+├── 01-javascript/          # Core JS concepts, async, engine internals (97 Q&A)
+├── 02-typescript/          # Type system, generics, advanced patterns (49 Q&A)
+├── 03-react/               # Hooks, patterns, performance, internals (129 Q&A)
+├── 04-nextjs/              # App Router, SSR, ISR, Server Components (25 Q&A)
+├── 05-html-css/            # Semantics, layouts, modern CSS (39 Q&A)
+├── 06-testing/             # Jest, RTL, E2E, testing patterns (18 Q&A)
+├── 07-performance/         # Core Web Vitals, optimization (12 Q&A)
+├── 08-accessibility/       # WCAG, ARIA, keyboard navigation (21 Q&A)
+├── 09-security/            # XSS, CSRF, authentication, headers (3 Q&A - expanding)
+├── 10-system-design/       # Micro-frontends, architecture, patterns (3 Q&A - expanding)
+├── 11-browser/             # Rendering pipeline, storage APIs, service workers (3 Q&A - expanding)
+├── 12-networking/          # HTTP/2/3, caching, CDN, compression (3 Q&A - expanding)
+├── 13-pwa/                 # Service workers, manifest, offline-first (3 Q&A - expanding)
+├── 14-tooling/             # Webpack, Vite, Babel, DevTools (3 Q&A - expanding)
+├── 15-i18n/                # Localization, RTL, formatting, timezones (3 Q&A - expanding)
+├── 16-architecture/        # Coming soon - System design patterns
+├── 17-seo/                 # Coming soon - Technical SEO, structured data
+├── 18-coding-challenges/   # 65 LeetCode-style problems
 │   ├── 01-javascript-fundamentals/
 │   ├── 02-dom-manipulation/
 │   ├── 03-react-problems/
@@ -113,8 +123,8 @@ Frontend-Master-Prep-Series/
 │   ├── 05-ui-components/
 │   ├── 06-system-implementations/
 │   └── 07-company-questions/
-├── 14-flashcards/          # Active recall system
-│   ├── curated-decks/      # Essential 50, Pre-Interview 30
+├── 19-flashcards/          # 526 flashcards with spaced repetition
+│   ├── curated-decks/      # Essential 50, Pre-Interview 30, Daily 20
 │   └── by-topic/           # JavaScript, React, TypeScript, etc.
 ├── index.html              # 📱 Interactive flashcard app (GitHub Pages)
 ├── assets/js/              # App logic with Tailwind CSS
@@ -221,24 +231,30 @@ Frontend-Master-Prep-Series/
 
 ## 🆕 What's New
 
-### v2.0.0 (November 2025) - Major Restructure
+### v2.1.0 (November 17, 2025) - Documentation & Structure Update
 
-**Added:**
-- ✅ Comprehensive Q&A topics (68 files)
-- ✅ TypeScript section (6 topics)
-- ✅ Testing section (5 topics)
-- ✅ Security section (4 topics)
-- ✅ Tooling section (5 topics)
-- ✅ Coding problems with solutions (23+, growing)
-- ✅ Flashcard system (340+ cards, target 600+)
-- ✅ **Interactive flashcard web app** with spaced repetition
-- ✅ Study resources (guides, checklists, paths)
+**Updated:**
+- ✅ Fixed folder structure (19 organized directories)
+- ✅ Accurate stats: 411 Q&A, 65 coding problems, 526 flashcards
+- ✅ Updated all internal path references
+- ✅ Reorganized content for better navigation
+- ✅ Enhanced folder-specific READMEs
+
+**Added (v2.0.0 - November 2025):**
+- ✅ Comprehensive Q&A topics (411 questions across 15 topics)
+- ✅ TypeScript section (49 Q&A)
+- ✅ Testing section (18 Q&A)
+- ✅ Security, System Design, Browser, Networking, PWA, Tooling, i18n sections
+- ✅ Coding problems with solutions (65 problems, growing to 185+)
+- ✅ Flashcard system (526 cards - exceeded 180-200 target!)
+- ✅ **Interactive flashcard web app** with SM-2 spaced repetition
+- ✅ Study resources (guides, checklists, learning paths)
 
 **Improved:**
-- 🔄 Modular structure (easy navigation)
+- 🔄 Modular 19-folder structure (crystal clear navigation)
 - 🔄 Company-specific questions (Google, Meta, Amazon)
 - 🔄 Difficulty ratings and time estimates
-- 🔄 Real-world code examples
+- 🔄 Real-world code examples with depth sections
 
 ---
 
@@ -259,14 +275,14 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## 📊 Repository Stats
 
-- **Q&A Topics:** 68 comprehensive guides
-- **Coding Problems:** 23 (target: 185+)
-- **Flashcards:** 340 (target: 600+)
-- **Topics Covered:** 12 major areas
-- **Study Guides:** 4-week plan, daily routines, checklist
-- **Interactive Tools:** Flashcard web app with spaced repetition
+- **Q&A:** 411 comprehensive questions across 15 topics
+- **Coding Problems:** 65 (target: 185+) with multiple solutions
+- **Flashcards:** 526 ✅ (target 180-200 exceeded!)
+- **Topics Covered:** 19 major areas (15 active, 2 expanding, 2 planned)
+- **Study Guides:** 4-week plan, daily routines, interview checklist
+- **Interactive Tools:** Flashcard web app with SM-2 spaced repetition
 - **Last Updated:** November 2025
-- **Status:** 🟢 Actively maintained and growing
+- **Status:** 🟢 Actively maintained - Documentation phase
 
 ---
 

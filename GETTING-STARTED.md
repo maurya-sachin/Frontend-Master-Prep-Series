@@ -22,9 +22,9 @@ Welcome! This guide will help you navigate this massive repository and create an
 ### If you have...
 
 #### **1 Day Before Interview**
-1. Review [Pre-Interview 30 Flashcards](./14-flashcards/curated-decks/pre-interview-30.md) (15 min)
-2. Skim [Essential 50 Flashcards](./14-flashcards/curated-decks/essential-50.md) (25 min)
-3. Solve 3-5 problems from [Company-Specific Questions](./13-coding-problems/07-company-questions/) (2 hours)
+1. Review [Pre-Interview 30 Flashcards](./19-flashcards/curated-decks/pre-interview-30.md) (15 min)
+2. Skim [Essential 50 Flashcards](./19-flashcards/curated-decks/essential-50.md) (25 min)
+3. Solve 3-5 problems from [Company-Specific Questions](./18-coding-challenges/07-company-questions/) (2 hours)
 4. Review company's tech stack topics (1 hour)
 
 **Total:** ~4 hours of focused review
@@ -48,9 +48,9 @@ Follow **Path 1: Quick Sprint (4 Weeks)** from main README
 
 #### **3+ Months Before Interview**
 Follow **Path 2: Deep Mastery (12 Weeks)** from main README
-- Complete mastery of all 1,020+ questions
-- Solve all 185+ coding problems
-- Review all 600+ flashcards
+- Complete mastery of all 411 questions (growing to 600+)
+- Solve all 65 coding problems (growing to 185+)
+- Review all 526 flashcards
 - Build projects using learned concepts
 
 **Total:** ~130 hours over 12 weeks
@@ -91,7 +91,7 @@ Each topic directory contains **questions with comprehensive answers**:
 ### Coding Problems
 
 ```
-13-coding-problems/
+18-coding-challenges/
 ├── 01-javascript-fundamentals/
 │   ├── debounce.md
 │   ├── throttle.md
@@ -115,7 +115,7 @@ Each topic directory contains **questions with comprehensive answers**:
 ### Flashcards
 
 ```
-14-flashcards/
+19-flashcards/
 ├── curated-decks/         # Pre-made decks
 │   ├── essential-50.md
 │   ├── pre-interview-30.md
@@ -261,7 +261,7 @@ Apply concepts immediately:
    - Master hooks
    - Skip Fiber/advanced until later
 
-4. **Coding Problems** (13-coding-problems/)
+4. **Coding Problems** (18-coding-challenges/)
    - JavaScript fundamentals
    - DOM manipulation
    - UI components
@@ -324,12 +324,12 @@ Practice with:
 
 ### 5. Don't Get Overwhelmed
 
-This repo has 1,020+ questions. You don't need ALL of them!
+This repo has 411 Q&A (growing to 600+). You don't need ALL of them!
 
 **Minimum viable prep (4 weeks):**
 - Essential 50 flashcards ✅
 - 30 coding problems ✅
-- 300 core Q&A (focus on ⭐⭐⭐⭐⭐ questions) ✅
+- 200 core Q&A (focus on ⭐⭐⭐⭐⭐ questions) ✅
 
 ### 6. Quality Over Quantity
 

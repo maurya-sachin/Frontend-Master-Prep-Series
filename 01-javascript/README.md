@@ -230,8 +230,8 @@ Each file includes:
 
 ## 🔗 Related Resources
 
-- **[JavaScript Coding Problems](../13-coding-problems/01-javascript-fundamentals/)** - Practice implementations
-- **[JavaScript Flashcards](../14-flashcards/by-topic/javascript.md)** - Quick review
+- **[JavaScript Coding Problems](../18-coding-challenges/01-javascript-fundamentals/)** - Practice implementations
+- **[JavaScript Flashcards](../19-flashcards/by-topic/javascript.md)** - Quick review
 - **[Code Examples Directory](./examples/)** - Runnable code samples
 
 ---

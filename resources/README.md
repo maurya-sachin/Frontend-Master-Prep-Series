@@ -60,7 +60,7 @@ Choose a study plan based on your timeline:
 ### By Interview Type
 
 **Coding Round**
-- Focus: 13-coding-problems (all categories)
+- Focus: 18-coding-challenges (all categories)
 - Master: JavaScript fundamentals, algorithms
 - Practice: LeetCode Medium/Hard
 - Time: 2 weeks minimum

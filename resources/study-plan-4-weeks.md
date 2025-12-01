@@ -306,8 +306,8 @@ Time commitment: 2-3 hours daily
 ## Resources to Use
 
 - **Q&A Sections:** Read relevant markdown files
-- **Coding Problems:** 13-coding-problems directory
-- **Flashcards:** 14-flashcards directory (spaced repetition)
+- **Coding Problems:** 18-coding-challenges directory
+- **Flashcards:** 19-flashcards directory (spaced repetition)
 - **Projects:** Build from scratch, deploy live
 
 ---

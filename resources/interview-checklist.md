@@ -31,8 +31,8 @@
 ## 📅 1 Day Before Interview
 
 ### Final Review (2-3 hours max)
-- [ ] Review [Pre-Interview 30 Flashcards](../14-flashcards/curated-decks/pre-interview-30.md) (15 min)
-- [ ] Quick scan of [Essential 50](../14-flashcards/curated-decks/essential-50.md) weak cards (20 min)
+- [ ] Review [Pre-Interview 30 Flashcards](../19-flashcards/curated-decks/pre-interview-30.md) (15 min)
+- [ ] Quick scan of [Essential 50](../19-flashcards/curated-decks/essential-50.md) weak cards (20 min)
 - [ ] Review 3-5 coding problems you struggled with (45 min)
 - [ ] Practice explaining 1 project out loud (15 min)
 - [ ] Review system design principles (30 min)
@@ -67,7 +67,7 @@
 - [ ] Healthy breakfast (avoid heavy meals)
 - [ ] Light exercise (10-15 min walk/stretch)
 - [ ] Shower and dress professionally (even for remote)
-- [ ] Review [Daily 20 Flashcards](../14-flashcards/curated-decks/daily-20.md) (10 min)
+- [ ] Review [Daily 20 Flashcards](../19-flashcards/curated-decks/daily-20.md) (10 min)
 
 ### Final Technical Check (45 min before)
 - [ ] Test camera, microphone, speakers
