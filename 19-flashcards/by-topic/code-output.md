@@ -20,6 +20,8 @@ var x = 5;
 **Tags:** #javascript #hoisting #output
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Key principle: hoisting moves variable declarations to top, but NOT initialization. Visualize in two phases—compilation (declarations move up) and execution (assignments stay in place). When explaining to interviewer, say "var x gets hoisted as undefined, then assignment x=5 happens later." Always distinguish var hoisting from const/let Temporal Dead Zone.
+
 ---
 
 ## Card 2: Closure Counter
@@ -35,6 +37,8 @@ for(var i=0; i<3; i++) {
 **Difficulty:** 🟡 Medium
 **Tags:** #javascript #closures #output
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Classic closure trap! Closures capture variables by reference, not value. All three setTimeout callbacks reference the same `i` variable. By the time callbacks execute, loop completed and i=3. Explain fix: "Use let for block scope" or "Wrap in IIFE to create new scope per iteration." Interviewer will likely ask why let fixes it—explain block-scope vs function-scope.
 
 ---
 
@@ -54,6 +58,8 @@ console.log(obj.getX());
 **Tags:** #javascript #this #output
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Critical this difference: arrow functions DON'T have their own `this`—they inherit from lexical scope (parent scope where defined). Regular function would output 10. When solving code output with arrow functions, trace back to where arrow is defined, not where called. Interviewer follow-up: "What if we used regular function instead?"
+
 ---
 
 ## Card 4: Type Coercion
@@ -69,6 +75,8 @@ console.log({} + []);
 **Difficulty:** 🔴 Hard
 **Tags:** #javascript #coercion #output
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Most advanced coercion question—trace step-by-step: (1) Both sides become primitives via valueOf() then toString(). (2) [] toString gives "", {} toString gives "[object Object]". (3) {} in statement context is block, not object. Explain: "First case two empty strings concat to empty string. Second case empty array toString plus object toString. Third case is actually 0 + [] because {} is treated as code block."
 
 ---
 
@@ -86,6 +94,8 @@ console.log('3');
 **Tags:** #javascript #promises #output
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Event loop hierarchy: (1) Synchronous code executes first (1, 3). (2) Microtasks run (Promises, then, catch, finally). (3) Macrotasks run (setTimeout, setInterval). When tracing output, execute all sync code, THEN process microtask queue. Follow-up question likely: "What if we add setTimeout?"—that runs after microtasks.
+
 ---
 
 ## Card 6: NaN Comparison
@@ -101,6 +111,8 @@ console.log(Object.is(NaN, NaN));
 **Tags:** #javascript #nan #output
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Quirk of IEEE 754 standard: NaN is NEVER equal to itself, not even with ===. Use Number.isNaN() or Object.is() to check NaN. Remember: isNaN() coerces, Number.isNaN() doesn't. Interview setup: "NaN comparison is special case. === doesn't work because NaN by spec isn't equal to itself. Object.is() and Number.isNaN() are proper methods."
+
 ---
 
 ## Card 7: Array Constructor
@@ -115,6 +127,8 @@ console.log(Array(3,4));
 **Difficulty:** 🟡 Medium
 **Tags:** #javascript #arrays #output
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Array constructor ambiguity: single numeric arg sets length (creates sparse array with empty slots), multiple args become elements. Sparse arrays have gotchas—map/forEach skip empty slots! Follow-up: "Why is Array(3) different from [undefined, undefined, undefined]?" Answer: sparse array, actual length but no real elements. Compare Array(3).map(x => 1) vs Array.from({length:3}).map(x => 1).
 
 ---
 
@@ -134,6 +148,8 @@ test();
 **Tags:** #javascript #parameters #output
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Default parameters evaluated LEFT-TO-RIGHT at call time, not definition time. When test() called with no args, a is undefined, so b defaults to undefined. Key: default params have access to previous params. Example: b=a+1 would fail if a undefined. Interviewer may ask: "What if default param is a function call?"—answer: only called when param omitted.
+
 ---
 
 ## Card 9: Object Keys
@@ -148,6 +164,8 @@ console.log(obj);
 **Difficulty:** 🟢 Easy
 **Tags:** #javascript #objects #output
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Object keys are ALWAYS strings (or Symbols). Numeric 1 automatically converted to string '1'. Since both keys are identical after conversion, second value overwrites first. Related gotcha: accessing with obj[1] and obj['1'] returns same value. Test knowledge: "What about Symbol keys?"—they're not converted. "What about computed keys?"—same rule applies.
 
 ---
 
@@ -164,6 +182,8 @@ console.log(newArr);
 **Difficulty:** 🟢 Easy
 **Tags:** #javascript #spread #output
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Spread operator (...) unpacks iterable into individual elements. Works in arrays, function args, and objects (rest/spread distinction). Creates shallow copy—nested objects still reference same origin. Common trap: {...arr} in objects gives wrong output because arrays become {0: 1, 1: 2}. Follow-up: "What's difference between rest and spread?"—rest captures multiple into array, spread unpacks.
 
 ---
 
