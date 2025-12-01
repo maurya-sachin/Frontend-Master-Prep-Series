@@ -9,8 +9,10 @@
 | Problem | Difficulty | Frequency |
 |---------|-----------|-----------|
 | [useLocalStorage Hook](./use-local-storage.md) | 🟡 Medium | ⭐⭐⭐⭐⭐ |
-| useDebounce Hook | 🟡 Medium | ⭐⭐⭐⭐⭐ |
-| useFetch Hook | 🟡 Medium | ⭐⭐⭐⭐ |
+| [useDebounce Hook](./use-debounce.md) | 🟡 Medium | ⭐⭐⭐⭐⭐ |
+| [useFetch Hook](./use-fetch.md) | 🟡 Medium | ⭐⭐⭐⭐ |
+| [useClickOutside Hook](./use-click-outside.md) | 🟡 Medium | ⭐⭐⭐⭐⭐ |
+| [usePrevious Hook](./use-previous.md) | 🟢 Easy | ⭐⭐⭐⭐ |
 | useIntersectionObserver | 🔴 Hard | ⭐⭐⭐⭐ |
 | Modal Component | 🟡 Medium | ⭐⭐⭐⭐⭐ |
 | Tabs Component | 🟢 Easy | ⭐⭐⭐⭐ |
