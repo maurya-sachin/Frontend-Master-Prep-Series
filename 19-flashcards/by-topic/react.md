@@ -601,6 +601,8 @@
 **Tags:** #react #proptypes #typescript
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Legacy check. "TypeScript is standard now - compile-time checking > runtime. PropTypes still valid for non-TS projects." Migration: "Converted 50-file codebase from PropTypes to TS in 2 days - caught 30 bugs immediately."
+
 ---
 
 ## Card 47: Display Name
@@ -611,6 +613,8 @@
 **Difficulty:** 🟢 Easy
 **Tags:** #react #debugging #devtools
 **Frequency:** ⭐⭐
+
+**💡 Interview Tip:** DevTools clarity. "HOC wrapper components need displayName - MyComponent.displayName = 'WithAuth(MyComponent)' for debuggability." Auto-set for named functions. Shows debugging awareness.
 
 ---
 
@@ -623,6 +627,8 @@
 **Tags:** #react #children #api
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Advanced React API. "React.Children.map for cloning with new props. Never array.map(children) - children can be single element." Compound components use this. Library pattern knowledge.
+
 ---
 
 ## Card 49: cloneElement Use
@@ -633,6 +639,8 @@
 **Difficulty:** 🔴 Hard
 **Tags:** #react #api #advanced
 **Frequency:** ⭐⭐
+
+**💡 Interview Tip:** Rare API. "cloneElement adds props to existing element - used in HOCs before hooks. Now prefer composition or custom hooks." Red flag: Using frequently - sign of fighting React patterns.
 
 ---
 
@@ -645,6 +653,8 @@
 **Tags:** #react #api #validation
 **Frequency:** ⭐⭐
 
+**💡 Interview Tip:** Validation helper. "isValidElement for library type checking. Useful in render props to validate children." Niche but shows API knowledge. Rarely needed in app code.
+
 ---
 
 ## Card 51: Profiler API
@@ -655,6 +665,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #profiler #performance
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Production monitoring. "Profiler measures render costs - sends actualDuration to analytics. Wrapped slow charts, discovered 800ms renders." Small overhead - use selectively in production.
 
 ---
 
@@ -667,6 +679,8 @@
 **Tags:** #react #react18 #batching
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** React 18 win. "Auto-batching reduced renders 60% - setTimeout with 3 setState now batches. flushSync opts out for immediate DOM access." Performance improvement free upgrade.
+
 ---
 
 ## Card 53: startTransition
@@ -677,6 +691,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #react18 #transitions
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Transition API. "startTransition marks non-urgent updates - search input instant, results can lag. Replaces hacky setTimeout(0) patterns." Shows React 18 concurrent mastery.
 
 ---
 
@@ -689,6 +705,8 @@
 **Tags:** #react #suspense #ux
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** UX strategy. "Multiple Suspense boundaries = granular loading. Route-level boundary + widget-level = better UX than single top-level." Balance: more code vs better experience.
+
 ---
 
 ## Card 55: Error Boundary Placement
@@ -699,6 +717,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #error-boundaries #patterns
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Error isolation. "Error Boundaries at route + widget level. Third-party components wrapped separately - their errors don't crash whole app." Production resilience pattern.
 
 ---
 
@@ -711,6 +731,8 @@
 **Tags:** #react #context #optimization
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Context perf fix. "Split ThemeContext (static) from UserContext (frequent). Memoize provider value. For complex: migrate to Zustand with selectors." Shows optimization evolution.
+
 ---
 
 ## Card 57: Controlled Component Perf
@@ -721,6 +743,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #forms #performance
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Form optimization. "Debounce onChange or use uncontrolled + validation on submit. useTransition for search. React Hook Form for 50+ fields." Performance vs DX trade-offs.
 
 ---
 
@@ -733,6 +757,8 @@
 **Tags:** #react #lists #performance
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** List performance. "1000+ items = react-window virtualization. Reduced 10s render to 100ms. Stable keys, React.memo items, avoid inline functions." Measured impact: 100x faster.
+
 ---
 
 ## Card 59: useEffect Timing
@@ -743,6 +769,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #hooks #useEffect
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Timing precision. "useEffect runs after paint (async), useLayoutEffect before paint (sync blocking). 99% use useEffect - synchronous updates only when measuring DOM."
 
 ---
 
@@ -755,6 +783,8 @@
 **Tags:** #react #hooks #closures
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Common closure bug. "Effect captures old props/state when deps missing. Fix: add to dependency array or use functional setState((prev) => prev + 1)." Debugging experience.
+
 ---
 
 ## Card 61: Custom Hook Patterns
@@ -765,6 +795,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #hooks #patterns
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Hook design. "Single responsibility, clear name (useWindowSize not useSize), return what's needed. Don't abstract until pattern emerges 2-3 times." Premature abstraction awareness.
 
 ---
 
@@ -777,6 +809,8 @@
 **Tags:** #react #patterns #performance
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Legacy pattern. "Render props pre-hooks - memoize function with useCallback. Now custom hooks cleaner: useData() vs <Data render={data => ...} />." Evolution understanding.
+
 ---
 
 ## Card 63: HOC Best Practices
@@ -787,6 +821,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #hoc #patterns
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** HOC best practices. "Pass unrelated props, copy static methods, wrap displayName. Don't use in render (creates new component)." Pre-hooks pattern - shows legacy knowledge.
 
 ---
 
@@ -799,6 +835,8 @@
 **Tags:** #react #refs #lists
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Ref arrays. "Callback ref with Map: ref={el => mapRef.current.set(id, el)}. Or single ref with data attributes. useRef returns same object - won't work in map."
+
 ---
 
 ## Card 65: Portal Event Bubbling
@@ -809,6 +847,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #portals #events
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Portal quirk. "Events bubble through React tree, not DOM. Modal rendered at body still bubbles to parent in component tree." Synthetic event system understanding.
 
 ---
 
@@ -821,6 +861,8 @@
 **Tags:** #react #hooks #rules
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Critical rule. "Hook order must stay consistent - React uses index to track state. Conditional breaks this. Put conditions INSIDE hooks." Rule of Hooks mastery.
+
 ---
 
 ## Card 67: Key Reset Pattern
@@ -831,6 +873,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #keys #patterns
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Reset pattern. "Changing key unmounts + remounts with fresh state. Form reset, force refetch, clear errors. <Form key={userId} /> resets on user change."
 
 ---
 
@@ -843,6 +887,8 @@
 **Tags:** #react #context #defaults
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Context gotcha. "Default value ONLY when no Provider. Not used if Provider value={undefined}. Useful for testing components in isolation."
+
 ---
 
 ## Card 69: Lazy Initial State
@@ -853,6 +899,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #useState #optimization
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Lazy init optimization. "useState(() => expensive()) runs only on mount. useState(expensive()) runs every render. For localStorage reads, calculations."
 
 ---
 
@@ -865,6 +913,8 @@
 **Tags:** #react #useReducer #initialization
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** useReducer init. "Third arg: useReducer(reducer, initialArg, init). Reusable init logic for reset functionality. Rare but elegant for complex initialization."
+
 ---
 
 ## Card 71: Bail Out Updates
@@ -875,6 +925,8 @@
 **Difficulty:** 🔴 Hard
 **Tags:** #react #optimization #internals
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Bail-out mechanism. "Object.is comparison - if same reference, skip render. Why immutability matters. Children render if parent renders regardless."
 
 ---
 
@@ -887,6 +939,8 @@
 **Tags:** #react #fiber #internals
 **Frequency:** ⭐⭐
 
+**💡 Interview Tip:** Advanced internals. "Priority lanes: SyncLane (click), TransitionLanes (background). Enables concurrent rendering. Library authors need this, apps abstract it." Senior-level knowledge.
+
 ---
 
 ## Card 73: Double Rendering
@@ -897,6 +951,8 @@
 **Difficulty:** 🟢 Easy
 **Tags:** #react #strictmode #development
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** StrictMode purpose. "Double-render catches impure components - exposed subscription leak. Production renders once. Best practice: always enable."
 
 ---
 
@@ -909,6 +965,8 @@
 **Tags:** #react #useEffect #async
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Race condition fix. "Cleanup with ignore flag or AbortController. Latest request wins. Prevented showing stale user profile after fast navigation."
+
 ---
 
 ## Card 75: Memoization Pitfalls
@@ -919,6 +977,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #optimization #mistakes
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Over-optimization. "Memoized 100 components - slower than vanilla. Overhead > benefit for cheap renders. Profile first, optimize second." Learned lesson.
 
 ---
 
@@ -931,6 +991,8 @@
 **Tags:** #react #lifecycle #mounting
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Mount lifecycle. "Constructor → render → DOM updates → useEffect. Effects after paint. Constructor in function component = top-level code."
+
 ---
 
 ## Card 77: Component Updating
@@ -941,6 +1003,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #lifecycle #updating
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Update lifecycle. "getDerivedStateFromProps → render → DOM update → useEffect cleanup → useEffect. Cleanup before next effect run."
 
 ---
 
@@ -953,6 +1017,8 @@
 **Tags:** #react #lifecycle #unmounting
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Cleanup importance. "useEffect return = cleanup. Remove listeners, cancel fetch, clear timers. Memory leak without cleanup - SPA critical."
+
 ---
 
 ## Card 79: Render vs Commit
@@ -963,6 +1029,8 @@
 **Difficulty:** 🔴 Hard
 **Tags:** #react #internals #phases
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Two-phase rendering. "Render (pure, interruptible) builds VDOM. Commit (side effects, sync) applies to DOM. Concurrent rendering pauses render, not commit."
 
 ---
 
@@ -975,6 +1043,8 @@
 **Tags:** #react #reconciliation #internals
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Reconciliation rules. "Different types = rebuild tree. Keys identify elements. Siblings diffed by key. Why <div> → <span> destroys children."
+
 ---
 
 ## Card 81: State Updates Queue
@@ -985,6 +1055,8 @@
 **Difficulty:** 🔴 Hard
 **Tags:** #react #state #internals
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Update queue. "Multiple setState batched in queue. Functional updates use previous in queue. setState(n => n+1) 3x = +3. setState(1) 3x = 1."
 
 ---
 
@@ -997,6 +1069,8 @@
 **Tags:** #react #context #internals
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Context update. "Provider re-renders → consumers check value reference → bail if same. Memoize value to prevent cascading re-renders."
+
 ---
 
 ## Card 83: Render Optimization
@@ -1007,6 +1081,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #optimization #strategy
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Optimization hierarchy. "1) Don't render (composition), 2) Render less (memo), 3) Render faster (virtualization), 4) Perceive faster (Suspense). Order matters!"
 
 ---
 
@@ -1019,6 +1095,8 @@
 **Tags:** #react #devtools #profiling
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** DevTools profiling. "Flame graph shows render hierarchy, ranked chart finds slowest. 'Why did this render?' shows props/state changes. Essential debugging tool."
+
 ---
 
 ## Card 85: Testing Library Principles
@@ -1029,6 +1107,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #testing #rtl
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Testing philosophy. "Test behavior not implementation. Query by role/label (accessibility). No shallow - full renders. Enzyme → RTL migration = better tests."
 
 ---
 
@@ -1041,6 +1121,8 @@
 **Tags:** #react #testing #async
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Async test patterns. "waitFor for assertions, findBy for queries, act warnings for state updates. Avoid waitFor(() => {}, {timeout: 5000}) - flaky tests."
+
 ---
 
 ## Card 87: Testing Hooks
@@ -1051,6 +1133,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #testing #hooks
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Hook testing. "@testing-library/react-hooks or render in component. Test with realistic usage - custom hook edge cases caught by real component integration."
 
 ---
 
@@ -1063,6 +1147,8 @@
 **Tags:** #react #testing #snapshots
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Snapshot caution. "Useful for error messages, stable UI. Avoid for dynamic data - snapshots too large, hard to review. Inline snapshots better than separate files."
+
 ---
 
 ## Card 89: Form Libraries
@@ -1073,6 +1159,8 @@
 **Difficulty:** 🟢 Easy
 **Tags:** #react #forms #libraries
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Library decision. "React Hook Form for 50+ fields (perf), Formik for complex validation. Vanilla for learning/simple forms. Bundle size vs DX trade-off."
 
 ---
 
@@ -1085,6 +1173,8 @@
 **Tags:** #react #state-management #architecture
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** State management ladder. "Start: useState + Context. Add when: frequent cross-component updates, devtools needed, middleware. Don't start with Redux." Progressive enhancement.
+
 ---
 
 ## Card 91: Zustand vs Redux
@@ -1095,6 +1185,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #state-management #comparison
 **Frequency:** ⭐⭐⭐
+
+**💡 Interview Tip:** Modern comparison. "Zustand: simpler API, less boilerplate, 1.2kb. Redux: mature ecosystem, middleware, time-travel. Both excellent - choose by team preference."
 
 ---
 
@@ -1107,6 +1199,8 @@
 **Tags:** #react #state-management #atomic
 **Frequency:** ⭐⭐
 
+**💡 Interview Tip:** Atomic state. "Jotai: 3kb, simpler. Recoil: more features but Meta deprioritized. Both bottom-up vs top-down Redux. Jotai active development edge."
+
 ---
 
 ## Card 93: TanStack Query Use
@@ -1117,6 +1211,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #data-fetching #tanstack
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** Server state solution. "React Query = API data management. Caching, refetching, optimistic updates. Don't use for client state. Reduced data fetching code 70%."
 
 ---
 
@@ -1129,6 +1225,8 @@
 **Tags:** #react #data-fetching #comparison
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Data fetching comparison. "SWR: simpler, smaller, stale-while-revalidate focus. React Query: more features, better DevTools. Both solve same problem excellently."
+
 ---
 
 ## Card 95: React Router Loaders
@@ -1139,6 +1237,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #react-router #data-loading
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Router data loading. "Loaders run before route renders - data ready immediately. defer() for streaming. Eliminates useEffect fetch waterfalls."
 
 ---
 
@@ -1151,6 +1251,8 @@
 **Tags:** #react #react-router #auth
 **Frequency:** ⭐⭐⭐⭐⭐
 
+**💡 Interview Tip:** Auth pattern. "Protected route wrapper checks auth, redirects to login. Outlet for nested routes. Loader can preload user data before render."
+
 ---
 
 ## Card 97: CSS-in-JS Trade-offs
@@ -1161,6 +1263,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #styling #css-in-js
 **Frequency:** ⭐⭐⭐⭐
+
+**💡 Interview Tip:** Styling trade-offs. "CSS-in-JS runtime cost vs type safety. Styled-components 16kb vs Tailwind 0kb runtime. Zero-runtime options: Linaria, vanilla-extract."
 
 ---
 
@@ -1173,6 +1277,8 @@
 **Tags:** #react #styling #libraries
 **Frequency:** ⭐⭐⭐
 
+**💡 Interview Tip:** Library choice. "Emotion: 10kb, framework-agnostic. Styled-components: 14kb, React-specific, more popular. Performance similar - ecosystem size main difference."
+
 ---
 
 ## Card 99: Accessibility in React
@@ -1183,6 +1289,8 @@
 **Difficulty:** 🟡 Medium
 **Tags:** #react #accessibility #a11y
 **Frequency:** ⭐⭐⭐⭐⭐
+
+**💡 Interview Tip:** A11y essentials. "Semantic HTML first, ARIA when needed. Keyboard nav, focus visible, screen reader test. Color contrast 4.5:1. Error announcements with live regions."
 
 ---
 
@@ -1195,6 +1303,9 @@
 **Tags:** #react #accessibility #focus
 **Frequency:** ⭐⭐⭐⭐
 
+**💡 Interview Tip:** Focus control. "useRef + useEffect for autofocus. Trap focus in modals with focus-trap-react. Restore focus on close. Skip links for keyboard users."
+
 ---
 
 [← Back to Flashcards](../README.md)
+# APPLYING TIPS TO CARDS 46-100 IN SINGLE OPERATION
