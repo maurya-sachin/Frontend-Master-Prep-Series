@@ -11,6 +11,13 @@
   <!-- Remix Icon CDN -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
+  <!-- Marked.js for Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+
+  <!-- Highlight.js for Code Syntax -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
   <!-- Custom Tailwind Config -->
   <script>
     tailwind.config = {
@@ -68,6 +75,11 @@
         <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-400 transition-all active" data-view="study">
           <i class="ri-book-open-line text-xl"></i>
           <span class="font-medium">Study</span>
+        </button>
+
+        <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-400 transition-all" data-view="browse">
+          <i class="ri-file-list-3-line text-xl"></i>
+          <span class="font-medium">Browse Q&A</span>
         </button>
 
         <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-400 transition-all" data-view="decks">
@@ -202,6 +214,33 @@
             <button class="px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold transition-all" id="view-progress">
               View Progress
             </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Browse Q&A View -->
+      <div class="view hidden" id="browse-view">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Browse Q&A</h2>
+          <p class="text-slate-400">Explore 420+ comprehensive interview questions</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <!-- Topic Sidebar -->
+          <div class="lg:col-span-1">
+            <div class="bg-slate-800/50 rounded-lg p-4 sticky top-4">
+              <h3 class="font-semibold mb-4">Topics</h3>
+              <div id="qa-topics-list" class="space-y-2">
+                <!-- Topics will be populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Q&A Content -->
+          <div class="lg:col-span-3">
+            <div id="qa-content-area">
+              <!-- Q&A content will be populated by JS -->
+            </div>
           </div>
         </div>
       </div>

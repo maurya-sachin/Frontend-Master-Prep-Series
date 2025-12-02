@@ -665,7 +665,184 @@ class FlashcardApp {
   }
 }
 
+// ============================================
+// Q&A BROWSER (New Feature)
+// ============================================
+
+class QABrowser {
+  constructor() {
+    this.manifest = null;
+    this.currentTopic = null;
+    this.init();
+  }
+
+  async init() {
+    // Configure marked
+    if (typeof marked !== 'undefined') {
+      marked.setOptions({
+        breaks: true,
+        gfm: true
+      });
+    }
+
+    // Load manifest
+    await this.loadManifest();
+    this.renderTopics();
+  }
+
+  async loadManifest() {
+    try {
+      const response = await fetch('./manifest.json');
+      this.manifest = await response.json();
+    } catch (error) {
+      console.error('Error loading manifest:', error);
+      this.manifest = {};
+    }
+  }
+
+  renderTopics() {
+    const container = document.getElementById('qa-topics-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    Object.entries(this.manifest).forEach(([key, topic]) => {
+      const btn = document.createElement('button');
+      btn.className = 'w-full text-left px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-400 transition-all';
+      btn.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span>${topic.icon}</span>
+          <span class="flex-1">${topic.name}</span>
+          <span class="text-xs text-slate-500">${topic.count}</span>
+        </div>
+      `;
+      btn.addEventListener('click', () => this.loadTopic(key));
+      container.appendChild(btn);
+    });
+
+    // Show welcome message initially
+    this.showWelcome();
+  }
+
+  showWelcome() {
+    const container = document.getElementById('qa-content-area');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="bg-slate-800/50 rounded-lg p-8 text-center">
+        <h3 class="text-2xl font-bold mb-4">Welcome to Q&A Browser</h3>
+        <p class="text-slate-400 mb-6">Select a topic from the sidebar to explore comprehensive interview questions with detailed answers, code examples, and depth sections.</p>
+        <div class="grid grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+          <div class="bg-slate-700/30 rounded-lg p-4">
+            <div class="text-indigo-400 font-semibold mb-2">🔍 Deep Dive</div>
+            <div class="text-sm text-slate-400">Technical internals and implementation details</div>
+          </div>
+          <div class="bg-slate-700/30 rounded-lg p-4">
+            <div class="text-indigo-400 font-semibold mb-2">🐛 Real-World</div>
+            <div class="text-sm text-slate-400">Production scenarios with actual metrics</div>
+          </div>
+          <div class="bg-slate-700/30 rounded-lg p-4">
+            <div class="text-indigo-400 font-semibold mb-2">⚖️ Trade-offs</div>
+            <div class="text-sm text-slate-400">Decision matrices and comparisons</div>
+          </div>
+          <div class="bg-slate-700/30 rounded-lg p-4">
+            <div class="text-indigo-400 font-semibold mb-2">💬 Explain to Junior</div>
+            <div class="text-sm text-slate-400">Simplified explanations and analogies</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  async loadTopic(topicKey) {
+    const topic = this.manifest[topicKey];
+    if (!topic || topic.files.length === 0) {
+      this.showError('No files found in this topic.');
+      return;
+    }
+
+    this.currentTopic = topicKey;
+
+    // Show loading
+    const container = document.getElementById('qa-content-area');
+    container.innerHTML = `
+      <div class="bg-slate-800/50 rounded-lg p-8 text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+        <p class="text-slate-400">Loading ${topic.name} questions...</p>
+      </div>
+    `;
+
+    // Load all files for this topic
+    const contents = await Promise.all(
+      topic.files.map(file => this.loadMarkdownFile(`${topic.folder}/${file}`))
+    );
+
+    this.renderQAContent(topic, contents);
+  }
+
+  async loadMarkdownFile(path) {
+    try {
+      const response = await fetch(path);
+      const text = await response.text();
+      return { path, content: text, error: null };
+    } catch (error) {
+      return { path, content: null, error: error.message };
+    }
+  }
+
+  renderQAContent(topic, contents) {
+    const container = document.getElementById('qa-content-area');
+
+    let html = `
+      <div class="mb-6">
+        <h3 class="text-2xl font-bold mb-2">${topic.icon} ${topic.name}</h3>
+        <p class="text-slate-400">${topic.count} comprehensive questions</p>
+      </div>
+    `;
+
+    contents.forEach(({ path, content, error }) => {
+      if (error) {
+        html += `
+          <div class="bg-red-900/20 border border-red-500/50 rounded-lg p-4 mb-4">
+            <p class="text-red-400">Error loading ${path}: ${error}</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (content) {
+        html += `
+          <div class="bg-slate-800/50 rounded-lg p-6 mb-6">
+            <div class="prose prose-invert max-w-none">
+              ${marked.parse(content)}
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    container.innerHTML = html;
+
+    // Highlight code blocks
+    if (typeof hljs !== 'undefined') {
+      container.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    }
+  }
+
+  showError(message) {
+    const container = document.getElementById('qa-content-area');
+    container.innerHTML = `
+      <div class="bg-red-900/20 border border-red-500/50 rounded-lg p-8 text-center">
+        <p class="text-red-400">${message}</p>
+      </div>
+    `;
+  }
+}
+
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new FlashcardApp();
+  window.qaBrowser = new QABrowser();
 });
