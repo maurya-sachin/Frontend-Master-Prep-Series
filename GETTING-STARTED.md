@@ -48,9 +48,9 @@ Follow **Path 1: Quick Sprint (4 Weeks)** from main README
 
 #### **3+ Months Before Interview**
 Follow **Path 2: Deep Mastery (12 Weeks)** from main README
-- Complete mastery of all 411 questions (growing to 600+)
+- Complete mastery of all 374 questions (growing to 500+)
 - Solve all 65 coding problems (growing to 185+)
-- Review all 526 flashcards
+- Review all 514 flashcards
 - Build projects using learned concepts
 
 **Total:** ~130 hours over 12 weeks
@@ -324,12 +324,12 @@ Practice with:
 
 ### 5. Don't Get Overwhelmed
 
-This repo has 411 Q&A (growing to 600+). You don't need ALL of them!
+This repo has 374 Q&A (growing to 500+). You don't need ALL of them!
 
 **Minimum viable prep (4 weeks):**
 - Essential 50 flashcards ✅
 - 30 coding problems ✅
-- 200 core Q&A (focus on ⭐⭐⭐⭐⭐ questions) ✅
+- 150 core Q&A (focus on ⭐⭐⭐⭐⭐ questions) ✅
 
 ### 6. Quality Over Quantity
 
