@@ -141,10 +141,10 @@ export default function BrowsePage() {
                 </div>
               )}
 
-              <div className="card">
+              <div className="card overflow-auto max-h-[calc(100vh-12rem)]">
                 <div
                   ref={contentRef}
-                  className="markdown prose prose-invert max-w-none"
+                  className="markdown"
                   dangerouslySetInnerHTML={{ __html: content }}
                 />
               </div>

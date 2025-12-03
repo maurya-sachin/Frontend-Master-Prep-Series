@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import {
   Home,
@@ -28,6 +28,12 @@ function AppLayout() {
   useEffect(() => {
     const savedTheme = getTheme();
     setTheme(savedTheme);
+    // Apply theme immediately
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
   const toggleTheme = () => {

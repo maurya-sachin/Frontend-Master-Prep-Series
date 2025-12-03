@@ -145,6 +145,42 @@
   color: rgb(203 213 225);
 }
 
+.markdown details {
+  margin-bottom: 1rem;
+  border: 1px solid rgb(51 65 85);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: rgba(30 41 59 / 0.3);
+}
+
+.markdown details[open] {
+  background: rgba(30 41 59 / 0.5);
+}
+
+.markdown summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: rgb(147 197 253);
+  list-style: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: background 0.2s;
+}
+
+.markdown summary:hover {
+  background: rgba(59 130 246 / 0.1);
+}
+
+.markdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.markdown details[open] summary {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgb(51 65 85);
+  padding-bottom: 0.75rem;
+}
+
 /* Animation Classes */
 .fade-in {
   animation: fadeIn 0.3s ease-in;
