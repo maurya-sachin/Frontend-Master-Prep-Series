@@ -42,17 +42,17 @@ Structured Q&A, coding problems, and interactive flashcards covering the complet
 | [Testing](./06-testing/) | 5 topics | 🟡 🔴 | ✅ Complete |
 | [Performance](./07-performance/) | 5 topics | 🟡 🔴 | ✅ Complete |
 | [Accessibility](./08-accessibility/) | 4 topics | 🟢 🟡 | ✅ Complete |
-| [Security](./09-security/) | 3 Q&A | 🟡 🔴 | 🔵 Expanding |
-| [System Design](./10-system-design/) | 3 Q&A | 🔴 | 🔵 Expanding |
+| [Security](./09-security/) | 6 Q&A | 🟡 🔴 | 🔵 Expanding |
+| [System Design](./10-system-design/) | 4 Q&A | 🔴 | 🔵 Expanding |
 | [Browser/Web](./11-browser/) | 3 Q&A | 🟡 🔴 | 🔵 Expanding |
 | [Networking](./12-networking/) | 3 Q&A | 🟡 🔴 | 🔵 Expanding |
 | [PWA](./13-pwa/) | 3 Q&A | 🟡 | 🔵 Expanding |
 | [Tooling](./14-tooling/) | 3 Q&A | 🟡 | 🔵 Expanding |
 | [i18n](./15-i18n/) | 3 Q&A | 🟢 🟡 | 🔵 Expanding |
 | [Architecture](./16-architecture/) | Coming Soon | 🔴 | 🔜 Planned |
-| [SEO](./17-seo/) | Coming Soon | 🟢 🟡 | 🔜 Planned |
+| [SEO](./17-seo/) | 2 Q&A | 🟢 🟡 | 🔵 Expanding |
 
-**411 Q&A across 15 topics** with 2 more in development
+**374+ Q&A across 16 topics** with 1 more in development
 
 ### Coding Problems (Growing Library)
 
@@ -74,7 +74,7 @@ Each problem includes:
 - Time/Space complexity analysis
 - Real-world use cases
 
-### Flashcards (526 Cards - Target Exceeded! ✅)
+### Flashcards (514+ Cards - Target Exceeded! ✅)
 
 | Deck | Cards | Purpose | Time |
 |------|-------|---------|------|
@@ -98,36 +98,37 @@ Each problem includes:
 
 ```
 Frontend-Master-Prep-Series/
-├── 01-javascript/          # Core JS concepts, async, engine internals (97 Q&A)
-├── 02-typescript/          # Type system, generics, advanced patterns (49 Q&A)
-├── 03-react/               # Hooks, patterns, performance, internals (129 Q&A)
-├── 04-nextjs/              # App Router, SSR, ISR, Server Components (25 Q&A)
-├── 05-html-css/            # Semantics, layouts, modern CSS (39 Q&A)
-├── 06-testing/             # Jest, RTL, E2E, testing patterns (18 Q&A)
-├── 07-performance/         # Core Web Vitals, optimization (12 Q&A)
-├── 08-accessibility/       # WCAG, ARIA, keyboard navigation (21 Q&A)
-├── 09-security/            # XSS, CSRF, authentication, headers (3 Q&A - expanding)
-├── 10-system-design/       # Micro-frontends, architecture, patterns (3 Q&A - expanding)
-├── 11-browser/             # Rendering pipeline, storage APIs, service workers (3 Q&A - expanding)
-├── 12-networking/          # HTTP/2/3, caching, CDN, compression (3 Q&A - expanding)
-├── 13-pwa/                 # Service workers, manifest, offline-first (3 Q&A - expanding)
-├── 14-tooling/             # Webpack, Vite, Babel, DevTools (3 Q&A - expanding)
-├── 15-i18n/                # Localization, RTL, formatting, timezones (3 Q&A - expanding)
+├── 01-javascript/          # Core JS concepts, async, engine internals (53 files)
+├── 02-typescript/          # Type system, generics, advanced patterns (22 files)
+├── 03-react/               # Hooks, patterns, performance, internals (71 files)
+├── 04-nextjs/              # App Router, SSR, ISR, Server Components (16 files)
+├── 05-html-css/            # Semantics, layouts, modern CSS (19 files)
+├── 06-testing/             # Jest, RTL, E2E, testing patterns (5 files)
+├── 07-performance/         # Core Web Vitals, optimization (6 files)
+├── 08-accessibility/       # WCAG, ARIA, keyboard navigation (17 files)
+├── 09-security/            # XSS, CSRF, authentication, headers (6 files - expanding)
+├── 10-system-design/       # Component design patterns (4 files - expanding)
+├── 11-browser/             # Rendering pipeline, storage APIs (3 files - expanding)
+├── 12-networking/          # HTTP/2/3, caching, CDN (3 files - expanding)
+├── 13-pwa/                 # Service workers, offline-first (3 files - expanding)
+├── 14-tooling/             # Webpack, Vite, Babel (3 files - expanding)
+├── 15-i18n/                # Localization, RTL, formatting (3 files - expanding)
 ├── 16-architecture/        # Coming soon - System design patterns
-├── 17-seo/                 # Coming soon - Technical SEO, structured data
+├── 17-seo/                 # Technical SEO, structured data (2 files - expanding)
 ├── 18-coding-challenges/   # 65 LeetCode-style problems
-│   ├── 01-javascript-fundamentals/
-│   ├── 02-dom-manipulation/
-│   ├── 03-react-problems/
-│   ├── 04-algorithms/
-│   ├── 05-ui-components/
-│   ├── 06-system-implementations/
-│   └── 07-company-questions/
-├── 19-flashcards/          # 526 flashcards with spaced repetition
+│   ├── 01-javascript-fundamentals/  # 30 problems
+│   ├── 02-dom-manipulation/         # 12 problems
+│   ├── 03-react-problems/           # 11 custom hooks
+│   ├── 04-algorithms/               # LRU cache, etc.
+│   ├── 05-ui-components/            # Modal, star rating
+│   └── 06-performance/              # Web workers, lazy loading
+├── 19-flashcards/          # 514+ flashcards with spaced repetition
 │   ├── curated-decks/      # Essential 50, Pre-Interview 30, Daily 20
 │   └── by-topic/           # JavaScript, React, TypeScript, etc.
-├── index.html              # 📱 Interactive flashcard app (GitHub Pages)
-├── assets/js/              # App logic with Tailwind CSS
+├── src/                    # React app source code
+│   ├── pages/              # Browse, Flashcards, Challenges, Stats
+│   └── utils/              # Markdown parsing, storage
+├── public/                 # Static assets and manifest.json
 └── resources/              # Study guides, checklists, learning paths
 ```
 
@@ -275,14 +276,14 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## 📊 Repository Stats
 
-- **Q&A:** 411 comprehensive questions across 15 topics
+- **Q&A:** 374+ comprehensive questions across 16 topics
 - **Coding Problems:** 65 (target: 185+) with multiple solutions
-- **Flashcards:** 526 ✅ (target 180-200 exceeded!)
-- **Topics Covered:** 19 major areas (15 active, 2 expanding, 2 planned)
+- **Flashcards:** 514+ ✅ (target 180-200 exceeded!)
+- **Topics Covered:** 19 major areas (16 active, 2 expanding, 1 planned)
 - **Study Guides:** 4-week plan, daily routines, interview checklist
 - **Interactive Tools:** Flashcard web app with SM-2 spaced repetition
 - **Last Updated:** November 2025
-- **Status:** 🟢 Actively maintained - Documentation phase
+- **Status:** 🟢 Actively maintained
 
 ---
 
@@ -304,4 +305,4 @@ Found this helpful? ⭐ Star the repo and share with your network!
 
 **Happy Learning! 🚀**
 
-_Last updated: November 2025 | v2.0.0 | Growing repository with comprehensive Q&A, coding problems, and interactive flashcards_
+_Last updated: November 2025 | v2.1.0 | Growing repository with 374+ Q&A, 65 coding problems, and 514+ interactive flashcards_
