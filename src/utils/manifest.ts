@@ -2,7 +2,9 @@ import type { Manifest } from '../types';
 
 export async function loadManifest(): Promise<Manifest> {
   try {
-    const response = await fetch('/manifest.json');
+    // Use Vite base URL for GitHub Pages compatibility
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const response = await fetch(`${baseUrl}manifest.json`);
     if (!response.ok) {
       throw new Error('Failed to load manifest');
     }
@@ -15,7 +17,11 @@ export async function loadManifest(): Promise<Manifest> {
 
 export async function loadMarkdownFile(path: string): Promise<string> {
   try {
-    const response = await fetch(path);
+    // Use Vite base URL for GitHub Pages compatibility
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    // Handle paths that start with / by removing the leading slash
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    const response = await fetch(`${baseUrl}${cleanPath}`);
     if (!response.ok) {
       throw new Error(`Failed to load ${path}`);
     }
@@ -38,22 +44,27 @@ export async function loadFlashcardDeck(deckPath: string): Promise<any[]> {
 
 function parseFlashcards(markdown: string): any[] {
   const cards: any[] = [];
-  const questionRegex = /## Question (\d+):\s*(.+?)\n([\s\S]*?)(?=## Question \d+:|$)/g;
+  // Match ## Card N: Title format
+  const cardRegex = /## Card (\d+):\s*(.+?)\n([\s\S]*?)(?=## Card \d+:|---\s*$|$)/g;
 
   let match;
-  while ((match = questionRegex.exec(markdown)) !== null) {
+  while ((match = cardRegex.exec(markdown)) !== null) {
     const [, number, title, content] = match;
 
     // Extract Q and A
-    const qaRegex = /\*\*Q:\*\*\s*([\s\S]*?)\n\*\*A:\*\*/;
-    const qaMatch = content.match(qaRegex);
+    const qMatch = content.match(/\*\*Q:\*\*\s*([\s\S]*?)(?=\*\*A:\*\*)/);
+    const aMatch = content.match(/\*\*A:\*\*\s*([\s\S]*?)(?=\*\*Difficulty|\*\*Tags|$)/);
 
-    if (qaMatch) {
+    // Extract difficulty
+    const difficultyMatch = content.match(/\*\*Difficulty:\*\*\s*([🟢🟡🔴]\s*\w+)/);
+
+    if (qMatch && aMatch) {
       cards.push({
-        Q: qaMatch[1].trim(),
-        A: content.substring(content.indexOf('**A:**') + 6).trim(),
+        question: qMatch[1].trim(),
+        answer: aMatch[1].trim(),
         title: title.trim(),
         number: parseInt(number),
+        difficulty: difficultyMatch ? difficultyMatch[1].trim() : 'Medium',
       });
     }
   }
