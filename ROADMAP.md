@@ -315,6 +315,204 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines on:
 
 ---
 
+## 📋 Question Bank for Contributors
+
+> **Purpose:** This curated list contains interview questions sourced from LinkedIn experiences and FAANG resources. Contributors can use this as a reference for adding new content.
+>
+> **How to use:** Pick questions from sections that need expansion, follow [CONTRIBUTING.md](./CONTRIBUTING.md) guidelines, and submit a PR!
+
+### 🟨 JavaScript (Potential Additions)
+
+**Polyfills (High Priority - FAANG requirement):**
+- [ ] Implement `Array.prototype.map` polyfill
+- [ ] Implement `Array.prototype.filter` polyfill
+- [ ] Implement `Array.prototype.reduce` polyfill
+- [ ] Implement `Function.prototype.bind` polyfill
+- [ ] Implement `Function.prototype.call/apply` polyfill
+- [ ] Implement `Promise.all` polyfill
+- [ ] Implement debounce function from scratch
+- [ ] Implement throttle function from scratch
+
+**Advanced Concepts:**
+- [ ] Generators and Iterators (`function*`, `yield`, `next()`)
+- [ ] Async generators (`async function*`, `for await...of`)
+- [ ] Proxy and Reflect (metaprogramming, traps)
+- [ ] Property descriptors (`Object.defineProperty`, `getOwnPropertyDescriptor`)
+- [ ] ES2023/2024 features (`toSorted`, `toReversed`, `findLast`, `groupBy`)
+
+**String Manipulation Challenges:**
+- [ ] Find longest substring without repeating chars (sliding window)
+- [ ] String compression (run-length encoding: "aaabbc" → "a3b2c1")
+- [ ] Find longest palindromic substring
+- [ ] Find longest common prefix
+
+---
+
+### ⚛️ React (Potential Additions)
+
+**Modern Hooks:**
+- [ ] `useTransition` (React 18 concurrent feature)
+- [ ] `useDeferredValue` (deprioritize updates)
+- [ ] `useId` (SSR-safe unique IDs)
+- [ ] `useSyncExternalStore` (external store subscriptions)
+- [ ] `useInsertionEffect` (CSS-in-JS timing)
+
+**State Management Libraries:**
+- [ ] Zustand vs Redux vs Context API comparison
+- [ ] Recoil (atom/selector pattern)
+- [ ] XState (state machines in React)
+
+**Component Patterns:**
+- [ ] Compound Components pattern (headless UI)
+- [ ] Props getters pattern (Downshift approach)
+- [ ] State reducer pattern (inversion of control)
+
+**React 19 Features:**
+- [ ] React Actions
+- [ ] `useOptimistic` hook
+- [ ] Server Components deep dive
+
+---
+
+### 🎯 TypeScript (Potential Additions)
+
+**Utility Types (ensure all covered):**
+- [ ] `ReturnType<T>` - infer function return type
+- [ ] `Parameters<T>` - infer function parameters
+- [ ] `ConstructorParameters<T>`
+- [ ] `InstanceType<T>`
+- [ ] `Awaited<T>` (Promise unwrapping)
+
+**Advanced Patterns:**
+- [ ] Discriminated unions with exhaustive checking
+- [ ] Template literal types (string manipulation at type level)
+- [ ] Conditional types with `infer` keyword
+- [ ] Index signatures vs `Record<K,V>`
+- [ ] Function overloading in TypeScript
+
+---
+
+### 🚀 Next.js (Potential Additions)
+
+**App Router Deep Dive:**
+- [ ] Server Actions (mutations in RSC)
+- [ ] Parallel routes and intercepting routes
+- [ ] Route handlers (GET/POST in App Router)
+- [ ] Streaming with Suspense
+
+**Performance:**
+- [ ] Edge Runtime vs Node.js Runtime
+- [ ] Middleware patterns
+- [ ] Font optimization (`next/font`)
+
+---
+
+### 🔐 Security (High Priority - Expand to 15+ Q&A)
+
+- [ ] Content Security Policy (CSP) implementation
+- [ ] Clickjacking prevention (`X-Frame-Options`)
+- [ ] SQL Injection (parameterized queries)
+- [ ] Rate limiting (brute force prevention)
+- [ ] Subresource Integrity (SRI) for CDN scripts
+- [ ] Input validation (client vs server)
+- [ ] Output encoding (preventing XSS)
+- [ ] Dependency security (`npm audit`, Snyk)
+- [ ] Secure storage (localStorage risks, httpOnly cookies)
+
+---
+
+### 🌐 Networking (High Priority - Expand to 15+ Q&A)
+
+- [ ] HTTP/2 vs HTTP/3 (QUIC, multiplexing)
+- [ ] Caching headers (`Cache-Control`, `ETag`, `Last-Modified`)
+- [ ] Content negotiation (`Accept`, `Accept-Language`)
+- [ ] Compression (`gzip`, `brotli`)
+- [ ] CDN benefits and edge caching
+- [ ] Preflight requests (CORS complex requests)
+- [ ] WebSockets vs Server-Sent Events vs Long Polling
+- [ ] DNS prefetching and preconnect
+
+---
+
+### 🏗️ System Design (Expand to 25+ Q&A)
+
+**Component Design:**
+- [ ] Data table with sorting/filtering/pagination
+- [ ] Drag and drop interface
+- [ ] Form wizard (multi-step)
+- [ ] Notification/toast system
+
+**Application Architecture:**
+- [ ] News feed design (infinite scroll, real-time)
+- [ ] Chat application (WebSockets, message history)
+- [ ] E-commerce platform (product listing, cart, checkout)
+- [ ] Admin dashboard (RBAC, data tables)
+- [ ] Analytics dashboard (real-time charts)
+
+**Architecture Patterns:**
+- [ ] Micro-frontends (Module Federation)
+- [ ] Monorepo strategies (Nx, Turborepo)
+- [ ] Design systems (component library, theming)
+- [ ] State management at scale
+
+---
+
+### 📱 Browser/Web Platform (Expand to 15+ Q&A)
+
+**Rendering Pipeline:**
+- [ ] Layout thrashing (forced synchronous layout)
+- [ ] `requestAnimationFrame` for 60fps
+
+**Modern Web APIs:**
+- [ ] Intersection Observer (lazy loading, analytics)
+- [ ] Mutation Observer (DOM change detection)
+- [ ] Resize Observer (responsive components)
+- [ ] Performance Observer (web vitals monitoring)
+- [ ] View Transitions API (smooth page transitions)
+
+---
+
+### 📊 Testing (Expand existing section)
+
+- [ ] Mock Service Worker (MSW) for API mocking
+- [ ] Accessibility testing (`jest-axe`)
+- [ ] Visual regression testing (Percy, Chromatic)
+- [ ] Testing Redux with React Testing Library
+- [ ] E2E testing with Playwright
+
+---
+
+### 💼 Coding Challenges (Add to 18-coding-challenges)
+
+**Array Problems:**
+- [ ] Kadane's algorithm (maximum subarray sum)
+- [ ] Find pairs that sum to N
+
+**Implementation Challenges:**
+- [ ] Custom EventEmitter (`on`, `off`, `emit`, `once`)
+- [ ] LRU Cache implementation
+- [ ] Virtual scroll/windowing component
+
+**React Implementations:**
+- [ ] Counter with start/stop/reset
+- [ ] Accordion component with accessibility
+- [ ] Star rating component
+- [ ] Image lazy loading component
+
+---
+
+### ✅ Contribution Checklist
+
+When adding questions from this bank:
+
+1. **Check for duplicates** - Search existing files first
+2. **Follow quality standards** - Include code examples, common mistakes, follow-ups
+3. **Add depth sections** - Deep Dive, Real-World Scenario, Trade-offs, Explain to Junior
+4. **Test your examples** - Ensure code runs correctly
+5. **Update counts** - Update README.md and ROADMAP.md after adding
+
+---
+
 **This is a living document. Last updated: November 2025**
 
 For questions or suggestions about the roadmap, open an issue or discussion on GitHub.
