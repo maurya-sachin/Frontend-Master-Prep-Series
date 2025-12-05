@@ -3,28 +3,46 @@
 @tailwind utilities;
 
 @layer base {
+  /* Light theme (default) */
   body {
-    @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100;
+    @apply bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 text-slate-900;
     @apply min-h-screen antialiased;
   }
 
-  /* Scrollbar Styles */
+  /* Dark theme */
+  .dark body,
+  body.dark,
+  html.dark body {
+    @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100;
+  }
+
+  /* Scrollbar Styles - Light */
   ::-webkit-scrollbar {
     @apply w-2;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-slate-800;
+    @apply bg-slate-200;
   }
 
   ::-webkit-scrollbar-thumb {
+    @apply bg-slate-400 rounded-full hover:bg-slate-500;
+  }
+
+  /* Scrollbar Styles - Dark */
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-slate-800;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
     @apply bg-slate-600 rounded-full hover:bg-slate-500;
   }
 }
 
 @layer components {
+  /* Light theme components */
   .card {
-    @apply bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6;
+    @apply bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-6;
     @apply transition-all duration-300 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/10;
   }
 
@@ -35,16 +53,30 @@
   }
 
   .btn-secondary {
-    @apply px-6 py-3 bg-slate-700/50 text-slate-200 font-medium rounded-lg border border-slate-600;
-    @apply transition-all duration-200 hover:bg-slate-600/50 hover:border-slate-500;
+    @apply px-6 py-3 bg-slate-100 text-slate-700 font-medium rounded-lg border border-slate-300;
+    @apply transition-all duration-200 hover:bg-slate-200 hover:border-slate-400;
     @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .input {
-    @apply w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg;
-    @apply text-slate-100 placeholder-slate-400;
+    @apply w-full px-4 py-3 bg-white border border-slate-300 rounded-lg;
+    @apply text-slate-900 placeholder-slate-400;
     @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
     @apply transition-all duration-200;
+  }
+
+  /* Dark theme components */
+  .dark .card {
+    @apply bg-slate-800/50 border-slate-700/50;
+  }
+
+  .dark .btn-secondary {
+    @apply bg-slate-700/50 text-slate-200 border-slate-600;
+    @apply hover:bg-slate-600/50 hover:border-slate-500;
+  }
+
+  .dark .input {
+    @apply bg-slate-800/50 border-slate-700 text-slate-100;
   }
 }
 
